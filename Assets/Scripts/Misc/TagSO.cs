@@ -4,4 +4,5 @@ using UnityEngine;
 public class TagSO : ScriptableObject
 {
     public string playerTag;
+    public string rootTag;
 }

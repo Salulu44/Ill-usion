@@ -3,54 +3,69 @@ using UnityEngine;
 public class AudioManagerScript : MonoBehaviour
 {
     public static AudioManagerScript Instance { get; private set; }
-    public AudioSource audioSourceMusic;
-    public AudioSource audioSourceSFX;
+    public AudioSource musicSource;
+    public AudioSource SFXSource;
+    public AudioSource dialogueSource;
     public float currentMusicVolume = .3f;
     public float currentPitch = .6f;
     void Start()
     {
         if (Instance != null && Instance != this) Destroy(gameObject);
         else Instance = this;
-        DontDestroyOnLoad(gameObject);
-        audioSourceSFX.volume = .3f;
+        //DontDestroyOnLoad(gameObject);
+        SFXSource.volume = .3f;
     }
-    public AudioSource GetMusicAudio() => audioSourceMusic;
+    public AudioSource GetMusicAudio() => musicSource;
     public AudioClip GetCurrentClip()
     {
-        return audioSourceMusic.clip;
+        return musicSource.clip;
     }
     public void SetNoMusic()
     {
-        audioSourceMusic.clip = null;
+        musicSource.clip = null;
     }
     public void SetAudioTime(float time)
     {
-        audioSourceMusic.time = time;
+        musicSource.time = time;
     }
     public void SetMusicVolume(float volume)
     {
         currentMusicVolume = volume;
-        audioSourceMusic.volume = volume;
+        musicSource.volume = volume;
     }
     public void SetSFXVolume(float volume)
     {
-        audioSourceSFX.volume = volume;
+        SFXSource.volume = volume;
     }
     public void PlaySFX(AudioClip clip, float volume = 1f)
     {
-        if (!audioSourceSFX.isPlaying)
+        if (!SFXSource.isPlaying)
         {
-            audioSourceSFX.clip = clip;
-            audioSourceMusic.volume = volume;
-            audioSourceSFX.Play();
+            SFXSource.clip = clip;
+            musicSource.volume = volume;
+            SFXSource.Play();
         }
     }
     public void PlayMusic(AudioClip clip, float volume = 1f, float pitch = 1)
     {
-        audioSourceMusic.clip = clip;
-        audioSourceMusic.volume = volume;
-        audioSourceMusic.pitch = pitch;
-        currentPitch = audioSourceMusic.pitch;
-        audioSourceMusic.Play();
+        if (!musicSource.isPlaying)
+        {
+            musicSource.clip = clip;
+            musicSource.volume = volume;
+            musicSource.pitch = pitch;
+            currentPitch = musicSource.pitch;
+            musicSource.Play();
+        }
+    }
+    public void PlayDialogue(AudioClip clip, float volume = 1f, float pitch = 1)
+    {
+        if (!dialogueSource.isPlaying)
+        {
+            dialogueSource.clip = clip;
+            dialogueSource.volume = volume;
+            dialogueSource.pitch = pitch;
+            currentPitch = dialogueSource.pitch;
+            dialogueSource.Play();
+        }
     }
 }

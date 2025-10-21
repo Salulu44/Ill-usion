@@ -6,6 +6,7 @@
 //using UnityEngine.SceneManagement;
 //using UnityEngine.UI;
 //[System.Serializable]
+//[RequireComponent(typeof(DialogueUI))]
 //public class DialogueImprovedScipt : MonoBehaviour
 //{
 //    public enum DialogueState
@@ -19,8 +20,6 @@
 //        TextWithoutInteraction
 //    }
 //    private DialogueState dialogueState;
-//    private GameObject player;
-//    private GameObject birdie;
 //    [SerializeField] private bool isReplayable;
 //    [SerializeField] private bool isTransitioning;
 //    [SerializeField] private bool isUsingDecision;
@@ -33,17 +32,17 @@
 //    private DialogueUI dialogueUI;
 //    public event Action OnDialogueStart;
 //    public event Action OnDialogueOver;
-//   [SerializeField] private Dialogue dialogues;
+//    [SerializeField] private Dialogue dialogues;
 
 //    private int lineIndex;
 //    private int charIndex;
 //    [SerializeField] private float textTypeTimer;
 //    [SerializeField] private float transitionTypeTimer = .1f;
 //    private float textTypeTimerTmp;
-//    [SerializeField]private float pitch;
+//    [SerializeField] private float pitch;
 //    private bool isReadyShaking = true;
 
-//    [SerializeField]private Vector2 moveAwayDirection;
+//    [SerializeField] private Vector2 moveAwayDirection;
 //    private StringBuilder stringBuilder = new StringBuilder();
 
 //    private AudioClip previousTheme;
@@ -51,7 +50,7 @@
 //    private float audioVolumeTmp;
 //    void Start()
 //    {
-//        //dialogues.dialogueLines = new DialogueLine[20];
+//        dialogues.dialogueLines = new DialogueLine[20];
 //        textTypeTimerTmp = textTypeTimer;
 //        dialogueUI = GetComponent<DialogueUI>();
 //        if (dialogues.dialogueLines.Length != 0)
@@ -63,14 +62,14 @@
 //        if (isUsingDecision)
 //        {
 //            DecisionScript.Instance.OnDecisionNegative += AfterDecision;
-//            DecisionScript.Instance.OnDecisionPositive += AfterDecision; 
+//            DecisionScript.Instance.OnDecisionPositive += AfterDecision;
 //        }
 //    }
-//    public void Deactivate() 
+//    public void Deactivate()
 //    {
 //        gameObject.SetActive(false);
 //    }
-//    // Update is called once per frame
+//    Update is called once per frame
 //    void Update()
 //    {
 //        switch (dialogueState)
@@ -80,14 +79,14 @@
 //            case DialogueState.Talking:
 //                Talking();
 //                break;
-//                case DialogueState.Typing:
+//            case DialogueState.Typing:
 //                TypeCharByChar(dialogues.dialogueLines[lineIndex].textContent);
 //                break;
 //            case DialogueState.Over:
 //                SetToDefault();
-//                if (previousTheme != null) 
+//                if (previousTheme != null)
 //                {
-//                 AudioManagerScript.Instance.SetMusicVolume(audioVolumeTmp);
+//                    AudioManagerScript.Instance.SetMusicVolume(audioVolumeTmp);
 //                }
 //                OnDialogueOver?.Invoke();
 //                break;
@@ -100,18 +99,18 @@
 //                AudioManagerScript.Instance.SetMusicVolume(audioVolumeTmp);
 //                SetUIActive();
 //                if (!isTyping)
-//                StartCoroutine(TypeCharByChar2(dialogues.transitionLineText[lineIndex]));
+//                    StartCoroutine(TypeCharByChar2(dialogues.transitionLineText[lineIndex]));
 //                break;
 
 
-//            //case DialogueState.Audio:
-//            //    PlayAudio(); 
-//            //    break;
+//            case DialogueState.Audio:
+//                PlayAudio();
+//                break;
 //        }
 //    }
-//    private bool IsSkippingDialogue() 
+//    private bool IsSkippingDialogue()
 //    {
-//        if (Input.GetKeyDown(KeyCode.E)) 
+//        if (Input.GetKeyDown(KeyCode.E))
 //        {
 //            lineIndex++;
 //            charIndex = 0;
@@ -123,7 +122,7 @@
 //        }
 //        else return false;
 //    }
-    
+
 //    private void SetToDefault()
 //    {
 //        isTalking = false;
@@ -133,12 +132,12 @@
 //        dialogueUI.textbox.text = dialogues.dialogueLines[lineIndex].textContent;
 //        dialogueUI.namePanel.SetActive(false);
 //        dialogueUI.textPanel.SetActive(false);
-//        if(player != null) 
+//        if (player != null)
 //        {
 //            player.GetComponent<PlayerMovementScript>().enabled = true;
 //            player.GetComponent<GrappleScript>().enabled = true;
 //        }
-//        if(dialogueUI.buttons.Length != 0) 
+//        if (dialogueUI.buttons.Length != 0)
 //        {
 //            dialogueUI.buttons[0].transform.parent.gameObject.SetActive(false);
 //        }
@@ -149,9 +148,9 @@
 //    {
 //        if (collision.transform.tag == "Player")
 //        {
-           
+
 //            player = collision.gameObject;
-//            if (dialogues.dialogueLines.Length == 0 && !isTransitioning) 
+//            if (dialogues.dialogueLines.Length == 0 && !isTransitioning)
 //            {
 //                dialogueState = DialogueState.TextWithoutInteraction;
 //                OnDialogueStart?.Invoke();
@@ -159,7 +158,7 @@
 //                audioTime = AudioManagerScript.Instance.GetMusicAudio().time;
 //                audioVolumeTmp = AudioManagerScript.Instance.GetMusicAudio().volume;
 //            }
-//            if (isPlayable && dialogueState != DialogueState.TextWithoutInteraction) 
+//            if (isPlayable && dialogueState != DialogueState.TextWithoutInteraction)
 //            {
 //                isTalking = true;
 //                dialogueState = DialogueState.Talking;
@@ -167,19 +166,19 @@
 //                player.GetComponent<PlayerMovementScript>().enabled = false;
 //                player.GetComponent<GrappleScript>().enabled = false;
 //                player.GetComponent<PlayerMovementScript>().SetForce(Vector2.zero);
-//                if (AudioManagerScript.Instance.GetCurrentClip() != null) 
+//                if (AudioManagerScript.Instance.GetCurrentClip() != null)
 //                {
 //                    previousTheme = AudioManagerScript.Instance.GetCurrentClip();
 //                }
 //                StartConversation();
-              
+
 //                StartConversation();
 //                audioTime = AudioManagerScript.Instance.GetMusicAudio().time;
 //            }
 //            else isFirstLine = false;
 //        }
 //    }
-//    public void SetFirstDialogue() 
+//    public void SetFirstDialogue()
 //    {
 //        isFirstLine = true;
 //        isButtonPressed = true;
@@ -189,12 +188,12 @@
 //        previousTheme = AudioManagerScript.Instance.GetCurrentClip();
 //        audioTime = AudioManagerScript.Instance.GetMusicAudio().time;
 //    }
-//    public void ActivateDialogueByEvent() 
+//    public void ActivateDialogueByEvent()
 //    {
 //        isFirstLine = true;
 //        dialogueState = DialogueState.Talking;
 //        player = GameObject.FindWithTag(GameManagerScript.Instance.TagSO.PlayerTag);
-//        if(player != null) 
+//        if (player != null)
 //        {
 //            player.GetComponent<PlayerMovementScript>().enabled = false;
 //            player.GetComponent<GrappleScript>().enabled = false;
@@ -203,7 +202,7 @@
 //    }
 //    void AfterDecision()
 //    {
-//        if (isTalking) 
+//        if (isTalking)
 //        {
 //            if (dialogueState == DialogueState.Typing) lineIndex++;
 //            dialogueUI.namePanel.SetActive(true);
@@ -220,12 +219,12 @@
 //    {
 //        if (isPlayable)
 //        {
-          
+
 //            if ((Input.GetKeyDown(KeyCode.E) || isFirstLine) && isButtonPressed)
 //            {
 //                OnDialogueStart?.Invoke();
-             
-//                if(previousTheme != null) 
+
+//                if (previousTheme != null)
 //                {
 //                    AudioManagerScript.Instance.SetMusicVolume(.1f);
 //                }
@@ -244,7 +243,7 @@
 //                    else if (!dialogues.dialogueLines[lineIndex].hasDecision && isUsingDecision)
 //                    { dialogueUI.buttons[0].transform.parent.gameObject.SetActive(false); }
 //                }
-//                else 
+//                else
 //                {
 //                    dialogueState = DialogueState.Over;
 //                    if (!isReplayable)
@@ -254,38 +253,38 @@
 //                    }
 //                    if (isTransitioning)
 //                    {
-//                    dialogueState = DialogueState.Transition;
-//                    lineIndex = 0;
-//                    dialogueUI.textbox.text = string.Empty;
+//                        dialogueState = DialogueState.Transition;
+//                        lineIndex = 0;
+//                        dialogueUI.textbox.text = string.Empty;
 //                    }
 //                    return;
 //                }
 //                ChangeImageColor();
 //                dialogueState = DialogueState.Typing;
 //            }
-  
-//    }
+
+//        }
 
 //    }
 
-//    private void DisableCollider() 
+//    private void DisableCollider()
 //    {
 //        GetComponent<BoxCollider2D>().enabled = false;
 //    }
-//    private void StartConversation() 
+//    private void StartConversation()
 //    {
-//       isTalking = true;
-//       dialogueUI = GetComponent<DialogueUI>();
-//       dialogueUI.namePanel.SetActive(true);
-//       dialogueUI. textPanel.SetActive(true);
-//       dialogueUI.nameText.text = dialogues.dialogueLines[0].speaker;
-//       dialogueUI.dialogueSprite.sprite = dialogues.dialogueLines[0].sprite;
-//       dialogueUI.textbox.text = string.Empty;
-//       dialogueUI.audioSource.clip = dialogues.dialogueLines[0].audioClip;
-//       dialogueUI.audioSource.Play();
-//       previousTheme = AudioManagerScript.Instance.GetCurrentClip();
-//       audioTime = AudioManagerScript.Instance.GetMusicAudio().time;
-//       audioVolumeTmp = AudioManagerScript.Instance.GetMusicAudio().volume;
+//        isTalking = true;
+//        dialogueUI = GetComponent<DialogueUI>();
+//        dialogueUI.namePanel.SetActive(true);
+//        dialogueUI.textPanel.SetActive(true);
+//        dialogueUI.nameText.text = dialogues.dialogueLines[0].speaker;
+//        dialogueUI.dialogueSprite.sprite = dialogues.dialogueLines[0].sprite;
+//        dialogueUI.textbox.text = string.Empty;
+//        dialogueUI.audioSource.clip = dialogues.dialogueLines[0].audioClip;
+//        dialogueUI.audioSource.Play();
+//        previousTheme = AudioManagerScript.Instance.GetCurrentClip();
+//        audioTime = AudioManagerScript.Instance.GetMusicAudio().time;
+//        audioVolumeTmp = AudioManagerScript.Instance.GetMusicAudio().volume;
 //    }
 //    private void ChangeImageColor()
 //    {
@@ -298,24 +297,24 @@
 //        }
 //        else
 //        {
-//           dialogueUI.dialogueSprite.color = Color.white;
-//          dialogueUI.pupilObject.SetActive(false);
+//            dialogueUI.dialogueSprite.color = Color.white;
+//            dialogueUI.pupilObject.SetActive(false);
 //        }
 //    }
 //    public void MoveAwayFromScene()
 //    {
 //        GetComponent<BoxCollider2D>().enabled = false;
 //        if (player != null)
-//       player.transform.Translate(moveAwayDirection * 6 * Time.deltaTime);
-//       player.GetComponent<PlayerMovementScript>().enabled = false;
-//       dialogueUI.textPanel.SetActive(true);
+//            player.transform.Translate(moveAwayDirection * 6 * Time.deltaTime);
+//        player.GetComponent<PlayerMovementScript>().enabled = false;
+//        dialogueUI.textPanel.SetActive(true);
 
 //        if (!isTyping)
 //        {
 //            StartCoroutine(TypeCharByChar2(dialogues.transitionLineText[lineIndex]));
 //            isMomTalkFinished = true;
 //        }
-     
+
 //    }
 //    private void MoveAwayTransition()
 //    {
@@ -324,32 +323,32 @@
 //        CanvasScript.instance.PlayFadeOutAnimation();
 
 //    }
-//    private void SetUIActive() 
+//    private void SetUIActive()
 //    {
 //        dialogueUI.textPanel.SetActive(true);
 //    }
 //    IEnumerator TypeCharByChar2(string text)
 //    {
-      
-//            dialogueUI.textbox.text = string.Empty;
-//            StringBuilder stringBuilder = new StringBuilder();
-//            isTyping = true;
 
-//            //audioSource.clip = transitionClip;
-//            dialogueUI.namePanel.SetActive(false);
-//            foreach (char c in text.ToCharArray())
-//            {
-//                stringBuilder.Append(c);
-//                dialogueUI.textbox.text = stringBuilder.ToString();
-//                dialogueUI.audioSource.clip = dialogues.transitionLineAudioClip[lineIndex];
-//                PlayAudio();
-//                yield return new WaitForSeconds(transitionTypeTimer);
-//            }
-//            lineIndex++;
-      
+//        dialogueUI.textbox.text = string.Empty;
+//        StringBuilder stringBuilder = new StringBuilder();
+//        isTyping = true;
+
+//        audioSource.clip = transitionClip;
+//        dialogueUI.namePanel.SetActive(false);
+//        foreach (char c in text.ToCharArray())
+//        {
+//            stringBuilder.Append(c);
+//            dialogueUI.textbox.text = stringBuilder.ToString();
+//            dialogueUI.audioSource.clip = dialogues.transitionLineAudioClip[lineIndex];
+//            PlayAudio();
+//            yield return new WaitForSeconds(transitionTypeTimer);
+//        }
+//        lineIndex++;
+
 //        isTyping = false;
-//        if (lineIndex >= dialogues.transitionLineText.Length) 
-//        { 
+//        if (lineIndex >= dialogues.transitionLineText.Length)
+//        {
 //            isTyping = true;
 //            SetUIDeactive();
 //            DisableCollider();
@@ -357,19 +356,19 @@
 //        }
 
 //    }
-//    private void SetUIDeactive() 
+//    private void SetUIDeactive()
 //    {
 //        dialogueUI.textPanel.SetActive(false);
-        
+
 //    }
-//    private void PlayAudio() 
+//    private void PlayAudio()
 //    {
 //        if (!dialogueUI.audioSource.isPlaying)
 //        {
 //            SetAudioToDefault();
-//            if (dialogues.dialogueLines.Length != 0) 
+//            if (dialogues.dialogueLines.Length != 0)
 //            {
-                
+
 //                dialogueUI.audioSource.volume = dialogues.dialogueLines[lineIndex].AudioVolume;
 //                if (dialogues.dialogueLines[lineIndex].hasSpecialEffect)
 //                {
@@ -379,11 +378,11 @@
 //                    StartCoroutine(ShakeCamera(.5f, 1.2f));
 //                }
 //            }
-//            if(dialogues.SFXs.Length != 0)
-//            if (dialogues.SFXs[lineIndex].hasSFX) dialogueUI.audioSource.pitch = dialogues.SFXs[lineIndex].pitch;
+//            if (dialogues.SFXs.Length != 0)
+//                if (dialogues.SFXs[lineIndex].hasSFX) dialogueUI.audioSource.pitch = dialogues.SFXs[lineIndex].pitch;
 
-//            if(dialogueState == DialogueState.Transition || dialogueState == DialogueState.TextWithoutInteraction) dialogueUI.audioSource.volume = dialogues.transitionAudioVolume[lineIndex];
-         
+//            if (dialogueState == DialogueState.Transition || dialogueState == DialogueState.TextWithoutInteraction) dialogueUI.audioSource.volume = dialogues.transitionAudioVolume[lineIndex];
+
 //            dialogueUI.audioSource.Play();
 
 //        }
@@ -392,33 +391,33 @@
 //    {
 //        char[] zeichen = text.ToCharArray();
 //        textTypeTimer -= Time.deltaTime;
-//       if(!dialogues.dialogueLines[lineIndex].hasDecision)
-//         if (IsSkippingDialogue()) return;
-//         if (textTypeTimer < 0)
-//         {
+//        if (!dialogues.dialogueLines[lineIndex].hasDecision)
+//            if (IsSkippingDialogue()) return;
+//        if (textTypeTimer < 0)
+//        {
 //            textTypeTimer = textTypeTimerTmp;
 //            if (charIndex < zeichen.Length)
 //            {
-               
+
 //                stringBuilder.Append(zeichen[charIndex]);
 //                dialogueUI.textbox.text = stringBuilder.ToString();
 //                charIndex++;
 
 //                PlayAudio();
-//                //dialogueState = DialogueState.Audio;
+//                dialogueState = DialogueState.Audio;
 //            }
 //            else
 //            {
 //                dialogueState = DialogueState.Talking;
 //                lineIndex++;
 //                charIndex = 0;
-          
+
 //                stringBuilder.Clear();
-             
+
 //            }
 //        }
 //    }
-    
+
 //    IEnumerator ShakeCamera(float duration, float magnitude)
 //    {
 //        Vector3 position = Camera.main.transform.position;
@@ -427,7 +426,7 @@
 //        isReadyShaking = false;
 //        while (elaspedTime < duration)
 //        {
-//            float x =  UnityEngine.Random.Range(-1, 1f) * magnitude;
+//            float x = UnityEngine.Random.Range(-1, 1f) * magnitude;
 //            float y = UnityEngine.Random.Range(-1, 1f) * magnitude;
 //            Camera.main.transform.position += new Vector3(x, y, 0);
 //            elaspedTime += Time.deltaTime;

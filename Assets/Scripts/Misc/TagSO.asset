@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: TagSO
   m_EditorClassIdentifier: 
   playerTag: Player
+  rootTag: Root

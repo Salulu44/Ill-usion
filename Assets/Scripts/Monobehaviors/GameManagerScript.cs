@@ -36,7 +36,7 @@ public class GameManagerScript : MonoBehaviour
     {
 
         OnGameStart?.Invoke();
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
     //private void CollectableCheck()
     //{

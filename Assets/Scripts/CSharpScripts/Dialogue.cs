@@ -5,14 +5,13 @@ public class Dialogue
 
     public DialogueLine[] dialogueLines;
     [TextArea(3, 10)]
-    public string[] transitionLineText;
-    public AudioClip[] transitionLineAudioClip;
-    public float[] transitionAudioVolume;
+    //public string[] transitionLineText;
+    //public AudioClip[] transitionLineAudioClip;
+    //public float[] transitionAudioVolume;
     public SFX[] SFXs;
     [System.Serializable]
     public class SFX
     {
-        public bool hasSFX;
         public float pitch;
     }
 }
