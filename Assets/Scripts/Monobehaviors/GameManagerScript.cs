@@ -12,7 +12,7 @@ public class GameManagerScript : MonoBehaviour
     [HideInInspector] public event Func<int> func;
     public GameObject player;
     #region Prefabs
-    public GameObject coinPrefab;
+    public GameObject decisionButtons;
     private bool isHUDOn;
     #endregion
     private int smartPathAmount;

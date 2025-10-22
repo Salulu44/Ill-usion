@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneLoaderScript : MonoBehaviour
 {
@@ -7,20 +8,17 @@ public class SceneLoaderScript : MonoBehaviour
     [SerializeField] GameObject dialogue;
     void Start()
     {
-        
+        GetComponent<DialogueManager>().onEndDialogue += StartMinigame;
     }
-
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E) && transform.GetChild(0).gameObject.activeSelf && !dialogue.activeSelf) 
+        if(Input.GetKeyDown(KeyCode.F) && transform.GetChild(0).gameObject.activeSelf && !dialogue.activeSelf) 
         {
-            print("Hiii");
-            dialogue.SetActive(true);
-          StartCoroutine(GetComponent<DialogueScript>().RunDialogue());
+          dialogue.SetActive(true);
+          GetComponent<DialogueManager>().StartDialogue();
         }
+        EndMiniGame();
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.transform.tag == GameManagerScript.Instance.tagSO.playerTag) 
@@ -35,8 +33,13 @@ public class SceneLoaderScript : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(false);
         }
     }
-    public void StartMinigame(string sceneName) 
+    void StartMinigame() 
     {
         sceneHandler.LoadMinigame(sceneName);
+    }
+    void EndMiniGame() 
+    {
+        if(Input.GetKeyDown(KeyCode.P))
+        sceneHandler.QuitScene(sceneName);
     }
 }

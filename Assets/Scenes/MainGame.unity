@@ -995,6 +995,8 @@ Transform:
   m_Children:
   - {fileID: 1235422846}
   - {fileID: 1325461755}
+  - {fileID: 1254369818}
+  - {fileID: 1417256963}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &462075548
@@ -3653,12 +3655,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1254369815}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.2393606, y: -0.7534483, z: 0.015460186}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 454732864}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1325461754
 GameObject:
@@ -3786,22 +3788,86 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 635180800c2fc794487c3f6d16839a6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue:
+  dialogueAsset:
     dialogueLines:
-    - hasDecision: 0
+    - dialogueID: Start
+      nextDialogueID: Start2
       speaker: MC
-      textContent: Ich bin der Mc. DDDDD
+      textContent: YAAAAAAS
       sprite: {fileID: 21300000, guid: 4c20000b0e42948418ed9eaa05b460f0, type: 3}
       audioClip: {fileID: 8300000, guid: 43a3e48426577c248bbe34eb69240412, type: 3}
       audioVolume: 1
       hasSpecialEffect: 0
-    - hasDecision: 0
+      choices:
+      - choiceText: Kill
+        severity: 0
+        nextDialogueID: Kill
+      - choiceText: Heal
+        severity: 0
+        nextDialogueID: Happy
+      - choiceText: Nothing
+        severity: 0
+        nextDialogueID: Neutral
+    - dialogueID: Kill
+      nextDialogueID: End
       speaker: MC
-      textContent: Ich bin DERRRR. HUUUUUUUUUUUUUA
+      textContent: I Kill You
       sprite: {fileID: 21300000, guid: 4c20000b0e42948418ed9eaa05b460f0, type: 3}
       audioClip: {fileID: 8300000, guid: 43a3e48426577c248bbe34eb69240412, type: 3}
       audioVolume: 1
       hasSpecialEffect: 0
+      choices: []
+    - dialogueID: Happy
+      nextDialogueID: 
+      speaker: MC
+      textContent: I am Happy
+      sprite: {fileID: 21300000, guid: 4c20000b0e42948418ed9eaa05b460f0, type: 3}
+      audioClip: {fileID: 8300000, guid: 43a3e48426577c248bbe34eb69240412, type: 3}
+      audioVolume: 1
+      hasSpecialEffect: 0
+      choices:
+      - choiceText: Kill
+        severity: 0
+        nextDialogueID: End
+      - choiceText: Heal
+        severity: 0
+        nextDialogueID: Happy
+      - choiceText: Neutral
+        severity: 0
+        nextDialogueID: Neutral
+      - choiceText: Neutral
+        severity: 0
+        nextDialogueID: Neutral
+    - dialogueID: Neutral
+      nextDialogueID: 
+      speaker: MC
+      textContent: I am Neutal
+      sprite: {fileID: 21300000, guid: 4c20000b0e42948418ed9eaa05b460f0, type: 3}
+      audioClip: {fileID: 8300000, guid: 43a3e48426577c248bbe34eb69240412, type: 3}
+      audioVolume: 1
+      hasSpecialEffect: 0
+      choices:
+      - choiceText: Kill
+        severity: 0
+        nextDialogueID: End
+      - choiceText: Heal
+        severity: 0
+        nextDialogueID: Happy
+      - choiceText: Neutral
+        severity: 0
+        nextDialogueID: Neutral
+      - choiceText: Neutral
+        severity: 0
+        nextDialogueID: Neutral
+    - dialogueID: Start2
+      nextDialogueID: Kill
+      speaker: MC
+      textContent: I Am Start2
+      sprite: {fileID: 21300000, guid: 4c20000b0e42948418ed9eaa05b460f0, type: 3}
+      audioClip: {fileID: 8300000, guid: 43a3e48426577c248bbe34eb69240412, type: 3}
+      audioVolume: 1
+      hasSpecialEffect: 0
+      choices: []
     SFXs: []
   dialogueObject: {fileID: 2052010088}
 --- !u!82 &1325461760
@@ -3927,11 +3993,11 @@ Transform:
   m_GameObject: {fileID: 1417256962}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.2393606, y: 0.7534483, z: -0.015460186}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 454732864}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1417256964
 MonoBehaviour:
@@ -3947,7 +4013,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tagSO: {fileID: 11400000, guid: 22529ec0c3a379f48a56511ae1562329, type: 2}
   player: {fileID: 3737912368375616690, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
-  coinPrefab: {fileID: 0}
+  decisionButtons: {fileID: 2113547336}
 --- !u!1 &1791669173
 GameObject:
   m_ObjectHideFlags: 0
@@ -5857,78 +5923,102 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 864561592514190063, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
-      propertyPath: m_Name
-      value: SpeakerSprite
-      objectReference: {fileID: 0}
-    - target: {fileID: 864561592514190063, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 635905625395005371, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 1177426735877515668, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2244978616239647438, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 1808087976114081999, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_text
+      value: 'Nay
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808087976114081999, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_fontColor.b
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808087976114081999, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808087976114081999, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808087976114081999, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
       objectReference: {fileID: 0}
     - target: {fileID: 3840497315802190391, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
       propertyPath: m_Name
       value: DialogueCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 3840497315802190391, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+    - target: {fileID: 4833431525156555168, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_Color.b
+      value: 0.26274505
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833431525156555168, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_Color.g
+      value: 0.28889084
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833431525156555168, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_Color.r
+      value: 0.91764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975996728121474079, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4874486010900767267, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 6466120986862316143, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5587662164489272188, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-    - target: {fileID: 5587662164489272188, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 6545035750703548532, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+      propertyPath: m_text
+      value: 'Nah
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 6545035750703548532, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-    - target: {fileID: 6771895061668625547, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
-      propertyPath: m_IsActive
+      propertyPath: m_fontColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6545035750703548532, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6545035750703548532, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6545035750703548532, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
+      objectReference: {fileID: 0}
+    - target: {fileID: 7119548663215030999, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_fontColor.b
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7119548663215030999, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+      propertyPath: m_fontColor.g
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7119548663215030999, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+      propertyPath: m_fontColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7119548663215030999, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
+      objectReference: {fileID: 0}
     - target: {fileID: 7565526779570462218, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8718564919689589502, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8902182496902387961, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-    - target: {fileID: 8902182496902387961, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 9148613444638420998, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -6010,8 +6100,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 6771895061668625547, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
@@ -6053,6 +6142,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2113547336 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7565526779570462218, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+  m_PrefabInstance: {fileID: 2052010086}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7236480941504566360
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6114,8 +6208,6 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1417256963}
   - {fileID: 454732864}
   - {fileID: 139497314}
-  - {fileID: 1254369818}
   - {fileID: 2052010086}
