@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SliderScript : MonoBehaviour
 {
     private Slider slider;
+    public event Action onTimerEnd;
     void Start()
     {
         slider = GetComponent<Slider>();
@@ -13,9 +15,13 @@ public class SliderScript : MonoBehaviour
     void Update()
     {
         slider.value = Mathf.MoveTowards(slider.value, slider.maxValue, .1f * Time.deltaTime);
-        if (slider.value > slider.maxValue - .1f) 
+        if (slider.value > slider.maxValue - .01f) 
         {
-            print("Dead!");
+            onTimerEnd?.Invoke();
         } 
+    }
+    private void OnDisable()
+    {
+        slider.value = 0f;
     }
 }

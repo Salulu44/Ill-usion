@@ -13,6 +13,7 @@ public class GameManagerScript : MonoBehaviour
     public GameObject player;
     #region Prefabs
     public GameObject decisionButtons;
+    public GameObject decisionTimer;
     private bool isHUDOn;
     #endregion
     private int smartPathAmount;

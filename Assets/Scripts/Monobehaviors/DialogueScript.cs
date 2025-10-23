@@ -163,13 +163,14 @@ public class DialogueManager : MonoBehaviour
 {
     [SerializeField] Dialogue dialogueAsset;
     [SerializeField] GameObject dialogueObject;
-    private int dialogueCounter;
+    [SerializeField] int severityLine;
     DialogueUI dialogueUI;
     Button[] choiceButtons = new Button[3];
     public event Action onStartDialogue;
     public event Action onWhileDialogue;
     public event Action onEndDialogue;
     Dictionary<string, DialogueLine> dialogueDict;
+    string nextDialogueID;
     string currentDialogueID;
     StringBuilder currentText = new StringBuilder();
     bool isTyping = false;
@@ -179,9 +180,22 @@ public class DialogueManager : MonoBehaviour
     int playerSeverityScore = 0;
     void Start()
     {
-        BuildDialogueDictionary();
+        nextDialogueID = dialogueAsset.dialogueLines[0].dialogueID;
+        currentDialogueID = nextDialogueID;
         dialogueUI = GetComponent<DialogueUI>();
+        BuildDialogueDictionary();
         SetButtons();
+        GameManagerScript.Instance.decisionTimer.GetComponent<SliderScript>().onTimerEnd += ClickAnyButton;
+    }
+    void ClickAnyButton() 
+    {
+        if(dialogueDict.TryGetValue(currentDialogueID, out DialogueLine line)) 
+        {
+            int index = UnityEngine.Random.Range(0, 3);
+            choiceButtons[index].onClick.AddListener(() => OnChoiceSelected(line.choices[index]));
+            choiceButtons[index].onClick.Invoke();
+            choiceButtons[index].onClick.RemoveAllListeners();
+        }
     }
     void BuildDialogueDictionary()
     {
@@ -206,8 +220,7 @@ public class DialogueManager : MonoBehaviour
     }
     public void StartDialogue() 
     {
-        currentDialogueID = "Start";
-        ShowDialogueLine("Start");
+        ShowDialogueLine(currentDialogueID);
         onStartDialogue?.Invoke();
         isDialogueFinished = false;
     }
@@ -216,10 +229,9 @@ public class DialogueManager : MonoBehaviour
         if (!dialogueDict.TryGetValue(dialogueID, out DialogueLine line))
         {
             Debug.LogWarning($"Keine Dialogzeile mit ID '{dialogueID}' gefunden.");
-            EndDialogue();
+            //EndDialogue();
             return;
         }
-
         dialogueUI.textbox.text = "";
         currentText.Clear();
         SetDialogueReferences(line);
@@ -230,31 +242,32 @@ public class DialogueManager : MonoBehaviour
         else
             HideChoices();
     }
-
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && !isDialogueFinished && !isTyping)
+        DialogueCheck();
+    }
+    void DialogueCheck() 
+    {
+        dialogueDict.TryGetValue(currentDialogueID, out DialogueLine line);
+        if (Input.GetKeyDown(KeyCode.F) && !isDialogueFinished && !isTyping && line.choices.Length == 0)
         {
-            ShowDialogueLine(currentDialogueID);
+            currentDialogueID = nextDialogueID;
+            ShowDialogueLine(nextDialogueID);
         }
-        if(Input.GetKeyDown(KeyCode.F) && currentDialogueID == "End") 
+        if (Input.GetKeyDown(KeyCode.F) && nextDialogueID.ToUpper() == "END")
         {
-            EndDialogue(); ;
-            dialogueCounter = 0;
+            EndDialogue();
             onEndDialogue?.Invoke();
         }
         if (isTyping)
             TypewriterTick();
     }
-
     void TypewriterTick()
     {
-        if (!dialogueDict.TryGetValue(currentDialogueID, out var line))
+        if (!dialogueDict.TryGetValue(nextDialogueID, out DialogueLine line))
             return;
-
         string fullText = line.textContent;
         typeTimer -= Time.deltaTime;
-
         if (typeTimer <= 0)
         {
             if (currentText.Length < fullText.Length)
@@ -267,53 +280,53 @@ public class DialogueManager : MonoBehaviour
             }
             else
             {
-                currentDialogueID = line.nextDialogueID;
+                nextDialogueID = line.nextDialogueID;
                 isTyping = false;
-                dialogueCounter++;
             }
         }
     }
-
     void ShowChoices(DialogueChoice[] choices)
     {
         GameManagerScript.Instance.decisionButtons.SetActive(true);
-        for (int i = 0; i < GameManagerScript.Instance.decisionButtons.transform.childCount; i++)
+        GameManagerScript.Instance.decisionTimer.SetActive(true);
+        for (int i = 0; i < choiceButtons.Length; i++)
         {
-            if(GameManagerScript.Instance.decisionButtons.transform.TryGetComponent(out Button button)) 
-            {
-                int index = i;
-                choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = choices[i].choiceText;
-                choiceButtons[i].onClick.RemoveAllListeners();
-                print("Index " + i);
-                print("CHoice length " + choices.Length);
-
-                choiceButtons[i].onClick.AddListener(() => OnChoiceSelected(choices[index]));
-            }
+            int index = i;
+            choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = choices[i].choiceText;
+            choiceButtons[i].onClick.RemoveAllListeners();
+            choiceButtons[i].onClick.AddListener(() => OnChoiceSelected(choices[index]));   
         }
     }
     void HideChoices()
     {
         foreach (var btn in choiceButtons)
         {
-            btn.gameObject.SetActive(false);
             btn.onClick.RemoveAllListeners();
         }
+        GameManagerScript.Instance.decisionButtons.SetActive(false);
+        GameManagerScript.Instance.decisionTimer.SetActive(false);
     }
-
     void OnChoiceSelected(DialogueChoice choice)
     {
         playerSeverityScore += choice.severity;
+        //if(playerSeverityScore > severityLine) 
+        //{
+        //    ShowDialogueLine(dialogueAsset.severityID);
+        //    return;
+        //}
         ShowDialogueLine(choice.nextDialogueID);
+        nextDialogueID = choice.nextDialogueID;
+        currentDialogueID = nextDialogueID;
     }
-
     void EndDialogue()
     {
         dialogueObject.SetActive(false);
-        Debug.Log($"Dialog beendet. Severity Score: {playerSeverityScore}");
         playerSeverityScore = 0;
         isTyping = false;
+        isDialogueFinished = true;
+        nextDialogueID = dialogueAsset.dialogueLines[0].dialogueID;
+        currentDialogueID = nextDialogueID;
     }
-
     void SetDialogueReferences(DialogueLine line)
     {
         dialogueUI.dialogueSprite.sprite = line.sprite;

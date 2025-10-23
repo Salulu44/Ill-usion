@@ -3240,6 +3240,11 @@ Transform:
   - {fileID: 354619856}
   m_Father: {fileID: 1027190260}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1226428272 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 571729959227532420, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+  m_PrefabInstance: {fileID: 2052010086}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1235422842
 GameObject:
   m_ObjectHideFlags: 0
@@ -3798,16 +3803,7 @@ MonoBehaviour:
       audioClip: {fileID: 8300000, guid: 43a3e48426577c248bbe34eb69240412, type: 3}
       audioVolume: 1
       hasSpecialEffect: 0
-      choices:
-      - choiceText: Kill
-        severity: 0
-        nextDialogueID: Kill
-      - choiceText: Heal
-        severity: 0
-        nextDialogueID: Happy
-      - choiceText: Nothing
-        severity: 0
-        nextDialogueID: Neutral
+      choices: []
     - dialogueID: Kill
       nextDialogueID: End
       speaker: MC
@@ -3818,26 +3814,14 @@ MonoBehaviour:
       hasSpecialEffect: 0
       choices: []
     - dialogueID: Happy
-      nextDialogueID: 
+      nextDialogueID: Neutral
       speaker: MC
       textContent: I am Happy
       sprite: {fileID: 21300000, guid: 4c20000b0e42948418ed9eaa05b460f0, type: 3}
       audioClip: {fileID: 8300000, guid: 43a3e48426577c248bbe34eb69240412, type: 3}
       audioVolume: 1
       hasSpecialEffect: 0
-      choices:
-      - choiceText: Kill
-        severity: 0
-        nextDialogueID: End
-      - choiceText: Heal
-        severity: 0
-        nextDialogueID: Happy
-      - choiceText: Neutral
-        severity: 0
-        nextDialogueID: Neutral
-      - choiceText: Neutral
-        severity: 0
-        nextDialogueID: Neutral
+      choices: []
     - dialogueID: Neutral
       nextDialogueID: 
       speaker: MC
@@ -3849,18 +3833,15 @@ MonoBehaviour:
       choices:
       - choiceText: Kill
         severity: 0
-        nextDialogueID: End
+        nextDialogueID: Kill
       - choiceText: Heal
         severity: 0
         nextDialogueID: Happy
       - choiceText: Neutral
         severity: 0
         nextDialogueID: Neutral
-      - choiceText: Neutral
-        severity: 0
-        nextDialogueID: Neutral
     - dialogueID: Start2
-      nextDialogueID: Kill
+      nextDialogueID: Happy
       speaker: MC
       textContent: I Am Start2
       sprite: {fileID: 21300000, guid: 4c20000b0e42948418ed9eaa05b460f0, type: 3}
@@ -4014,6 +3995,7 @@ MonoBehaviour:
   tagSO: {fileID: 11400000, guid: 22529ec0c3a379f48a56511ae1562329, type: 2}
   player: {fileID: 3737912368375616690, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
   decisionButtons: {fileID: 2113547336}
+  decisionTimer: {fileID: 1226428272}
 --- !u!1 &1791669173
 GameObject:
   m_ObjectHideFlags: 0
@@ -5923,6 +5905,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 571729959227532420, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_Name
+      value: DecisionTimer
+      objectReference: {fileID: 0}
+    - target: {fileID: 571729959227532420, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 635905625395005371, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -50
@@ -5952,6 +5942,10 @@ PrefabInstance:
     - target: {fileID: 1808087976114081999, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4278190080
+      objectReference: {fileID: 0}
+    - target: {fileID: 2244978616239647438, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3840497315802190391, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
       propertyPath: m_Name
@@ -6100,7 +6094,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2244978616239647438, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec03df05082a6554abad2edf9f2703dd, type: 3}
