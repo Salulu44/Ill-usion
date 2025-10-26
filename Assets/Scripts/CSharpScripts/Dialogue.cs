@@ -14,9 +14,7 @@ public class Dialogue
     {
         public float pitch;
     }
-    [TextArea(3, 10)]
-    public string severityText;
-    public string severityID;
+    public DialogueLine severeLine;
 }
 [System.Serializable]
 public class DialogueLine

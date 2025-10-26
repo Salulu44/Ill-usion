@@ -177,7 +177,7 @@ public class DialogueManager : MonoBehaviour
     bool isDialogueFinished = true;
     float typeSpeed = 0.05f;
     float typeTimer = 0f;
-    int playerSeverityScore = 0;
+    int NPCSeverityScore = 0;
     void Start()
     {
         nextDialogueID = dialogueAsset.dialogueLines[0].dialogueID;
@@ -207,6 +207,7 @@ public class DialogueManager : MonoBehaviour
             else
                 dialogueDict.Add(line.dialogueID, line);
         }
+        dialogueDict.Add(dialogueAsset.severeLine.dialogueID, dialogueAsset.severeLine);
     }
     private void SetButtons() 
     {
@@ -308,12 +309,15 @@ public class DialogueManager : MonoBehaviour
     }
     void OnChoiceSelected(DialogueChoice choice)
     {
-        playerSeverityScore += choice.severity;
-        //if(playerSeverityScore > severityLine) 
-        //{
-        //    ShowDialogueLine(dialogueAsset.severityID);
-        //    return;
-        //}
+        NPCSeverityScore += choice.severity;
+        if (NPCSeverityScore > severityLine)
+        {
+            nextDialogueID = dialogueAsset.severeLine.dialogueID;
+            currentDialogueID = nextDialogueID;
+            ShowDialogueLine(dialogueAsset.severeLine.dialogueID);
+            HideChoices();
+            return;
+        }
         ShowDialogueLine(choice.nextDialogueID);
         nextDialogueID = choice.nextDialogueID;
         currentDialogueID = nextDialogueID;
@@ -321,7 +325,7 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         dialogueObject.SetActive(false);
-        playerSeverityScore = 0;
+        NPCSeverityScore = 0;
         isTyping = false;
         isDialogueFinished = true;
         nextDialogueID = dialogueAsset.dialogueLines[0].dialogueID;
