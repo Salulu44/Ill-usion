@@ -8,7 +8,7 @@ public class SceneLoaderScript : MonoBehaviour
     [SerializeField] GameObject dialogue;
     void Start()
     {
-        GetComponent<DialogueManager>().onEndDialogue += StartMinigame;
+        GetComponent<DialogueManager>().OnEndDialogue += StartMinigame;
     }
     void Update()
     {

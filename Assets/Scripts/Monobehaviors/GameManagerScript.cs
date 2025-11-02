@@ -9,7 +9,7 @@ public class GameManagerScript : MonoBehaviour
     public TagSO tagSO;
     [HideInInspector] public event Action OnGameStart;
     public event Action<float> OnTimerOff;
-    [HideInInspector] public event Func<int> func;
+    [HideInInspector] public event Func<int> Func;
     public GameObject player;
     #region Prefabs
     public GameObject decisionButtons;

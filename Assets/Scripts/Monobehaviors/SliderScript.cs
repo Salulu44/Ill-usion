@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class SliderScript : MonoBehaviour
 {
     private Slider slider;
-    public event Action onTimerEnd;
+    public event Action OnTimerEnd;
     void Start()
     {
         slider = GetComponent<Slider>();
@@ -17,7 +17,7 @@ public class SliderScript : MonoBehaviour
         slider.value = Mathf.MoveTowards(slider.value, slider.maxValue, .1f * Time.deltaTime);
         if (slider.value > slider.maxValue - .01f) 
         {
-            onTimerEnd?.Invoke();
+            OnTimerEnd?.Invoke();
         } 
     }
     private void OnDisable()
