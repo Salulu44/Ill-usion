@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tagSO: {fileID: 11400000, guid: 22529ec0c3a379f48a56511ae1562329, type: 2}
+  minigameSO: {fileID: 11400000, guid: 812793ae4b7287047a4514b0b64fdb3d, type: 2}
   player: {fileID: 3737912368375616690, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
   decisionButtons: {fileID: 0}
   decisionTimer: {fileID: 0}

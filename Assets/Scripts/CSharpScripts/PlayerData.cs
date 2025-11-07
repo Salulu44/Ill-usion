@@ -35,14 +35,4 @@ public class PlayerData
         this.position[1] = position.y;
         this.position[2] = position.z;
     }
-
-    //public void AddCollectable(CollectableScript collectableScript)
-    //{
-    //    //if (collectedCollectable == null) Debug.Log("Ist null");
-    //    Debug.Log("Amount" + collectableAmount + " " + this);
-    //    if (collectedCollectable.Contains(collectableScript.collectableID)) return;
-    //    collectedCollectable.Add(collectableScript.collectableID);
-    //    Debug.Log("Amount" + collectableAmount + " " + this);
-    //    collectableAmount++;
-    //}
 }

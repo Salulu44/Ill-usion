@@ -13,7 +13,7 @@ public class SaveSystem
     private static string GetSavePath(string fileName)
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
-        return "/idbfs/NotPrimitive/" + fileName;
+        return "/idbfs/Ill-usion/" + fileName;
 #else
         return Path.Combine(Application.persistentDataPath, fileName);
 #endif
@@ -28,7 +28,7 @@ public class SaveSystem
 
     public static void SavePosition(Transform player)
     {
-        PlayerData playerData = LoadSystem() ?? new PlayerData();
+        PlayerData playerData = LoadPlayerData() ?? new PlayerData();
         playerData.SetPosition(player);
         string json = JsonUtility.ToJson(playerData);
         string path = GetSavePath(playerDataJsonName);
@@ -37,7 +37,7 @@ public class SaveSystem
         SyncIDBFS();
     }
 
-    public static void Save(PlayerData playerData)
+    public static void SavePlayerdata(PlayerData playerData)
     {
         string json = JsonUtility.ToJson(playerData);
         string path = GetSavePath(playerDataJsonName);
@@ -45,7 +45,29 @@ public class SaveSystem
         File.WriteAllText(path, json);
         SyncIDBFS();
     }
+    public static void SaveHighScore(HighScoreData highScoreData, string fileName) 
+    {
+        string json = JsonUtility.ToJson(highScoreData);
+        string path = GetSavePath(fileName);
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
+        File.WriteAllText(path, json);
+        SyncIDBFS();
+    }
+    public static HighScoreData LoadHighScore(string fileName) 
+    {
+        string path = GetSavePath(fileName);
+        if (File.Exists(path))
+        {
+            Debug.Log("IST LOAD");
+            string json = File.ReadAllText(path);
+            if (!string.IsNullOrEmpty(json))
+            {
 
+                return JsonUtility.FromJson<HighScoreData>(json);
+            }
+        }
+        return new HighScoreData(fileName);
+    }
     //public static void SaveCollectables(CollectableScript collectableScript)
     //{
     //    PlayerData playerData = LoadSystem() ?? new PlayerDataScript();
@@ -57,7 +79,7 @@ public class SaveSystem
     //    SyncIDBFS();
     //}
 
-    public static PlayerData LoadSystem()
+    public static PlayerData LoadPlayerData()
     {
         string path = GetSavePath(playerDataJsonName);
         if (File.Exists(path))

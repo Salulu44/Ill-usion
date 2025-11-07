@@ -1,12 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DoodleCameraScript : MonoBehaviour
 {
     private Transform player;
-    //void Start()
-    //{
-    //    player = GameObject.FindWithTag(GameManagerScript.Instance.tagSO.playerTag).transform;
-    //}
     private void OnEnable()
     {
         player = GameObject.FindWithTag(GameManagerScript.Instance.tagSO.playerTag).transform;
@@ -27,6 +24,8 @@ public class DoodleCameraScript : MonoBehaviour
             Vector3 playerDestinedPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - 10, 0, 0));
             player.position = new Vector3(playerDestinedPosition.x, transform.position.y, 0);
         }
+
+        if (Input.GetKeyDown(KeyCode.Return)) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     private void LateUpdate()
     {

@@ -4,6 +4,8 @@ public class DoodleGameOverScript : MonoBehaviour
 {
     [SerializeField] GameObject loosePanel;
     [SerializeField] DoodleScoreScript scoreTextScript;
+    [SerializeField] private DoodleSpawnerScript spawnerScript;
+    private GameObject player;
     void Start()
     {
 
@@ -21,15 +23,16 @@ public class DoodleGameOverScript : MonoBehaviour
         {
             collision.transform.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
             loosePanel.SetActive(true);
-            //scoreTextScript.highscoreData.AddNewHighscore(scoreTextScript.GetScore());
-            //scoreTextScript.AddHighscoreText();
+            scoreTextScript.highscoreData.AddNewHighscore(scoreTextScript.GetScore());
+            scoreTextScript.AddHighscoreText();
+            player = collision.gameObject;
         }
     }
-    public void Restart(GameObject player)
+    public void Restart()
     {
         player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         player.transform.position = Vector3.zero;
         loosePanel.SetActive(false);
-        //SpawnerManagerScript.instance.RestartGame();
+        spawnerScript.RestartGame();
     }
 }

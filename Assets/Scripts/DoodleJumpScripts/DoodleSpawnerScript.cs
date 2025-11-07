@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class DoodleSpawnerScript : MonoBehaviour
@@ -11,6 +12,9 @@ public class DoodleSpawnerScript : MonoBehaviour
     [HideInInspector] public GameObject player;
     [SerializeField] private GameObject rocketPrefab;
     private float previousValueX;
+    [SerializeField] GameObject highScoreText;
+    [SerializeField] GameObject tryAgainButton;
+    [SerializeField] GameObject loosePanel;
     void Awake()
     {
         if (instance != null && instance != this)
@@ -52,7 +56,10 @@ public class DoodleSpawnerScript : MonoBehaviour
             int random = Random.Range(0, 26);
             if (random == 25)
             {
-                spawnPosition.x = spawnPosition.x = Random.Range(-5, 5f);
+                while(Mathf.Abs(spawnPosition.x - previousValueX) < 3f) 
+                {
+                    spawnPosition.x = Random.Range(-5, 5f);
+                }
                 Transform rocket = Instantiate(rocketPrefab, spawnPosition, Quaternion.identity).transform;
                 rocket.SetParent(platformParent.transform);
             }
@@ -64,5 +71,12 @@ public class DoodleSpawnerScript : MonoBehaviour
         Destroy(platformParent);
         platformParent = new GameObject("PlatformParent");
         SpawnPlatforms(Vector3.zero);
+        highScoreText.SetActive(false);
+        tryAgainButton.SetActive(false);
+        loosePanel.SetActive(false);
+    }
+    private void Restart() 
+    {
+
     }
 }

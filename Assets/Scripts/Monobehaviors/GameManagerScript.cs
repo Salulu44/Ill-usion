@@ -7,6 +7,7 @@ public class GameManagerScript : MonoBehaviour
 {
     public static GameManagerScript Instance { get; private set; }
     public TagSO tagSO;
+    public MinigameSO minigameSO;
     [HideInInspector] public event Action OnGameStart;
     public event Action<float> OnTimerOff;
     [HideInInspector] public event Func<int> Func;
@@ -38,6 +39,10 @@ public class GameManagerScript : MonoBehaviour
 
         OnGameStart?.Invoke();
         //DontDestroyOnLoad(gameObject);
+    }
+    private void OnApplicationQuit()
+    {
+        SaveSystem.SavePosition(player.transform);
     }
     //private void CollectableCheck()
     //{
