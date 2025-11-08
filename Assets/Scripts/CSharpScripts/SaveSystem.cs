@@ -58,7 +58,6 @@ public class SaveSystem
         string path = GetSavePath(fileName);
         if (File.Exists(path))
         {
-            Debug.Log("IST LOAD");
             string json = File.ReadAllText(path);
             if (!string.IsNullOrEmpty(json))
             {

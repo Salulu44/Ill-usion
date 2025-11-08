@@ -10,11 +10,12 @@ public class DoodleSpawnerScript : MonoBehaviour
     private Vector3 highestPoint;
     private Vector3 lowestPoint;
     [HideInInspector] public GameObject player;
-    [SerializeField] private GameObject rocketPrefab;
+    [SerializeField] private Transform rocketPrefab;
     private float previousValueX;
     [SerializeField] GameObject highScoreText;
     [SerializeField] GameObject tryAgainButton;
     [SerializeField] GameObject loosePanel;
+    [SerializeField] Enemy[] enemies;
     void Awake()
     {
         if (instance != null && instance != this)
@@ -60,8 +61,18 @@ public class DoodleSpawnerScript : MonoBehaviour
                 {
                     spawnPosition.x = Random.Range(-5, 5f);
                 }
-                Transform rocket = Instantiate(rocketPrefab, spawnPosition, Quaternion.identity).transform;
+                Transform rocket = Instantiate(rocketPrefab, spawnPosition, Quaternion.identity);
                 rocket.SetParent(platformParent.transform);
+            }
+            else if(random <= 5) 
+            {
+                while (Mathf.Abs(spawnPosition.x - previousValueX) < 3f)
+                {
+                    spawnPosition.x = Random.Range(-5, 5f);
+                }
+                random = Random.Range(0, enemies.Length);
+                Transform enemy = Instantiate(enemies[random], spawnPosition, Quaternion.identity).transform;
+                enemy.SetParent(platformParent.transform);
             }
         }
     }
