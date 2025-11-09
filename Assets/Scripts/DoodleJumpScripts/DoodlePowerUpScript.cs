@@ -12,7 +12,7 @@ public class DoodlePowerUpScript : MonoBehaviour
     private PowerupState powerupState;
     private Rigidbody2D playerRb;
     private bool wasTouched;
-
+    private Collider2D playerCollider;
     void Start()
     {
         powerupTimerTmp = powerupTimer;
@@ -35,6 +35,10 @@ public class DoodlePowerUpScript : MonoBehaviour
         {
             playerRb = collision.GetComponent<Rigidbody2D>();
             wasTouched = true;
+            GetComponent<Collider2D>().enabled = false;
+            GetComponent<SpriteRenderer>().enabled = false;
+            playerCollider = collision;
+            playerCollider.enabled = false;
         }
     }
     void RocketPowerup()
@@ -43,6 +47,7 @@ public class DoodlePowerUpScript : MonoBehaviour
         if (powerupTimer < 0)
         {
             playerRb.linearVelocityY = playerRb.linearVelocityY * .25f;
+            playerCollider.enabled = true;
             Destroy(gameObject);
         }
         playerRb.AddForce(Vector2.up * rocketForce);

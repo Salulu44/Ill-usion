@@ -1,5 +1,6 @@
 using Pathfinding;
 using UnityEngine;
+using UnityEngine.Scripting;
 
 public class TestScript : MonoBehaviour
 {
@@ -27,36 +28,25 @@ public class TestScript : MonoBehaviour
             transform.SetPositionAndRotation(transform.position, Quaternion.identity);
         }
 
-        if (Input.GetKeyDown(KeyCode.P)) 
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            //graph.center = new Vector3(graph.center.x, Camera.main.transform.position.y, graph.center.z);
-            //AstarPath.active.ScanAsync();
-            AstarPath.active.AddWorkItem(() =>
+            AstarPath.active.AddWorkItem(new Pathfinding.AstarWorkItem(ctx =>
             {
+                // Get the moving obstacle's collider bounds in world space
                 Bounds bounds = movingObstacle.GetComponent<Collider2D>().bounds;
-                var updateObj = new GraphUpdateObject(bounds);
-                updateObj.updatePhysics = true; // Falls du Kollisionen neu berechnen möchtest
-                AstarPath.active.UpdateGraphs(updateObj);
-            });
-            //Bounds worldBounds = movingObstacle.GetComponent<Collider2D>().bounds; // Welt-Bounds vom Collider
 
-            //// Umrechnung Welt->Grid-Koordinaten
-            //var graphTransform = graph.transform;
-            //Vector3 min = graphTransform.InverseTransform(worldBounds.min);
-            //Vector3 max = graphTransform.InverseTransform(worldBounds.max);
+                // Create a GraphUpdateObject with those bounds
+                var guo = new GraphUpdateObject(bounds);
+                guo.updatePhysics = true; // Recalculate physics/collisions
 
-            //// Begrenzen auf Gridgröße
-            //min.x = Mathf.Max(min.x, 0);
-            //min.z = Mathf.Max(min.z, 0);
-            //max.x = Mathf.Min(max.x, graph.width);
-            //max.z = Mathf.Min(max.z, graph.depth);
+                // Update the graphs within those bounds safely
+                AstarPath.active.UpdateGraphs(guo);
 
-            //var updateBounds = new Bounds();
-            //updateBounds.SetMinMax(min, max);
+                // Ensure connectivity info and flood fill are updated after graph updates
+                ctx.EnsureValidFloodFill();
 
-            //// Teilupdate im Grid ausführen
-            //AstarPath.active.UpdateGraphs(updateBounds);
-            //AstarPath.active.ScanAsync();
+            }));
         }
+
     }
 }

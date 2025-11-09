@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class DoodleCameraScript : MonoBehaviour
 {
     private Transform player;
+    private bool shouldPlayerInViweport = true;
     private void OnEnable()
     {
         player = GameObject.FindWithTag(GameManagerScript.Instance.tagSO.playerTag).transform;
@@ -11,21 +12,15 @@ public class DoodleCameraScript : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        //Vector3 playerScreenPos = Camera.main.WorldToScreenPoint(player.position);
-        //if (playerScreenPos.x >= Screen.width)
-        //{
-        //    print("Right");
-        //    Vector3 playerDestinedPosition = Camera.main.ScreenToWorldPoint(new Vector3(1, 0, 0));
-        //    player.position = new Vector3(playerDestinedPosition.x, transform.position.y, 0);
-        //}
-        //else if (playerScreenPos.x < 0)
-        //{
-        //    print("Left");
-        //    Vector3 playerDestinedPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - 10, 0, 0));
-        //    player.position = new Vector3(playerDestinedPosition.x, transform.position.y, 0);
-        //}
-        StayInViewPort(player);
+        if (shouldPlayerInViweport) 
+        {
+            StayInViewPort(player);
+        }
         if (Input.GetKeyDown(KeyCode.Return)) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void ShouldPlayerStayInViewPort(bool stay) 
+    {
+        shouldPlayerInViweport = stay;
     }
     public void StayInViewPort(Transform gameObject) 
     {
@@ -43,9 +38,20 @@ public class DoodleCameraScript : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (player.transform.position.y >= transform.position.y)
+        CameraMovement();
+    }
+    public void CameraMovement() 
+    {
+        if (shouldPlayerInViweport)
         {
-            transform.position = new Vector3(transform.position.x, player.transform.position.y, -10);
+            if (player.transform.position.y >= transform.position.y)
+            {
+                transform.position = new Vector3(transform.position.x, player.transform.position.y, -10);
+            }
+        }
+        else 
+        {
+            transform.position = new Vector3(player.position.x, player.position.y, -10);
         }
     }
 }

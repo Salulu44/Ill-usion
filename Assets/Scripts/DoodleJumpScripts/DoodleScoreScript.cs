@@ -9,6 +9,10 @@ public class DoodleScoreScript : MonoBehaviour
     public HighScoreData highscoreData;
     [SerializeField] TextMeshProUGUI highscoreText;
     [SerializeField] GameObject tryAgain;
+    [SerializeField] VideoScript videoScript;
+    [SerializeField] Transform winPosition;
+    readonly int MAXSCORE = 1000;
+    bool hasWon;
     private void OnEnable()
     {
         highscoreData = SaveSystem.LoadHighScore(GameManagerScript.Instance.minigameSO.doodleJumpData);
@@ -23,7 +27,23 @@ public class DoodleScoreScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        scoreText.text = "Altitude : " + (int)(player.transform.position.y * 100);
+        int currentScore = (int)(player.transform.position.y * 100);
+        scoreText.text = "Altitude : " + currentScore;
+
+        if(!hasWon && currentScore > MAXSCORE) 
+        {
+            DoodleSpawnerScript.instance.shouldSpawn = false;
+            videoScript.OnVideoStart += SetWinPosition;
+            Camera.main.GetComponent<DoodleCameraScript>().ShouldPlayerStayInViewPort(false);
+            VideoManagerScript.Instance.PlayVideo(videoScript);
+            DoodleSpawnerScript.instance.EndMiniGame();
+            hasWon = true;
+        }
+    }
+    public void SetWinPosition() 
+    {
+        player.position = winPosition.position;
+        videoScript.OnVideoStart -= SetWinPosition;
     }
     public void AddHighscoreText()
     {

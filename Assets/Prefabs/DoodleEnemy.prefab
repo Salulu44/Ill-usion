@@ -15,8 +15,6 @@ GameObject:
   - component: {fileID: 6471189451348399633}
   - component: {fileID: 371183005996282311}
   - component: {fileID: 4016251346933651022}
-  - component: {fileID: 8681935856592570874}
-  - component: {fileID: -5366498489266069129}
   m_Layer: 0
   m_Name: DoodleEnemy
   m_TagString: Untagged
@@ -126,13 +124,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8260819388428021521}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d53423752286614ca28aed1695fe23c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoodleBulletScript
   enemyDamage: 1
   enemySpeed: 3
+  enemyDetectionRadius: 4
 --- !u!50 &6471189451348399633
 Rigidbody2D:
   serializedVersion: 5
@@ -213,49 +212,3 @@ MonoBehaviour:
   <currentHealth>k__BackingField: 0
   invincible: 0
   damageResistance: 0
---- !u!114 &8681935856592570874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8260819388428021521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a355a4997bfed04cabe418bfd2e7bf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PathFindingScript
-  target: {fileID: 0}
-  speed: 200
-  nextWaypointDistance: 0.2
-  knockbackAgainstEnemyForce: 0
-  enemyDamage: 1
-  knockbackTimer: 2
---- !u!114 &-5366498489266069129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8260819388428021521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: AstarPathfindingProject::Pathfinding.Seeker
-  version: 1
-  drawGizmos: 1
-  detailedGizmos: 0
-  startEndModifier:
-    addPoints: 0
-    exactStartPoint: 3
-    exactEndPoint: 3
-    useRaycasting: 0
-    mask:
-      serializedVersion: 2
-      m_Bits: 4294967295
-    useGraphRaycasting: 0
-  traversableTags: -1
-  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  graphMask:
-    value: -1

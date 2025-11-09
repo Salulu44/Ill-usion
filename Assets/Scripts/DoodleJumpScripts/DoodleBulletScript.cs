@@ -3,14 +3,32 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D),typeof(HealthScript))]
 public class DoodleBulletScript : Enemy
 {
+    [SerializeField] float enemyDetectionRadius;
     private DoodleCameraScript cameraScript;
     private HealthScript enemyHealthScript;
-
+    private Transform target;
     protected override void EnemyAIMovement()
     {
-        float directionX = Mathf.Sin(Time.time) * enemySpeed;
-        enemyRb.AddForce(new Vector2(directionX, 0));
-        cameraScript.StayInViewPort(transform);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, enemyDetectionRadius);
+        foreach (Collider2D collider in colliders) 
+        {
+            if (collider.transform.tag == GameManagerScript.Instance.tagSO.playerTag)
+            {
+                target = collider.transform;
+                break;
+            }
+            else target = null;
+        }
+        if(target == null) 
+        {
+            float forceX = Mathf.Sin(Time.time) * enemySpeed;
+            enemyRb.AddForce(new Vector2(forceX, 0));
+            cameraScript.StayInViewPort(transform);
+            return;
+        }
+        print("I am seraching you");
+        Vector2 direction = (Vector2) (target.position - transform.position).normalized;
+        enemyRb.AddForce(direction * enemySpeed);
     }
      protected override void Start()
     {
@@ -40,5 +58,10 @@ public class DoodleBulletScript : Enemy
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<Collider2D>().enabled = false;
         Destroy(gameObject, 2);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, enemyDetectionRadius);
     }
 }

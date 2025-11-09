@@ -16,6 +16,7 @@ public class DoodleSpawnerScript : MonoBehaviour
     [SerializeField] GameObject tryAgainButton;
     [SerializeField] GameObject loosePanel;
     [SerializeField] Enemy[] enemies;
+    public bool shouldSpawn = true;
     void Awake()
     {
         if (instance != null && instance != this)
@@ -32,7 +33,7 @@ public class DoodleSpawnerScript : MonoBehaviour
     }
     private void Update()
     {
-        if (Mathf.Abs(player.transform.position.y - highestPoint.y) < 10)
+        if (shouldSpawn && Mathf.Abs(player.transform.position.y - highestPoint.y) < 10)
         {
             SpawnPlatforms(highestPoint);
         }
@@ -85,6 +86,11 @@ public class DoodleSpawnerScript : MonoBehaviour
         highScoreText.SetActive(false);
         tryAgainButton.SetActive(false);
         loosePanel.SetActive(false);
+    }
+    public void EndMiniGame() 
+    {
+        shouldSpawn = false;
+        Destroy(platformParent);
     }
     private void Restart() 
     {

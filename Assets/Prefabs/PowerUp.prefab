@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85805988deee41f4fa6b7ab9cf707829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoodlePowerUpScript
-  rocketForce: 3
+  rocketForce: 10
   powerupTimer: 2
 --- !u!61 &4151431807417061614
 BoxCollider2D:

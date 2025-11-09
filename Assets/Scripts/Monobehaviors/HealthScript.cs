@@ -16,13 +16,14 @@ public class HealthScript : MonoBehaviour
     public UnityAction OnDamaged;
     public UnityAction OnHealed;
     public UnityAction OnDeath;
-
+    public float invisibleTimer;
+    public float invisibleTimerTmp { get; private set; }
     private void Start()
     {
         currentHealth = maxHealth;
+        invisibleTimerTmp = invisibleTimer;
         isDead = false;
     }
-
     public void Heal(float healAmount, GameObject healSource)
     {
         float healthBefore = currentHealth;
@@ -52,11 +53,16 @@ public class HealthScript : MonoBehaviour
         if (trueDamageAmount > 0)
         {
             OnDamaged?.Invoke();
+            invincible = true;
         }
 
         HandleDeath();
     }
-
+    public void SetInvisibility(bool invicible) 
+    {
+        this.invincible = invicible;
+        invisibleTimer = invisibleTimerTmp;
+    }
     public void Kill()
     {
         currentHealth = 0;

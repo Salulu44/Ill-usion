@@ -6,10 +6,7 @@ public class DoodlePlayerScript : MonoBehaviour
     [SerializeField] float jumpForce;
     [SerializeField] float doubleJumpTimer;
     [SerializeField] float doubleJumpForce;
-    [SerializeField] float statusEffectTimer;
     [SerializeField] float playerDamage;
-    float statusEffectTimerTmp;
-    bool damaged;
     HealthScript healthScript;
     Rigidbody2D playerRb;
     float horizontalInputX;
@@ -28,7 +25,7 @@ public class DoodlePlayerScript : MonoBehaviour
     {
         //Play Hurt Animation
         GetComponent<SpriteRenderer>().color = Color.red;
-        damaged = true;
+        healthScript.SetInvisibility(true);
     }
     public void Dead() 
     {
@@ -49,19 +46,18 @@ public class DoodlePlayerScript : MonoBehaviour
             GetComponent<SpriteRenderer>().flipX = false;
         }
 
-        if (damaged) 
+        if (healthScript.invincible) 
         {
             StatusCheck();
         }
     }
     void StatusCheck() 
     {
-        statusEffectTimerTmp += Time.deltaTime;
-        if(statusEffectTimerTmp > statusEffectTimer) 
+        healthScript.invisibleTimer -= Time.deltaTime;
+        if(healthScript.invisibleTimer < 0) 
         {
+            healthScript.SetInvisibility(false);
             GetComponent<SpriteRenderer>().color = playerColor;
-            statusEffectTimerTmp = 0;
-            damaged = false;
         }
     }
     void DoubleJump()
