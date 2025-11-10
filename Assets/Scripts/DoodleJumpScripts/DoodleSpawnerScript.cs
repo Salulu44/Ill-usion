@@ -49,7 +49,7 @@ public class DoodleSpawnerScript : MonoBehaviour
                 i--;
                 continue;
             }
-            spawnPosition.y += Random.Range(1, 2f);
+            spawnPosition.y += Random.Range(2, 3f);
             GameObject platform = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
             platform.GetComponent<DoodlePlatformScript>().SetRandomPlatformState();
             previousValueX = spawnPosition.x;

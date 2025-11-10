@@ -11,7 +11,8 @@ public class DoodleScoreScript : MonoBehaviour
     [SerializeField] GameObject tryAgain;
     [SerializeField] VideoScript videoScript;
     [SerializeField] Transform winPosition;
-    readonly int MAXSCORE = 1000;
+    public readonly int MAXSCORE = 10000;
+   [field:SerializeField] public int CurrentScore { get; private set;}
     bool hasWon;
     private void OnEnable()
     {
@@ -27,10 +28,10 @@ public class DoodleScoreScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int currentScore = (int)(player.transform.position.y * 100);
-        scoreText.text = "Altitude : " + currentScore;
+        CurrentScore = (int)(player.transform.position.y * 100);
+        scoreText.text = "Altitude : " + CurrentScore;
 
-        if(!hasWon && currentScore > MAXSCORE) 
+        if(!hasWon && CurrentScore > MAXSCORE) 
         {
             DoodleSpawnerScript.instance.shouldSpawn = false;
             videoScript.OnVideoStart += SetWinPosition;

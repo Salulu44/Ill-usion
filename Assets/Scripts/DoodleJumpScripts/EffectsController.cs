@@ -1,0 +1,26 @@
+using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+
+public class EffectsController : MonoBehaviour
+{
+    [SerializeField] DoodleScoreScript doodleScoreScript;
+    private Volume volume;
+    private Vignette vignette;
+    void Start()
+    {
+        volume = GetComponent<Volume>();
+        volume.profile.TryGet(out vignette);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        IncreaseEffect();
+    }
+    void IncreaseEffect() 
+    {
+        print((float)doodleScoreScript.CurrentScore / doodleScoreScript.MAXSCORE);
+        vignette.intensity.value = (float)doodleScoreScript.CurrentScore / doodleScoreScript.MAXSCORE;
+    }
+}
