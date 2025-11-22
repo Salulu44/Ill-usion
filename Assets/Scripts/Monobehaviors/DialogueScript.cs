@@ -73,7 +73,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (!dialogueDict.TryGetValue(dialogueID, out DialogueLine line))
         {
-            Debug.LogWarning($"Keine Dialogzeile mit ID '{dialogueID}' gefunden.");
+            //Debug.LogWarning($"no Dialogueline with ID '{dialogueID}' found.");
             //EndDialogue();
             return;
         }
