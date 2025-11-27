@@ -15,7 +15,7 @@ public class DoodleSpawnerScript : MonoBehaviour
     [SerializeField] GameObject highScoreText;
     [SerializeField] GameObject tryAgainButton;
     [SerializeField] GameObject loosePanel;
-    [SerializeField] Enemy[] enemies;
+    [SerializeField] public Enemy[] enemies;
     public bool shouldSpawn = true;
     void Awake()
     {

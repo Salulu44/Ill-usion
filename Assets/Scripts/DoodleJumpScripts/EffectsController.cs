@@ -20,7 +20,6 @@ public class EffectsController : MonoBehaviour
     }
     void IncreaseEffect() 
     {
-        print((float)doodleScoreScript.CurrentScore / doodleScoreScript.MAXSCORE);
-        vignette.intensity.value = (float)doodleScoreScript.CurrentScore / doodleScoreScript.MAXSCORE;
+        vignette.intensity.value = (float)doodleScoreScript.CurrentScore / doodleScoreScript.MaxScore;
     }
 }

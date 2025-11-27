@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class DoodleCameraScript : MonoBehaviour
 {
     private Transform player;
-    private bool shouldPlayerInViweport = true;
+   [SerializeField] private bool shouldPlayerInViweport = true;
     private void OnEnable()
     {
         player = GameObject.FindWithTag(GameManagerScript.Instance.tagSO.playerTag).transform;

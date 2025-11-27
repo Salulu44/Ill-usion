@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 [RequireComponent(typeof(Rigidbody2D),typeof(HealthScript))]
 public class DoodleBulletScript : Enemy
 {
@@ -29,6 +30,10 @@ public class DoodleBulletScript : Enemy
         print("I am seraching you");
         Vector2 direction = (Vector2) (target.position - transform.position).normalized;
         enemyRb.AddForce(direction * enemySpeed);
+    }
+    public void SetDetectionRadius(float radius) 
+    {
+        enemyDetectionRadius = radius;
     }
      protected override void Start()
     {

@@ -11,7 +11,8 @@ public class DoodleScoreScript : MonoBehaviour
     [SerializeField] GameObject tryAgain;
     [SerializeField] VideoScript videoScript;
     [SerializeField] Transform winPosition;
-    public readonly int MAXSCORE = 10000;
+    [SerializeField] SpawnEnemiesTestScript spawnEnemiesTestScript;
+    [field: SerializeField] public int MaxScore { get; private set; }
    [field:SerializeField] public int CurrentScore { get; private set;}
     bool hasWon;
     private void OnEnable()
@@ -31,20 +32,30 @@ public class DoodleScoreScript : MonoBehaviour
         CurrentScore = (int)(player.transform.position.y * 100);
         scoreText.text = "Altitude : " + CurrentScore;
 
-        if(!hasWon && CurrentScore > MAXSCORE) 
+        if(!hasWon && CurrentScore > MaxScore) 
         {
             DoodleSpawnerScript.instance.shouldSpawn = false;
-            videoScript.OnVideoStart += SetWinPosition;
+            videoScript.OnVideoStart += StartPhaseTwo;
+            videoScript.OnVideoStop += StartEnemySpawn;
             Camera.main.GetComponent<DoodleCameraScript>().ShouldPlayerStayInViewPort(false);
             VideoManagerScript.Instance.PlayVideo(videoScript);
             DoodleSpawnerScript.instance.EndMiniGame();
             hasWon = true;
         }
     }
-    public void SetWinPosition() 
+    public void StartEnemySpawn() 
+    {
+        spawnEnemiesTestScript.enabled = true;
+        player.GetComponent<Collider2D>().enabled = true;
+        player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        videoScript.OnVideoStart -= StartEnemySpawn;
+    }
+    public void StartPhaseTwo() 
     {
         player.position = winPosition.position;
-        videoScript.OnVideoStart -= SetWinPosition;
+        player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        player.GetComponent<Collider2D>().enabled = false;
+        videoScript.OnVideoStart -= StartPhaseTwo;
     }
     public void AddHighscoreText()
     {

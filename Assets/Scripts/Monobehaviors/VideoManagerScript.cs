@@ -7,10 +7,14 @@ public class VideoManagerScript : MonoBehaviour
 {
     public static VideoManagerScript Instance { get; private set; }
     public VideoClip whiteNoiseClip;
+    public VideoClip jumpscareClip;
     VideoPlayer videoPlayer;
     private GameObject visuals;
     private VideoScript nextVideoScript;
     private VideoScript currentVideoScript;
+    [SerializeField] float jumpScaretimer;
+    float jumpScareTimerTmp;
+    bool jumpScareRunning;
     private void Awake()
     {
         if(Instance != null && Instance != this) 
@@ -19,8 +23,38 @@ public class VideoManagerScript : MonoBehaviour
         }
         else Instance = this;
     }
+    private void Update()
+    {
+
+        //JumpScare();
+    }
+    void JumpScare()
+    {
+
+        if (!jumpScareRunning)
+        {
+            jumpScaretimer -= Time.deltaTime;
+            if (jumpScaretimer <= 0)
+            {
+                PlayVideo(jumpscareClip);
+                jumpScareRunning = true;
+                jumpScaretimer = UnityEngine.Random.Range(0,jumpScareTimerTmp);
+
+            }
+            return;
+        }
+        jumpScaretimer -= Time.deltaTime;
+        if(jumpScaretimer <= 0) 
+        {
+            StopVideo();
+            jumpScareRunning = false;
+            jumpScaretimer = jumpScareTimerTmp;
+        }
+
+    }
     private void Start()
     {
+        jumpScareTimerTmp = jumpScaretimer;
         videoPlayer = GetComponent<VideoPlayer>();
         videoPlayer.loopPointReached += VideoEnd;
         if (transform.childCount == 1)
@@ -33,16 +67,14 @@ public class VideoManagerScript : MonoBehaviour
         videoPlayer.frameReady += OnFrameReady;
     }
     private void OnFrameReady(VideoPlayer source, long frameIdx)
-    {
-        Debug.Log("FRAMMMMMME");
-        Delegate[] subscribers = currentVideoScript.OnVideoStart.GetInvocationList();
-        foreach (var subscriber in subscribers)
-        {
-            Debug.Log($"Subscriber Methode: {subscriber.Method.Name}, Ziel: {subscriber.Target}");
-        }
+    { 
+        //Delegate[] subscribers = currentVideoScript.OnVideoStart.GetInvocationList();
+        //foreach (var subscriber in subscribers)
+        //{
+        //    Debug.Log($"Subscriber Methode: {subscriber.Method.Name}, Ziel: {subscriber.Target}");
+        //}
         currentVideoScript.OnVideoStart?.Invoke();
         videoPlayer.sendFrameReadyEvents = false;
-        // Event abmelden, damit es nicht erneut feuert
         source.frameReady -= OnFrameReady;
     }
 
@@ -68,8 +100,13 @@ public class VideoManagerScript : MonoBehaviour
     
     public void StopVideo()
     {
-        if (videoPlayer != null)
+        if (videoPlayer != null) 
+        {
             videoPlayer.Stop();
+            visuals.SetActive(false);
+        }
+
+
     }
     public void VideoEnd(VideoPlayer videoPlayer) 
     {
@@ -79,8 +116,9 @@ public class VideoManagerScript : MonoBehaviour
             return;
         }
         Debug.Log("Its over");
+        currentVideoScript.OnVideoStop?.Invoke();
         videoPlayer.clip = null;
-        visuals.gameObject.SetActive(false);
+        visuals.SetActive(false);
     }
     IEnumerator StartVideoWhenPrepared()
     {
