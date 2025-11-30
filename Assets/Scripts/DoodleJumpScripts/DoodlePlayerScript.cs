@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class DoodlePlayerScript : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class DoodlePlayerScript : MonoBehaviour
     HealthScript healthScript;
     Rigidbody2D playerRb;
     float horizontalInputX;
+    float verticalInputY;
     float doubleJumpTimerTmp;
     public Color playerColor { get; private set; }
     void Start()
@@ -32,11 +34,15 @@ public class DoodlePlayerScript : MonoBehaviour
         //Play Die Animation
         healthScript.OnDeath -= Dead;
     }
+    
     // Update is called once per frame
     void Update()
     {
+
         DoubleJump();
         horizontalInputX = Input.GetAxis("Horizontal");
+        verticalInputY = Input.GetAxis("Vertical");
+
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
             GetComponent<SpriteRenderer>().flipX = true;
@@ -76,15 +82,18 @@ public class DoodlePlayerScript : MonoBehaviour
     {
         Movement();
     }
+    
     void Movement()
     {
         Vector2 velocity = playerRb.linearVelocity;
-        velocity += new Vector2(horizontalInputX, 0) * movementSpeed * Time.deltaTime;
+        velocity += new Vector2(horizontalInputX, -Mathf.Abs(verticalInputY)) * movementSpeed * Time.unscaledDeltaTime;
         if (playerRb.bodyType == RigidbodyType2D.Dynamic)
         {
             velocity.x = Mathf.Clamp(velocity.x, -10, 10);
+            velocity.y = Mathf.Clamp(velocity.y, -10, 10);
             playerRb.linearVelocity = velocity;
         }
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

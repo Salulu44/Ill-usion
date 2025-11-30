@@ -12,9 +12,10 @@ public class VideoManagerScript : MonoBehaviour
     private GameObject visuals;
     private VideoScript nextVideoScript;
     private VideoScript currentVideoScript;
-    [SerializeField] float jumpScaretimer;
-    float jumpScareTimerTmp;
+    [SerializeField]float jumpScareTimerAmount;
+    float jumpScaretimer;
     bool jumpScareRunning;
+    public bool startJumpScare;
     private void Awake()
     {
         if(Instance != null && Instance != this) 
@@ -25,8 +26,11 @@ public class VideoManagerScript : MonoBehaviour
     }
     private void Update()
     {
+        if (startJumpScare) 
+        {
+            JumpScare();
+        }
 
-        //JumpScare();
     }
     void JumpScare()
     {
@@ -38,7 +42,7 @@ public class VideoManagerScript : MonoBehaviour
             {
                 PlayVideo(jumpscareClip);
                 jumpScareRunning = true;
-                jumpScaretimer = UnityEngine.Random.Range(0,jumpScareTimerTmp);
+                jumpScaretimer = UnityEngine.Random.Range(0,jumpScareTimerAmount);
 
             }
             return;
@@ -48,13 +52,14 @@ public class VideoManagerScript : MonoBehaviour
         {
             StopVideo();
             jumpScareRunning = false;
-            jumpScaretimer = jumpScareTimerTmp;
+            jumpScaretimer = UnityEngine.Random.Range(0, jumpScareTimerAmount);
+            startJumpScare = false;
         }
 
     }
     private void Start()
     {
-        jumpScareTimerTmp = jumpScaretimer;
+        jumpScaretimer = UnityEngine.Random.Range(0, jumpScareTimerAmount);
         videoPlayer = GetComponent<VideoPlayer>();
         videoPlayer.loopPointReached += VideoEnd;
         if (transform.childCount == 1)
@@ -73,6 +78,7 @@ public class VideoManagerScript : MonoBehaviour
         //{
         //    Debug.Log($"Subscriber Methode: {subscriber.Method.Name}, Ziel: {subscriber.Target}");
         //}
+        if(currentVideoScript != null) 
         currentVideoScript.OnVideoStart?.Invoke();
         videoPlayer.sendFrameReadyEvents = false;
         source.frameReady -= OnFrameReady;

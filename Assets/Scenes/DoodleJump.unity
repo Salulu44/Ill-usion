@@ -586,6 +586,7 @@ GameObject:
   - component: {fileID: 158109708}
   - component: {fileID: 158109707}
   - component: {fileID: 158109709}
+  - component: {fileID: 158109710}
   m_Layer: 0
   m_Name: Deadzone
   m_TagString: Untagged
@@ -669,6 +670,53 @@ MonoBehaviour:
   loosePanel: {fileID: 1502526583}
   scoreTextScript: {fileID: 1440428131}
   spawnerScript: {fileID: 1922833997}
+  jumpScareChance: 0
+--- !u!61 &158109710
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158109706}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -10.12, y: 4.92}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 11.8}
+  m_EdgeRadius: 0
 --- !u!1 &300241772
 GameObject:
   m_ObjectHideFlags: 0
@@ -1369,7 +1417,7 @@ MonoBehaviour:
   movementSpeed: 20
   jumpForce: 10
   doubleJumpTimer: 1
-  doubleJumpForce: 3
+  doubleJumpForce: 8
   playerDamage: 0
 --- !u!114 &889966566
 MonoBehaviour:
@@ -1642,6 +1690,10 @@ PrefabInstance:
     - target: {fileID: 8484682931817051193, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
       propertyPath: jumpScaretimer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8484682931817051193, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: jumpScareTimerAmount
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2038,6 +2090,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1440428131}
+        m_TargetAssemblyTypeName: DoodleScoreScript, Assembly-CSharp
+        m_MethodName: ChangeScoreWord
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1290028220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2112,7 +2176,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -100, y: -25}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1440428129
 MonoBehaviour:
@@ -2134,7 +2198,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SCORE
+  m_text: 'SCORE '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2230,8 +2294,10 @@ MonoBehaviour:
   videoScript: {fileID: 932137111}
   winPosition: {fileID: 1173892988}
   spawnEnemiesTestScript: {fileID: 83766859}
-  <MaxScore>k__BackingField: 500
+  scoreChangeChance: 1
+  <MaxScore>k__BackingField: 10000
   <CurrentScore>k__BackingField: 0
+  canvasSize: {x: 0, y: 0}
 --- !u!1 &1502526583
 GameObject:
   m_ObjectHideFlags: 0
@@ -2893,7 +2959,9 @@ MonoBehaviour:
   loosePanel: {fileID: 1502526583}
   enemies:
   - {fileID: 7797062605093619338, guid: e856b948cc16cee4f808bb33cf404b70, type: 3}
+  spawnChangeChance: 1
   shouldSpawn: 1
+  spawnVertically: 1
 --- !u!4 &1922833998
 Transform:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ public class DoodlePowerUpScript : MonoBehaviour
     private Rigidbody2D playerRb;
     private bool wasTouched;
     private Collider2D playerCollider;
+    [HideInInspector]public Vector2 forceDirection = Vector2.up;
     void Start()
     {
         powerupTimerTmp = powerupTimer;

@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class DoodleGameOverScript : MonoBehaviour
@@ -7,6 +8,7 @@ public class DoodleGameOverScript : MonoBehaviour
     [SerializeField] private DoodleSpawnerScript spawnerScript;
     private GameObject player;
     private SpriteRenderer playerSpriteRenderer;
+    [SerializeField,Range(0f,1f)] float jumpScareChance;
     void Start()
     {
         player = GameObject.FindWithTag(GameManagerScript.Instance.tagSO.playerTag);
@@ -18,7 +20,7 @@ public class DoodleGameOverScript : MonoBehaviour
     void Update()
     {
         Vector3 deadZoneScreenPosition = Camera.main.ScreenToWorldPoint(Vector3.zero);
-        transform.position = new Vector3(0, deadZoneScreenPosition.y - 1.25f, 0);
+        transform.position = new Vector3(Camera.main.transform.position.x, deadZoneScreenPosition.y - 1.1f, 0);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -41,6 +43,8 @@ public class DoodleGameOverScript : MonoBehaviour
         loosePanel.SetActive(false);
         player.SetActive(true);
         spawnerScript.RestartGame();
+        if(GameManagerScript.Instance.HasLuck(jumpScareChance))
+        VideoManagerScript.Instance.startJumpScare = true;
         player.transform.position = Vector3.zero;
     }
 }

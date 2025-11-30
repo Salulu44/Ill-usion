@@ -25,15 +25,31 @@ public class DoodleCameraScript : MonoBehaviour
     public void StayInViewPort(Transform gameObject) 
     {
         Vector3 gameObjectScreenPosition = Camera.main.WorldToScreenPoint(gameObject.position);
-        if (gameObjectScreenPosition.x >= Screen.width)
+        if (DoodleSpawnerScript.instance.spawnVertically)
         {
-            Vector3 gameObjectDestinedPosition = Camera.main.ScreenToWorldPoint(new Vector3(1, 0, 0));
-            gameObject.position = new Vector3(gameObjectDestinedPosition.x, gameObject.position.y, 0);
+            if (gameObjectScreenPosition.x >= Screen.width)
+            {
+                Vector3 gameObjectDestinedPosition = Camera.main.ScreenToWorldPoint(new Vector3(1, 0, 0));
+                gameObject.position = new Vector3(gameObjectDestinedPosition.x, gameObject.position.y, 0);
+            }
+            else if (gameObjectScreenPosition.x < 0)
+            {
+                Vector3 playerDestinedPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - 10, 0, 0));
+                gameObject.position = new Vector3(playerDestinedPosition.x, gameObject.position.y, 0);
+            }
         }
-        else if (gameObjectScreenPosition.x < 0)
+        else 
         {
-            Vector3 playerDestinedPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - 10, 0, 0));
-            gameObject.position = new Vector3(playerDestinedPosition.x, gameObject.position.y, 0);
+            if (gameObjectScreenPosition.y >= Screen.height)
+            {
+                Vector3 gameObjectDestinedPosition = Camera.main.ScreenToWorldPoint(new Vector3(0, 20, 0));
+                gameObject.position = new Vector3(gameObject.position.x, gameObjectDestinedPosition.y, 0);
+            }
+            else if (gameObjectScreenPosition.y < 0)
+            {
+                Vector3 playerDestinedPosition = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height - 10, 0));
+                gameObject.position = new Vector3(gameObject.position.x, playerDestinedPosition.y, 0);
+            }
         }
     }
     private void LateUpdate()
@@ -42,11 +58,15 @@ public class DoodleCameraScript : MonoBehaviour
     }
     public void CameraMovement() 
     {
-        if (shouldPlayerInViweport)
+        if (shouldPlayerInViweport )
         {
-            if (player.transform.position.y >= transform.position.y)
+            if (player.transform.position.y >= transform.position.y && DoodleSpawnerScript.instance.spawnVertically)
             {
                 transform.position = new Vector3(transform.position.x, player.transform.position.y, -10);
+            }
+            else if (player.transform.position.x >= transform.position.x && !DoodleSpawnerScript.instance.spawnVertically)
+            {
+                transform.position = new Vector3(player.transform.position.x, transform.position.y, -10);
             }
         }
         else 

@@ -1,8 +1,8 @@
-using System.Reflection;
 using System;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.SocialPlatforms;
 public class GameManagerScript : MonoBehaviour
 {
     public static GameManagerScript Instance { get; private set; }
@@ -18,7 +18,7 @@ public class GameManagerScript : MonoBehaviour
     private bool isHUDOn;
     #endregion
     private int smartPathAmount;
-
+   [SerializeField, Range(0f,1f)] float timeScale = 1.0f;
     void Awake()
     {
 
@@ -33,7 +33,17 @@ public class GameManagerScript : MonoBehaviour
         }
 
     }
+    private void Update()
+    {
 
+        Time.timeScale = timeScale;
+
+        Debug.Log($"unscaledDeltaTime: {Time.unscaledDeltaTime:F3}, deltaTime: {Time.deltaTime:F3}");
+    }
+    public bool HasLuck(float chance) 
+    {
+        return UnityEngine.Random.Range(0f, 1f) <= chance;
+    }
     private void Start()
     {
 
