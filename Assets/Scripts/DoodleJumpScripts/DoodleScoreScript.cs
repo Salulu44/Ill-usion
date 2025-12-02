@@ -1,6 +1,7 @@
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 public class DoodleScoreScript : MonoBehaviour
 {
     TextMeshProUGUI scoreText;
@@ -8,29 +9,31 @@ public class DoodleScoreScript : MonoBehaviour
     public HighScoreData highscoreData;
     [SerializeField] TextMeshProUGUI highscoreText;
     [SerializeField] GameObject tryAgain;
+    TextMeshProUGUI tryAgainText;
     [SerializeField] VideoScript videoScript;
     [SerializeField] Transform winPosition;
     [SerializeField] SpawnEnemiesTestScript spawnEnemiesTestScript;
     [SerializeField, Range(0f, 1f)]
     float scoreChangeChance;
     [field: SerializeField] public int MaxScore { get; private set; }
-   [field:SerializeField] public int CurrentScore { get; private set;}
+    [field:SerializeField] public int CurrentScore { get; private set;}
     bool hasWon;
     string scoreWord;
     string[] possibleWordsVertically = { "Acrophobia? ", "Altitude? ", "A ", "Embarassment " };
     string[] possibleWordHorizontally = { "X-Coordinates!", "HAHA now On X", "How rizont are you?" };
-    string[] possibleTryAgainWords = { "Lets try again!", "You are smashing it!", "Now or never!" };
+    string[] possibleTryAgainWords = { "Lets try again!", "You are smashing it!", "Now or never!", "Try again" };
     RectTransform rectTransform;
+    Transform canvasTr;
     Vector2 originPosition;
-    [SerializeField] Vector2 canvasSize;
+    Vector2 canvasSize;
     bool winningHorizontally;
     private void OnEnable()
     {
         highscoreData = SaveSystem.LoadHighScore(GameManagerScript.Instance.minigameSO.doodleJumpData);
-        print(highscoreData.MiniGame());
     }
     void Start()
     {
+        tryAgainText = tryAgain.GetComponent<TextMeshProUGUI>();
         scoreText = GetComponent<TextMeshProUGUI>();
         player = GameObject.FindWithTag("Player").transform;
         scoreWord = "Altitude : ";
@@ -120,6 +123,7 @@ public class DoodleScoreScript : MonoBehaviour
                 scoreWord = possibleWordHorizontally[Random.Range(0, possibleWordHorizontally.Length)];
             }
             rectTransform.anchoredPosition = new Vector2(Random.Range(-canvasSize.x, 0), Random.Range(-canvasSize.y, 0));
+            tryAgainText.text = possibleTryAgainWords[Random.Range(0, possibleTryAgainWords.Length)];
         }
         else
         {
