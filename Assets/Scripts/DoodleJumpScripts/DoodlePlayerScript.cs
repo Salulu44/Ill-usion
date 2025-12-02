@@ -40,9 +40,7 @@ public class DoodlePlayerScript : MonoBehaviour
     {
 
         DoubleJump();
-        horizontalInputX = Input.GetAxis("Horizontal");
-        verticalInputY = Input.GetAxis("Vertical");
-
+        Movement();
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
             GetComponent<SpriteRenderer>().flipX = true;
@@ -80,11 +78,13 @@ public class DoodlePlayerScript : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Movement();
+
     }
     
     void Movement()
     {
+        horizontalInputX = Input.GetAxis("Horizontal");
+        verticalInputY = Input.GetAxis("Vertical");
         Vector2 velocity = playerRb.linearVelocity;
         velocity += new Vector2(horizontalInputX, -Mathf.Abs(verticalInputY)) * movementSpeed * Time.unscaledDeltaTime;
         if (playerRb.bodyType == RigidbodyType2D.Dynamic)
@@ -93,7 +93,6 @@ public class DoodlePlayerScript : MonoBehaviour
             velocity.y = Mathf.Clamp(velocity.y, -10, 10);
             playerRb.linearVelocity = velocity;
         }
-
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

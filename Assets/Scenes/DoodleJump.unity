@@ -670,7 +670,7 @@ MonoBehaviour:
   loosePanel: {fileID: 1502526583}
   scoreTextScript: {fileID: 1440428131}
   spawnerScript: {fileID: 1922833997}
-  jumpScareChance: 1
+  jumpScareChance: 0
 --- !u!61 &158109710
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -735,7 +735,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &213787978
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -839,7 +839,7 @@ Transform:
   m_GameObject: {fileID: 213787977}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.24, y: 4.69, z: 0}
+  m_LocalPosition: {x: 50, y: 1030, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -857,6 +857,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebb48570fcd3aa740957ee7ce3c4e7a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LifebarEnemyScript
+  lifebarUI: {fileID: 1598386847}
+  canvas: {fileID: 365346316}
+  playerTr: {fileID: 889966564}
 --- !u!1 &300241772
 GameObject:
   m_ObjectHideFlags: 0
@@ -1819,6 +1822,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3169384358508617529, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: timeScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7978792630281277285, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
       propertyPath: m_Name
       value: SceneHandler
@@ -2665,6 +2672,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DoodleLifeBarScript
   healthScript: {fileID: 889966566}
   lifeBarChangeChance: 1
+  lifebarEnemyScript: {fileID: 213787981}
 --- !u!1 &1760283666
 GameObject:
   m_ObjectHideFlags: 0

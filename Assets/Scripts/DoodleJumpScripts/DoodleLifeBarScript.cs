@@ -6,7 +6,7 @@ public class DoodleLifeBarScript : MonoBehaviour
     [SerializeField] HealthScript healthScript;
     private Image lifeBar;
     [SerializeField,Range(0f,1f)] float lifeBarChangeChance;
-//    [SerializeField]
+    [SerializeField] LifebarEnemyScript lifebarEnemyScript;
     Color[] colors = { Color.aliceBlue, Color.beige, Color.blanchedAlmond , Color.red};
     Image image;
     void Start()
@@ -29,6 +29,7 @@ public class DoodleLifeBarScript : MonoBehaviour
         {
             //Lifebar fights against you
             image.color = colors[Random.Range(0, colors.Length)];
+            lifebarEnemyScript.gameObject.SetActive(true);
         }
     }
     public void SetFillAmount(float fillAmount) 

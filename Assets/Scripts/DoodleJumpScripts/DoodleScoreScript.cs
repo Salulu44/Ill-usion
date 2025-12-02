@@ -33,7 +33,7 @@ public class DoodleScoreScript : MonoBehaviour
     }
     void Start()
     {
-        tryAgainText = tryAgain.GetComponent<TextMeshProUGUI>();
+        tryAgainText = tryAgain.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         scoreText = GetComponent<TextMeshProUGUI>();
         player = GameObject.FindWithTag("Player").transform;
         scoreWord = "Altitude : ";

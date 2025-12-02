@@ -46,7 +46,6 @@ public class DoodleSpawnerScript : MonoBehaviour
     }
     public void SpawnHorizontally(Vector3 spawnStart) 
     {
-        Debug.Log("Spawn Horizontally");
         Vector3 spawnPosition = spawnStart;
         for (int i = 0; i < platformAmount; i++)
         {
@@ -61,7 +60,6 @@ public class DoodleSpawnerScript : MonoBehaviour
             platform.GetComponent<DoodlePlatformScript>().SetRandomPlatformState();
             previousValueX = spawnPosition.x;
             highestPoint = platform.transform.position;
-            Debug.Log("Highest Point " + highestPoint); 
             platform.transform.SetParent(platformParent.transform);
             int random = Random.Range(0, 26);
             if (random == 25)
@@ -90,7 +88,6 @@ public class DoodleSpawnerScript : MonoBehaviour
     }
     public void SpawnPlatformsVertically(Vector3 spawnStart)
     {
-        Debug.Log("Spawn Vertically");
         Vector3 spawnPosition = spawnStart;
         for (int i = 0; i < platformAmount; i++)
         {

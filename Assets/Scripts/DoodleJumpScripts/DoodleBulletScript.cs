@@ -27,7 +27,6 @@ public class DoodleBulletScript : Enemy
             cameraScript.StayInViewPort(transform);
             return;
         }
-        print("I am seraching you");
         Vector2 direction = (Vector2) (target.position - transform.position).normalized;
         enemyRb.AddForce(direction * enemySpeed);
     }

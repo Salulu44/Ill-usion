@@ -38,7 +38,7 @@ public class GameManagerScript : MonoBehaviour
 
         Time.timeScale = timeScale;
 
-        Debug.Log($"unscaledDeltaTime: {Time.unscaledDeltaTime:F3}, deltaTime: {Time.deltaTime:F3}");
+        //Debug.Log($"unscaledDeltaTime: {Time.unscaledDeltaTime:F3}, deltaTime: {Time.deltaTime:F3}");
     }
     public bool HasLuck(float chance) 
     {

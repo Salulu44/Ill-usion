@@ -9,7 +9,6 @@ public class SceneHandlerScript : MonoBehaviour
     {
         mainScene = SceneManager.GetSceneByName("MainGame");
         Debug.Assert(mainScene != null);
-        print(transform.root.gameObject.name);
     }
     void Update()
     { 
