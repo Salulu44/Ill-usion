@@ -1,4 +1,5 @@
 using UnityEngine;
+[RequireComponent(typeof(Rigidbody2D))]
 public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] protected float enemyDamage;

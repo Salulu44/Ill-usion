@@ -12,7 +12,7 @@ public class DoodlePlatformScript : MonoBehaviour
     }
     [SerializeField] private float jumpForce;
     [SerializeField] private PlatformState platformState;
-    [SerializeField] private Vector2 moveDirection;
+    private Vector2 moveDirection;
     [SerializeField] private float moveAmplitude;
     [SerializeField] private float rotationAmplifier;
     [SerializeField] private Sprite[] sprites;
@@ -24,6 +24,10 @@ public class DoodlePlatformScript : MonoBehaviour
     private void OnEnable()
     {
 
+    }
+    public void SetMoveDirection(Vector2 direction) 
+    {
+        moveDirection = direction;
     }
     // Update is called once per frame
     void Update()

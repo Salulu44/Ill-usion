@@ -59,6 +59,7 @@ public class DoodleBulletScript : Enemy
     protected override void Die()
     {
         print("I am Dead");
+        SpawnEnemiesTestScript.enemyCounter--;
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<Collider2D>().enabled = false;
         Destroy(gameObject, 2);

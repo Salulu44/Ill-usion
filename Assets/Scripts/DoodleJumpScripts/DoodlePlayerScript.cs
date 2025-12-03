@@ -98,6 +98,10 @@ public class DoodlePlayerScript : MonoBehaviour
     {
         if (collision.transform.CompareTag(GameManagerScript.Instance.tagSO.groundTag) && playerRb.linearVelocityY <= 5f) 
         {
+            if(playerRb.linearVelocityY < 0) 
+            {
+                playerRb.linearVelocityY = 0;
+            }
             playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
     }

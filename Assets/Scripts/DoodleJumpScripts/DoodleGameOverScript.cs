@@ -19,8 +19,19 @@ public class DoodleGameOverScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        SetPosition();
+    }
+    void SetPosition() 
+    {
         Vector3 deadZoneScreenPosition = Camera.main.ScreenToWorldPoint(Vector3.zero);
-        transform.position = new Vector3(Camera.main.transform.position.x, deadZoneScreenPosition.y - 1.25f, 0);
+        if (DoodleSpawnerScript.instance.spawnVertically)
+        {
+            transform.position = new Vector3(Camera.main.transform.position.x, deadZoneScreenPosition.y - 1.25f, 0);
+        }
+        else
+        {
+            transform.position = new Vector3(Camera.main.transform.position.x, deadZoneScreenPosition.y - 1.1f, 0);
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

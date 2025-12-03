@@ -8,7 +8,6 @@ public class DoodleSpawnerScript : MonoBehaviour
     [SerializeField] private int platformAmount;
     private GameObject platformParent;
     private Vector3 highestPoint;
-    private Vector3 lowestPoint;
     [HideInInspector] public GameObject player;
     [SerializeField] private Transform rocketPrefab;
     private float previousValueX;
@@ -47,6 +46,7 @@ public class DoodleSpawnerScript : MonoBehaviour
     public void SpawnHorizontally(Vector3 spawnStart) 
     {
         Vector3 spawnPosition = spawnStart;
+        Vector2[] moveDirections = { Vector2.right, Vector2.left, Vector2.down,Vector2.up};
         for (int i = 0; i < platformAmount; i++)
         {
             spawnPosition.x += Random.Range(1, 5f);
@@ -58,6 +58,7 @@ public class DoodleSpawnerScript : MonoBehaviour
             spawnPosition.y = Random.Range(-3, 3f);
             GameObject platform = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
             platform.GetComponent<DoodlePlatformScript>().SetRandomPlatformState();
+            platform.GetComponent<DoodlePlatformScript>().SetMoveDirection(moveDirections[Random.Range(0, moveDirections.Length)]);
             previousValueX = spawnPosition.x;
             highestPoint = platform.transform.position;
             platform.transform.SetParent(platformParent.transform);
@@ -89,6 +90,7 @@ public class DoodleSpawnerScript : MonoBehaviour
     public void SpawnPlatformsVertically(Vector3 spawnStart)
     {
         Vector3 spawnPosition = spawnStart;
+        Vector2[] moveDirections = { Vector2.left, Vector2.right,Vector2.down,Vector2.up};
         for (int i = 0; i < platformAmount; i++)
         {
             spawnPosition.x = Random.Range(-5, 5f);
@@ -100,6 +102,7 @@ public class DoodleSpawnerScript : MonoBehaviour
             spawnPosition.y += Random.Range(2, 3f);
             GameObject platform = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
             platform.GetComponent<DoodlePlatformScript>().SetRandomPlatformState();
+            platform.GetComponent<DoodlePlatformScript>().SetMoveDirection(moveDirections[Random.Range(0, moveDirections.Length)]);
             previousValueX = spawnPosition.x;
             highestPoint = platform.transform.position;
             platform.transform.SetParent(platformParent.transform);

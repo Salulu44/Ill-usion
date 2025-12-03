@@ -49,19 +49,16 @@ public class DoodleScoreScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (DoodleSpawnerScript.instance.spawnVertically) 
+        SetCurrentScore();
+        ChecksWinning();
+    }
+    void ChecksWinning() 
+    {
+        if (hasWon)
         {
-            CurrentScore = (int)(player.transform.position.y * 100);
-            winningHorizontally = false;
+            VideoManagerScript.Instance.startJumpScare = true;
         }
-        else 
-        {
-            winningHorizontally = true;
-            CurrentScore = (int)(player.transform.position.x * 100);
-        }
-        scoreText.text = scoreWord + CurrentScore;
-
-        if(!hasWon && CurrentScore > MaxScore) 
+        if (!hasWon && CurrentScore > MaxScore)
         {
             DoodleSpawnerScript.instance.shouldSpawn = false;
             videoScript.OnVideoStart += StartPhaseTwo;
@@ -74,11 +71,25 @@ public class DoodleScoreScript : MonoBehaviour
             {
                 //Do Stuffy;
             }
-            else 
+            else
             {
                 // Do Stuffy muffy as well
             }
         }
+    }
+    void SetCurrentScore() 
+    {
+        if (DoodleSpawnerScript.instance.spawnVertically)
+        {
+            CurrentScore = (int)(player.transform.position.y * 100);
+            winningHorizontally = false;
+        }
+        else
+        {
+            winningHorizontally = true;
+            CurrentScore = (int)(player.transform.position.x * 100);
+        }
+        scoreText.text = scoreWord + CurrentScore;
     }
     public void StartEnemySpawn() 
     {
@@ -107,7 +118,10 @@ public class DoodleScoreScript : MonoBehaviour
     }
     public int GetScore()
     {
-        return (int)(player.transform.position.y * 100);
+        if (DoodleSpawnerScript.instance.spawnVertically)
+            return (int)(player.transform.position.y * 100);
+        else 
+            return (int)(player.transform.position.x * 100);
     }
     public void ChangeScoreWord() 
     {

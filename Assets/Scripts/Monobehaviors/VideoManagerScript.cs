@@ -32,6 +32,11 @@ public class VideoManagerScript : MonoBehaviour
         }
 
     }
+    public void StartJumpScare() 
+    {
+        //Thought i could implement a Method where i can control when to start the JumpScare actually
+        //So that I can jumpscare immediately or with an offset
+    }
     void JumpScare()
     {
 
