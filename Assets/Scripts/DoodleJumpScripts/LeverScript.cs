@@ -13,4 +13,12 @@ public class LeverScript : MonoBehaviour
     {
         
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.tag == GameManagerScript.Instance.tagSO.doodlePlayerBulletTag)
+        {
+            GetComponent<SpriteRenderer>().color = Color.red;
+            //Implement Trigger
+        }
+    }
 }

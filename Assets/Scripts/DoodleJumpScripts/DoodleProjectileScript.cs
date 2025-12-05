@@ -15,6 +15,10 @@ public class DoodleProjectileScript : MonoBehaviour
         Destroy(gameObject,2);
     }
     // Update is called once per frame
+    private void OnDestroy()
+    {
+        DoodleWeaponScript.projectiles.Remove(this);
+    }
     void Update()
     {
         ProjectileMovement();

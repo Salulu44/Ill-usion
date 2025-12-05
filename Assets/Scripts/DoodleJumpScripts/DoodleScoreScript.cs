@@ -66,7 +66,6 @@ public class DoodleScoreScript : MonoBehaviour
             Camera.main.GetComponent<DoodleCameraScript>().ShouldPlayerStayInViewPort(false);
             VideoManagerScript.Instance.PlayVideo(videoScript);
             DoodleSpawnerScript.instance.EndMiniGame();
-            hasWon = true;
             if (winningHorizontally)
             {
                 //Do Stuffy;
@@ -97,6 +96,7 @@ public class DoodleScoreScript : MonoBehaviour
         player.GetComponent<Collider2D>().enabled = true;
         player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         videoScript.OnVideoStart -= StartEnemySpawn;
+        hasWon = true;
     }
     public void StartPhaseTwo() 
     {

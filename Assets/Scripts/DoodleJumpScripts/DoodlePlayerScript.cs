@@ -38,7 +38,6 @@ public class DoodlePlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         DoubleJump();
         Movement();
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))

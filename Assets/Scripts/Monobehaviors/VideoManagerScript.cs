@@ -12,7 +12,8 @@ public class VideoManagerScript : MonoBehaviour
     private GameObject visuals;
     private VideoScript nextVideoScript;
     private VideoScript currentVideoScript;
-    [SerializeField]float jumpScareTimerAmount;
+    [SerializeField]float jumpScareTimerActivate;
+    [SerializeField]float jumpScareTimerDeactivate;
     float jumpScaretimer;
     bool jumpScareRunning;
     public bool startJumpScare;
@@ -47,7 +48,7 @@ public class VideoManagerScript : MonoBehaviour
             {
                 PlayVideo(jumpscareClip);
                 jumpScareRunning = true;
-                jumpScaretimer = UnityEngine.Random.Range(0,jumpScareTimerAmount);
+                jumpScaretimer = UnityEngine.Random.Range(0,jumpScareTimerDeactivate);
 
             }
             return;
@@ -57,14 +58,14 @@ public class VideoManagerScript : MonoBehaviour
         {
             StopVideo();
             jumpScareRunning = false;
-            jumpScaretimer = UnityEngine.Random.Range(0, jumpScareTimerAmount);
+            jumpScaretimer = UnityEngine.Random.Range(0, jumpScareTimerActivate);
             startJumpScare = false;
         }
 
     }
     private void Start()
     {
-        jumpScaretimer = UnityEngine.Random.Range(0, jumpScareTimerAmount);
+        jumpScaretimer = UnityEngine.Random.Range(0, jumpScareTimerActivate);
         videoPlayer = GetComponent<VideoPlayer>();
         videoPlayer.loopPointReached += VideoEnd;
         if (transform.childCount == 1)

@@ -31,11 +31,19 @@ public class DoodleCameraScript : MonoBehaviour
             {
                 Vector3 gameObjectDestinedPosition = Camera.main.ScreenToWorldPoint(new Vector3(1, 0, 0));
                 gameObject.position = new Vector3(gameObjectDestinedPosition.x, gameObject.position.y, 0);
+                if(gameObject.tag == GameManagerScript.Instance.tagSO.playerTag) 
+                {
+                    gameObject.GetComponent<Rigidbody2D>().linearVelocityX *= .5f;
+                }
             }
             else if (gameObjectScreenPosition.x < 0)
             {
                 Vector3 playerDestinedPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - 10, 0, 0));
                 gameObject.position = new Vector3(playerDestinedPosition.x, gameObject.position.y, 0);
+                if (gameObject.tag == GameManagerScript.Instance.tagSO.playerTag)
+                {
+                    gameObject.GetComponent<Rigidbody2D>().linearVelocityX *= .5f;
+                }
             }
         }
         else 

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Root
   - Ground
+  - DoodlePlayerBullet
   layers:
   - Default
   - TransparentFX
