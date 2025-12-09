@@ -28,7 +28,15 @@ public class DoodleSpawnerScript : MonoBehaviour
     }
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag(GameManagerScript.Instance.tagSO.playerTag);
+       if(Camera.main.TryGetComponent(out DoodleCameraScript doodleCameraScript))
+        {
+            doodleCameraScript.OnScreenExit += SpawnEnemiesEvent;
+        }
+        else 
+        {
+            Debug.Log("DoodleScript not on tze camera");
+        }
+            player = GameObject.FindGameObjectWithTag(GameManagerScript.Instance.tagSO.playerTag);
         platformParent = new GameObject("PlatformParent");
         SpawnPlatformsVertically(Vector3.zero);
     }
@@ -42,6 +50,10 @@ public class DoodleSpawnerScript : MonoBehaviour
         {
             SpawnHorizontally(highestPoint);       
         }
+    }
+    public void SpawnEnemiesEvent() 
+    {
+        Instantiate(enemies[Random.Range(0, enemies.Length)],highestPoint,Quaternion.identity);
     }
     public void SpawnHorizontally(Vector3 spawnStart) 
     {
@@ -73,10 +85,8 @@ public class DoodleSpawnerScript : MonoBehaviour
                 rocket.SetParent(platformParent.transform);
                 rocket.GetComponent<DoodlePowerUpScript>().forceDirection = Vector2.right;
             }
-            else if (random <= 5)
-            {
-                Debug.Log(Random.state);
-               
+            else if (random <= 10)
+            {  
                 while (Mathf.Abs(spawnPosition.x - previousValueX) < 3f)
                 {
                     spawnPosition.x += Random.Range(1, 5f);

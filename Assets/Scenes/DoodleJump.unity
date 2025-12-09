@@ -2659,8 +2659,8 @@ MonoBehaviour:
   videoScript: {fileID: 932137111}
   winPosition: {fileID: 1173892988}
   spawnEnemiesTestScript: {fileID: 83766859}
-  scoreChangeChance: 1
-  <MaxScore>k__BackingField: 100
+  scoreChangeChance: 0
+  <MaxScore>k__BackingField: 10000
   <CurrentScore>k__BackingField: 0
 --- !u!1 &1502526583
 GameObject:
@@ -3325,7 +3325,7 @@ MonoBehaviour:
   loosePanel: {fileID: 1502526583}
   enemies:
   - {fileID: 7797062605093619338, guid: e856b948cc16cee4f808bb33cf404b70, type: 3}
-  spawnChangeChance: 1
+  spawnChangeChance: 0
   shouldSpawn: 1
   spawnVertically: 1
 --- !u!4 &1922833998
@@ -3493,6 +3493,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164dec7649fcdfa499675dac587ed188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeverScript
+  gameObjects: []
+  directions: []
 --- !u!1 &2122026458
 GameObject:
   m_ObjectHideFlags: 0

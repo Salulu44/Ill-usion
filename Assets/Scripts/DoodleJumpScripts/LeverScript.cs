@@ -1,8 +1,8 @@
 using UnityEngine;
-
 public class LeverScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] GameObject[] gameObjects;
+    [SerializeField] Vector3[] directions;
     void Start()
     {
         
@@ -19,6 +19,15 @@ public class LeverScript : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().color = Color.red;
             //Implement Trigger
+            if(gameObjects.Length == 0) 
+            {
+                Debug.Log("You have not assigned objects into the inspector Daddy!");
+                return;
+            }
+            foreach (GameObject platform in gameObjects)
+            {
+               //Move the Platform with Dottween
+            }
         }
     }
 }

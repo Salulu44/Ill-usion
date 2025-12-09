@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,6 +6,7 @@ public class DoodleCameraScript : MonoBehaviour
 {
     private Transform player;
    [SerializeField] private bool shouldPlayerInViweport = true;
+    public event Action OnScreenExit;
     private void OnEnable()
     {
         player = GameObject.FindWithTag(GameManagerScript.Instance.tagSO.playerTag).transform;
@@ -33,7 +35,8 @@ public class DoodleCameraScript : MonoBehaviour
                 gameObject.position = new Vector3(gameObjectDestinedPosition.x, gameObject.position.y, 0);
                 if(gameObject.tag == GameManagerScript.Instance.tagSO.playerTag) 
                 {
-                    gameObject.GetComponent<Rigidbody2D>().linearVelocityX *= .5f;
+                    gameObject.GetComponent<Rigidbody2D>().linearVelocityX *= .25f;
+                    OnScreenExit?.Invoke();
                 }
             }
             else if (gameObjectScreenPosition.x < 0)
@@ -43,6 +46,7 @@ public class DoodleCameraScript : MonoBehaviour
                 if (gameObject.tag == GameManagerScript.Instance.tagSO.playerTag)
                 {
                     gameObject.GetComponent<Rigidbody2D>().linearVelocityX *= .5f;
+                    OnScreenExit?.Invoke();
                 }
             }
         }
