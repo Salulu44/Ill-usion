@@ -4,8 +4,8 @@ using UnityEngine.UI;
 using System.Text;
 using System;
 using TMPro;
-
-public class DialogueManager : MonoBehaviour
+[RequireComponent(typeof(DialogueUI))]
+public class DialogueScript : MonoBehaviour
 {
     [SerializeField] Dialogue dialogueAsset;
     [SerializeField] GameObject dialogueObject;
@@ -27,9 +27,23 @@ public class DialogueManager : MonoBehaviour
     {
         currentDialogueID = dialogueAsset.dialogueLines[0].dialogueID;
         dialogueUI = GetComponent<DialogueUI>();
+        if (dialogueUI.dialogueSprite == null)
+        {
+            SearchUIReferences();
+        }
         BuildDialogueDictionary();
         SetButtons();
+        if(dialogueObject == null) 
+        {
+            dialogueObject = GameObject.FindWithTag(GameManagerScript.Instance.tagSO.dialogueTag).transform.GetChild(0).gameObject;
+
+        }
         GameManagerScript.Instance.decisionTimer.GetComponent<SliderScript>().OnTimerEnd += ClickAnyButton;
+    }
+    void SearchUIReferences() 
+    {
+        DialogueUI dialogueUIRefernces = GameObject.FindWithTag(GameManagerScript.Instance.tagSO.dialogueUITag).GetComponent<DialogueUI>();
+        dialogueUI.SetReferences(dialogueUIRefernces);
     }
     void ClickAnyButton() 
     {
@@ -66,6 +80,7 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue() 
     {
         ShowDialogueLine(currentDialogueID);
+        dialogueObject.SetActive(true);
         OnStartDialogue?.Invoke();
         isDialogueFinished = false;
     }

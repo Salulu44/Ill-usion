@@ -7,6 +7,8 @@ TagManager:
   - Root
   - Ground
   - DoodlePlayerBullet
+  - Dialogue
+  - DialogueUI
   layers:
   - Default
   - TransparentFX

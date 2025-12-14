@@ -6,6 +6,7 @@ public class DoodleScoreScript : MonoBehaviour
 {
     TextMeshProUGUI scoreText;
     Transform player;
+    public static float winDestinationRatio;
     public HighScoreData highscoreData;
     [SerializeField] TextMeshProUGUI highscoreText;
     [SerializeField] GameObject tryAgain;
@@ -51,6 +52,7 @@ public class DoodleScoreScript : MonoBehaviour
     {
         SetCurrentScore();
         ChecksWinning();
+        winDestinationRatio = (float) CurrentScore / MaxScore;
     }
     void ChecksWinning() 
     {

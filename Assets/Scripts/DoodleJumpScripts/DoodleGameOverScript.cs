@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -9,9 +10,10 @@ public class DoodleGameOverScript : MonoBehaviour
     private GameObject player;
     private SpriteRenderer playerSpriteRenderer;
     [SerializeField,Range(0f,1f)] float jumpScareChance;
-    void Start()
+    IEnumerator Start()
     {
-        player = GameObject.FindWithTag(GameManagerScript.Instance.tagSO.playerTag);
+        yield return new WaitUntil(() => DoodleSpawnerScript.instance.player != null);
+        player = DoodleSpawnerScript.instance.player;
         player.GetComponent<HealthScript>().OnDeath += Lost;
         playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
     }

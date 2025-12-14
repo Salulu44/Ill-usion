@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 public class LifebarEnemyScript : Enemy
 {
@@ -6,6 +7,7 @@ public class LifebarEnemyScript : Enemy
     [SerializeField] Transform playerTr;
     protected override void Update()
     {
+        
         //base.Update();
         EnemyAIMovement();
     }
@@ -25,6 +27,10 @@ public class LifebarEnemyScript : Enemy
     private void OnEnable()
     {
         SetPosition();
+    }
+    public void ActivateLifebarEnemy(bool enable) 
+    {
+        gameObject.SetActive(enable);
     }
     protected override void OnCollisionEnter2D(Collision2D collision)
     {

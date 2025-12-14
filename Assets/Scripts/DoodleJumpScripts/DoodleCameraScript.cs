@@ -9,7 +9,16 @@ public class DoodleCameraScript : MonoBehaviour
     public event Action OnScreenExit;
     private void OnEnable()
     {
-        player = GameObject.FindWithTag(GameManagerScript.Instance.tagSO.playerTag).transform;
+        Debug.Log("I AM DOODLE CAMERA");
+        GameObject[] allPlayerInstances = GameObject.FindGameObjectsWithTag(GameManagerScript.Instance.tagSO.playerTag);
+        foreach(GameObject playerInstance in allPlayerInstances) 
+        {
+            if(playerInstance.TryGetComponent(out DoodlePlayerScript doodlePlayerScript)) 
+            {
+                player = playerInstance.transform;
+                break;
+            }
+        }
     }
     // Update is called once per frame
     private void Update()

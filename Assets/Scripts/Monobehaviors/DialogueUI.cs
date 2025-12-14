@@ -11,4 +11,11 @@ public class DialogueUI : MonoBehaviour
     public TextMeshProUGUI textbox;
     public Image dialogueSprite;
     //public GameObject[] buttons;
+    public void SetReferences(DialogueUI dialogueUI) 
+    {
+        dialoguePanel = dialogueUI.dialoguePanel;
+        nameText = dialogueUI.nameText;
+        textbox = dialogueUI.textbox;
+        dialogueSprite = dialogueUI.dialogueSprite;
+    }
 }

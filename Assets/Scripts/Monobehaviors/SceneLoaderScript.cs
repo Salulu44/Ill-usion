@@ -8,14 +8,14 @@ public class SceneLoaderScript : MonoBehaviour
     [SerializeField] GameObject dialogue;
     void Start()
     {
-        GetComponent<DialogueManager>().OnEndDialogue += StartMinigame;
+        GetComponent<DialogueScript>().OnEndDialogue += StartMinigame;
     }
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.F) && transform.GetChild(0).gameObject.activeSelf && !dialogue.activeSelf) 
         {
           dialogue.SetActive(true);
-          GetComponent<DialogueManager>().StartDialogue();
+          GetComponent<DialogueScript>().StartDialogue();
         }
         EndMiniGame();
     }
@@ -36,10 +36,14 @@ public class SceneLoaderScript : MonoBehaviour
     void StartMinigame() 
     {
         sceneHandler.LoadMinigame(sceneName);
+        GetComponent<Collider2D>().enabled = false;
     }
     void EndMiniGame() 
     {
-        if(Input.GetKeyDown(KeyCode.P))
-        sceneHandler.QuitScene(sceneName);
+        if (Input.GetKeyDown(KeyCode.P)) 
+        {
+            sceneHandler.QuitScene(sceneName);
+            GetComponent<Collider2D>().enabled = true;
+        }
     }
 }

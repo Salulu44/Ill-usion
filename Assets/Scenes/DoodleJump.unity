@@ -1585,6 +1585,113 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &672088654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 672088656}
+  - component: {fileID: 672088655}
+  - component: {fileID: 672088657}
+  - component: {fileID: 672088658}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &672088655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672088654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 635180800c2fc794487c3f6d16839a6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueManager
+  dialogueAsset:
+    dialogueLines:
+    - dialogueID: Start
+      nextDialogueID: END
+      speaker: 
+      textContent: I AM DEAD!
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      audioVolume: 0
+      hasSpecialEffect: 0
+      choices: []
+    SFXs: []
+    severeLine:
+      dialogueID: 
+      nextDialogueID: 
+      speaker: 
+      textContent: 
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      audioVolume: 0
+      hasSpecialEffect: 0
+      choices:
+      - choiceText: 
+        severity: 0
+        nextDialogueID: 
+      - choiceText: 
+        severity: 0
+        nextDialogueID: 
+      - choiceText: 
+        severity: 0
+        nextDialogueID: 
+  dialogueObject: {fileID: 0}
+  severityLine: 0
+--- !u!4 &672088656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672088654}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.41292, y: -3.2036, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &672088657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672088654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1196170c2eb9f42946876a563e1f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueTriggerScript
+--- !u!114 &672088658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672088654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 057d5f301a9bd394f9ee72edcef8260f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueUI
+  dialoguePanel: {fileID: 0}
+  nameText: {fileID: 0}
+  textbox: {fileID: 0}
+  dialogueSprite: {fileID: 0}
 --- !u!1 &889966560
 GameObject:
   m_ObjectHideFlags: 0
@@ -2032,33 +2139,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3169384358508617529, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
-      propertyPath: timeScale
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7978792630281277285, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
       propertyPath: m_Name
       value: SceneHandler
       objectReference: {fileID: 0}
-    - target: {fileID: 8484682931817051193, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
-      propertyPath: jumpscareClip
-      value: 
-      objectReference: {fileID: 32900000, guid: da03b7a5f6fcd52459a166fbd0366e92, type: 3}
-    - target: {fileID: 8484682931817051193, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
-      propertyPath: jumpScaretimer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8484682931817051193, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
-      propertyPath: jumpScareTimerAmount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8484682931817051193, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
-      propertyPath: jumpScareTimerActivate
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8484682931817051193, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
-      propertyPath: jumpScareTimerDeactivate
-      value: 0.3
+    - target: {fileID: 7978792630281277285, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2459,6 +2546,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: DoodleScoreScript, Assembly-CSharp
         m_MethodName: ChangeScoreWord
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 213787981}
+        m_TargetAssemblyTypeName: LifebarEnemyScript, Assembly-CSharp
+        m_MethodName: ActivateLifebarEnemy
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3320,12 +3419,14 @@ MonoBehaviour:
   platformAmount: 20
   player: {fileID: 0}
   rocketPrefab: {fileID: 5389694178137564709, guid: a1357658811dfb946939f6437942ea33, type: 3}
+  exitGateKeeper: {fileID: 1704669267208459851, guid: 17d629e88b5e92445bb9208721d8ae3c, type: 3}
   highScoreText: {fileID: 1795546356}
   tryAgainButton: {fileID: 1290028217}
   loosePanel: {fileID: 1502526583}
   enemies:
   - {fileID: 7797062605093619338, guid: e856b948cc16cee4f808bb33cf404b70, type: 3}
   spawnChangeChance: 0
+  exitGateKeeperChance: 1
   shouldSpawn: 1
   spawnVertically: 1
 --- !u!4 &1922833998
@@ -3651,3 +3752,4 @@ SceneRoots:
   - {fileID: 83766860}
   - {fileID: 213787980}
   - {fileID: 532965597}
+  - {fileID: 672088656}

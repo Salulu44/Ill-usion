@@ -16,3 +16,5 @@ MonoBehaviour:
   rootTag: Root
   groundTag: Ground
   doodlePlayerBulletTag: DoodlePlayerBullet
+  dialogueTag: Dialogue
+  dialogueUITag: DialogueUI

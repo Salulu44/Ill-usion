@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DoodleSpawnerScript : MonoBehaviour
 {
@@ -10,14 +11,18 @@ public class DoodleSpawnerScript : MonoBehaviour
     private Vector3 highestPoint;
     [HideInInspector] public GameObject player;
     [SerializeField] private Transform rocketPrefab;
+    [SerializeField] GameObject exitGateKeeper;
     private float previousValueX;
     [SerializeField] GameObject highScoreText;
     [SerializeField] GameObject tryAgainButton;
     [SerializeField] GameObject loosePanel;
     [SerializeField] public Enemy[] enemies;
     [SerializeField,Range(0f,1f)] float spawnChangeChance;
+    [SerializeField, Range(0f, 1f)] float exitGateKeeperChance;
     public bool shouldSpawn = true;
     public bool spawnVertically = true;
+    GameObject leftBorder;
+    GameObject rightBorder;
     void Awake()
     {
         if (instance != null && instance != this)
@@ -26,6 +31,7 @@ public class DoodleSpawnerScript : MonoBehaviour
         }
         instance = this;
     }
+
     private void Start()
     {
        if(Camera.main.TryGetComponent(out DoodleCameraScript doodleCameraScript))
@@ -36,8 +42,10 @@ public class DoodleSpawnerScript : MonoBehaviour
         {
             Debug.Log("DoodleScript not on tze camera");
         }
-            player = GameObject.FindGameObjectWithTag(GameManagerScript.Instance.tagSO.playerTag);
+        player = GameObject.FindGameObjectWithTag(GameManagerScript.Instance.tagSO.playerTag);
+
         platformParent = new GameObject("PlatformParent");
+        SceneManager.MoveGameObjectToScene(platformParent, SceneManager.GetSceneByName("DoodleJump"));
         SpawnPlatformsVertically(Vector3.zero);
     }
     private void Update()
@@ -50,10 +58,28 @@ public class DoodleSpawnerScript : MonoBehaviour
         {
             SpawnHorizontally(highestPoint);       
         }
+        if(leftBorder && rightBorder != null) 
+        {
+            leftBorder.transform.position = new Vector3(leftBorder.transform.position.x, player.transform.position.y, 0);
+            rightBorder.transform.position = new Vector3(rightBorder.transform.position.x, player.transform.position.y, 0);
+        }
     }
     public void SpawnEnemiesEvent() 
     {
-        Instantiate(enemies[Random.Range(0, enemies.Length)],highestPoint,Quaternion.identity);
+        if (GameManagerScript.Instance.HasLuck(DoodleScoreScript.winDestinationRatio)) 
+        {
+            Vector3 leftBorderPosition = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2, 0));
+            Vector3 rightBorderPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height / 2, 0));
+            leftBorder = Instantiate(exitGateKeeper, new Vector3(leftBorderPosition.x, leftBorderPosition.y, 0), Quaternion.identity);
+            rightBorder = Instantiate(exitGateKeeper, new Vector3(rightBorderPosition.x, rightBorderPosition.y, 0), Quaternion.identity);
+            leftBorder.transform.SetParent(platformParent.transform);
+            rightBorder.transform.SetParent(platformParent.transform);
+            Destroy(leftBorder, 3);
+            Destroy(rightBorder, 3);
+        }
+      Vector3 topScreenPosition = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height + 200, 0));
+      Enemy enemy =  Instantiate(enemies[Random.Range(0, enemies.Length)],new Vector3(topScreenPosition.x,topScreenPosition.y,0),Quaternion.identity);
+      enemy.transform.SetParent(platformParent.transform);
     }
     public void SpawnHorizontally(Vector3 spawnStart) 
     {
