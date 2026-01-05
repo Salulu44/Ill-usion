@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneHandlerScript : MonoBehaviour
 {
-    private Scene mainScene;
+    [SerializeField] private Scene mainScene;
     private bool mainSceneOn = true;
     string nextScene;
     void Start()
@@ -55,6 +55,7 @@ public class SceneHandlerScript : MonoBehaviour
             return;
         }
         mainSceneOn = !mainSceneOn;
+        nextScene = mainScene.name;
         AsyncOperation operation =  SceneManager.UnloadSceneAsync(sceneName);
         SceneManager.MoveGameObjectToScene(gameObject,mainScene);
         operation.completed += OperationCompleted;
@@ -62,6 +63,7 @@ public class SceneHandlerScript : MonoBehaviour
     private void OperationCompleted(AsyncOperation obj)
     {
         SetActiveForScene(mainScene, mainSceneOn);
+        Debug.Log("This is the next scene " + nextScene);
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(nextScene));
         obj.completed -= OperationCompleted;
     }

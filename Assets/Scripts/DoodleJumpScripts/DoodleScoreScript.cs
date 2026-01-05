@@ -18,7 +18,7 @@ public class DoodleScoreScript : MonoBehaviour
     float scoreChangeChance;
     [field: SerializeField] public int MaxScore { get; private set; }
     [field:SerializeField] public int CurrentScore { get; private set;}
-    bool hasWon;
+    public static bool hasWon;
     string scoreWord;
     string[] possibleWordsVertically = { "Acrophobia? ", "Altitude? ", "A ", "Embarassment " };
     string[] possibleWordHorizontally = { "X-Coordinates!", "HAHA now On X", "How rizont are you?" };
@@ -146,5 +146,12 @@ public class DoodleScoreScript : MonoBehaviour
             scoreWord = "Altitude : ";
             rectTransform.anchoredPosition = originPosition;
         }
+    }
+
+    private void OnDestroy()
+    {
+        hasWon = false;
+        // I want to use this bool e.g for camera shaking after winning phase 1 of the game
+        //But i need to prevent some problems so just set it false 
     }
 }

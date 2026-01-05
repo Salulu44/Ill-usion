@@ -191,7 +191,7 @@ Transform:
   m_GameObject: {fileID: 109672109}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0, z: -0.7095708, w: -0.70463413}
-  m_LocalPosition: {x: 92.4, y: 20.4, z: 0}
+  m_LocalPosition: {x: 92.4, y: 20.7, z: 0}
   m_LocalScale: {x: 32.090267, y: 2.5424898, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2099,6 +2099,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 606876686558447270, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 923041917173731351, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.92745
@@ -2145,7 +2149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7978792630281277285, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2165,7 +2169,6 @@ GameObject:
   - component: {fileID: 1136487505}
   - component: {fileID: 1136487508}
   - component: {fileID: 1136487509}
-  - component: {fileID: 1136487510}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2304,52 +2307,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoodleCameraScript
   shouldPlayerInViweport: 1
---- !u!61 &1136487510
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136487504}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  duration: 0.1
+  magnitude: 0.1
 --- !u!1 &1173892987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2861,7 +2820,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1554385394}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
@@ -3472,7 +3431,7 @@ Transform:
   m_GameObject: {fileID: 1960412342}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0, z: -0.7095708, w: -0.70463413}
-  m_LocalPosition: {x: 14.4, y: -0.2, z: 0}
+  m_LocalPosition: {x: 73.9, y: 17, z: 0}
   m_LocalScale: {x: 8.000482, y: 6.7962837, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3594,8 +3553,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164dec7649fcdfa499675dac587ed188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeverScript
-  gameObjects: []
-  directions: []
+  gameObjects:
+  - {fileID: 109672109}
+  - {fileID: 1760283666}
+  directions:
+  - {x: 0, y: 4, z: 0}
+  - {x: 0, y: -4, z: 0}
 --- !u!1 &2122026458
 GameObject:
   m_ObjectHideFlags: 0

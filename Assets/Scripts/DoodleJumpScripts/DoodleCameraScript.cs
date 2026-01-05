@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,10 +7,12 @@ public class DoodleCameraScript : MonoBehaviour
 {
     private Transform player;
    [SerializeField] private bool shouldPlayerInViweport = true;
+    [SerializeField] float duration;
+    [SerializeField] private float magnitude;
     public event Action OnScreenExit;
+    bool isShaking;
     private void OnEnable()
     {
-        Debug.Log("I AM DOODLE CAMERA");
         GameObject[] allPlayerInstances = GameObject.FindGameObjectsWithTag(GameManagerScript.Instance.tagSO.playerTag);
         foreach(GameObject playerInstance in allPlayerInstances) 
         {
@@ -20,9 +23,24 @@ public class DoodleCameraScript : MonoBehaviour
             }
         }
     }
+    public IEnumerator CameraShake(float duration, float magnitude) 
+    {
+        isShaking = true;
+        Vector3 originalPos = transform.position;
+        float elapsedTime = 0f;
+        while (elapsedTime < duration) 
+        {
+            transform.position = new Vector3(originalPos.x + UnityEngine.Random.Range(-1, 1) * magnitude, originalPos.y + UnityEngine.Random.Range(-1, -1) * magnitude, -10);
+            Debug.Log("original pos " + originalPos);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        isShaking = false;
+    }
     // Update is called once per frame
     private void Update()
     {
+
         if (shouldPlayerInViweport) 
         {
             StayInViewPort(player);
@@ -79,7 +97,7 @@ public class DoodleCameraScript : MonoBehaviour
     }
     public void CameraMovement() 
     {
-        if (shouldPlayerInViweport )
+        if (shouldPlayerInViweport)
         {
             if (player.transform.position.y >= transform.position.y && DoodleSpawnerScript.instance.spawnVertically)
             {
@@ -90,9 +108,21 @@ public class DoodleCameraScript : MonoBehaviour
                 transform.position = new Vector3(player.transform.position.x, transform.position.y, -10);
             }
         }
-        else 
+        else
         {
+
             transform.position = new Vector3(player.position.x, player.position.y, -10);
         }
+        // I want camera shake but it doesnt do what i want it to do
+        //if (DoodleScoreScript.hasWon && !isShaking)
+        //{
+
+
+        //}
+        //if (!isShaking)
+        //{
+        //    StartCoroutine(CameraShake(duration, magnitude));
+        //}
+
     }
 }

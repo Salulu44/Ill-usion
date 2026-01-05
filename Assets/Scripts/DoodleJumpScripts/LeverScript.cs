@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 public class LeverScript : MonoBehaviour
 {
@@ -5,7 +6,6 @@ public class LeverScript : MonoBehaviour
     [SerializeField] Vector3[] directions;
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -24,9 +24,13 @@ public class LeverScript : MonoBehaviour
                 Debug.Log("You have not assigned objects into the inspector Daddy!");
                 return;
             }
+            int index = 0;
             foreach (GameObject platform in gameObjects)
             {
                //Move the Platform with Dottween
+              Vector3 endPosition = platform.transform.position + directions[index];
+              platform.transform.DOMove(endPosition, 1);
+              index++;
             }
         }
     }
