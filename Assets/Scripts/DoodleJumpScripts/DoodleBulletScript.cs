@@ -1,13 +1,26 @@
+using DG.Tweening.Core.Easing;
+using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 [RequireComponent(typeof(Rigidbody2D),typeof(HealthScript))]
 public class DoodleBulletScript : Enemy
 {
+    [System.Flags]
+    public enum DoodleBulletVariants
+    {
+        None = 0,
+        Chase = 1 << 0,
+        Bounce = 1 << 1,
+        UI = 1 << 2
+    }
     [SerializeField] float enemyDetectionRadius;
     private DoodleCameraScript cameraScript;
     private HealthScript enemyHealthScript;
     private Transform target;
+    [SerializeField] DoodleBulletVariants doodleVariant = DoodleBulletVariants.Chase;
+    [SerializeField] float bounceForce;
+    RectTransform doodleUITr;
     protected override void EnemyAIMovement()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, enemyDetectionRadius);
@@ -41,10 +54,67 @@ public class DoodleBulletScript : Enemy
         enemyHealthScript = GetComponent<HealthScript>();
         enemyHealthScript.OnDamaged += PlayEnemySound;
         enemyHealthScript.OnDeath += Die;
+        switch (doodleVariant)
+        {
+            case DoodleBulletVariants.Chase:
+                break;
+            case DoodleBulletVariants.UI:
+                doodleUITr = GetComponent<RectTransform>();
+                break;
+        }
+        Debug.Log($"doodleVariant: {(int)doodleVariant}");
+        Debug.Log("Number" + (int)(doodleVariant & DoodleBulletVariants.Bounce) + " " + gameObject.name);
+        if ((doodleVariant & DoodleBulletVariants.Bounce) != 0)
+        {
+            Debug.Log("Is no bounce " + gameObject.name);
+        }
+        else 
+        {
+            Debug.Log("Yeah Bounce");
+        }
     }
     protected override void Update()
     {
-        EnemyAIMovement();
+        if((doodleVariant & DoodleBulletVariants.Chase) != 0) 
+        {
+            EnemyAIMovement();
+        }
+        else 
+        {
+            Debug.Log("Ist null" + (doodleVariant & DoodleBulletVariants.Chase) + " " + gameObject.name);
+        }
+        if ((doodleVariant & DoodleBulletVariants.Bounce) != 0)
+        {
+            Bounce();
+            Debug.Log("Hi");
+        }
+
+    }
+    void Bounce() 
+    {
+        //Play SFX
+        //  enemyRb.AddForce(Vector2.up * bounceForce, ForceMode2D.Impulse);
+        //  Debug.Log(GetComponent<RectTransform>().IsRectVerticallyOffScreen().DisplayName());
+        UIExtensions.VectorOrientation orientation = doodleUITr.CheckOrientation();
+        switch (orientation) 
+        {
+            case UIExtensions.VectorOrientation.Below:
+                Debug.Log("Is Below");
+                break;
+            case UIExtensions.VectorOrientation.Left:
+                Debug.Log("Is Below");
+                break;
+            case UIExtensions.VectorOrientation.Right:
+                Debug.Log("Is Below");
+                break;
+            case UIExtensions.VectorOrientation.Above:
+                Debug.Log("Is Below");
+                break;
+            default:
+                Debug.Log("Is Inside");
+                break;
+        }
+        
     }
     protected override void PlayEnemySound()
     {   
@@ -54,6 +124,27 @@ public class DoodleBulletScript : Enemy
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         base.OnCollisionEnter2D(collision);
+        if((doodleVariant & DoodleBulletVariants.Bounce ) != 0) 
+        {
+            Bounce();
+
+            float paddleX = collision.transform.position.x;
+            float ballX = transform.position.x;
+            float halfWidth = collision.collider.bounds.size.x * 0.5f;
+
+            // -1 (linke Ecke) bis +1 (rechte Ecke)
+            float t = Mathf.Clamp((ballX - paddleX) / halfWidth, -1f, 1f);
+
+            // Basiswinkel in Grad relativ zur Senkrechten
+            float maxAngle = 60f;
+            float angleDeg = t * maxAngle;
+
+            // Richtung aus Winkel bauen (immer nach oben)
+            float angleRad = angleDeg * Mathf.Deg2Rad;
+            Vector2 dir = new Vector2(Mathf.Sin(angleRad), Mathf.Cos(angleRad)).normalized;
+
+            enemyRb.linearVelocity = dir * bounceForce;
+        }
     }
 
     protected override void Die()
@@ -70,3 +161,99 @@ public class DoodleBulletScript : Enemy
         Gizmos.DrawWireSphere(transform.position, enemyDetectionRadius);
     }
 }
+public static class UIExtensions
+{
+    public enum VectorOrientation
+    {
+        Inside,
+        Left,
+        Right,
+        Above, 
+        Below
+    }
+    public static bool IsRectCompletelyOffScreen(this RectTransform rectTransform)
+    {
+        Vector3[] corners = new Vector3[4];
+        rectTransform.GetWorldCorners(corners);
+        foreach (var corner in corners)
+        {
+            Vector3 screenPoint = RectTransformUtility.WorldToScreenPoint(null, corner);
+            if (screenPoint.x >= 0 && screenPoint.x <= Screen.width &&
+                screenPoint.y >= 0 && screenPoint.y <= Screen.height)
+            {
+                return false; // if one corner is visible
+            }
+        }
+
+        return true; // all are not visible
+    }
+    public static bool IsRectHorizontallyOffScreen(this RectTransform rectTransform) 
+    {
+       
+        Vector3[] corners = new Vector3[4];
+        rectTransform.GetWorldCorners(corners);
+
+        foreach (Vector3 corner in corners) 
+        {
+            Vector3 screenPoint = RectTransformUtility.WorldToScreenPoint(null, corner);
+            if (screenPoint.x >= 0 && screenPoint.x <= Screen.width)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static VectorOrientation CheckOrientation(this RectTransform rectTransform)
+    {
+        Vector3[] corners = new Vector3[4];
+        rectTransform.GetWorldCorners(corners);
+        bool anyAbove = false;
+        bool anyBelow = false;
+        bool anyRight = false;
+        bool anyLeft = false;
+        bool anyInside = false;
+        foreach (var corner in corners)
+        {
+            Vector3 screenPoint = RectTransformUtility.WorldToScreenPoint(null, corner);
+            if (screenPoint.y >= Screen.height)
+            {
+                anyAbove = true;
+            }
+            else if(screenPoint.y <= 0)
+            {
+                anyBelow = true;
+            }
+            else if (screenPoint.x >= Screen.width) 
+            {
+                anyRight = true;
+            }
+            else if(screenPoint.x <= 0)
+            {
+                anyLeft = true;
+            }
+            else 
+            {
+                anyInside = true;
+            }
+        }
+        if (anyInside)
+            return VectorOrientation.Inside;
+
+        if (anyAbove && !anyBelow)
+            return VectorOrientation.Above;
+
+        if (anyBelow && !anyAbove)
+            return VectorOrientation.Below;
+        if(anyLeft && !anyRight)
+        {
+            return VectorOrientation.Left;
+        }
+        if(!anyLeft && anyRight) 
+        {
+            return VectorOrientation.Right;
+        }
+        //if the UI Element is too big but still inside
+        return VectorOrientation.Inside;
+    }
+}
+

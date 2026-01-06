@@ -53,7 +53,9 @@ public class DoodleCameraScript : MonoBehaviour
     }
     public void StayInViewPort(Transform gameObject) 
     {
+
         Vector3 gameObjectScreenPosition = Camera.main.WorldToScreenPoint(gameObject.position);
+        Debug.Log(gameObject.name);
         if (DoodleSpawnerScript.instance.spawnVertically)
         {
             if (gameObjectScreenPosition.x >= Screen.width)
@@ -81,11 +83,13 @@ public class DoodleCameraScript : MonoBehaviour
         {
             if (gameObjectScreenPosition.y >= Screen.height)
             {
+        
                 Vector3 gameObjectDestinedPosition = Camera.main.ScreenToWorldPoint(new Vector3(0, 20, 0));
                 gameObject.position = new Vector3(gameObject.position.x, gameObjectDestinedPosition.y, 0);
             }
             else if (gameObjectScreenPosition.y < 0)
             {
+                Debug.Log("YA");
                 Vector3 playerDestinedPosition = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height - 10, 0));
                 gameObject.position = new Vector3(gameObject.position.x, playerDestinedPosition.y, 0);
             }
