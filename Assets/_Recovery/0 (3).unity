@@ -1063,7 +1063,6 @@ Transform:
   - {fileID: 213787980}
   - {fileID: 1173892988}
   - {fileID: 83766860}
-  - {fileID: 1703766062}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &365346313
@@ -1665,7 +1664,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 782.6, y: 217.6}
+  m_AnchoredPosition: {x: 782.6, y: 21.875}
   m_SizeDelta: {x: 81.25, y: 43.75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &596084914
@@ -1759,13 +1758,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 596084912}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a159017bb65a5e1489c85b9f60016650, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoodleBarScript
-  paddleSpeed: 1500
-  deadZone: 15
+  paddleSpeed: 1000
+  deadZone: 25
 --- !u!50 &596084918
 Rigidbody2D:
   serializedVersion: 5
@@ -2305,7 +2304,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 335620135}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 606876686558447270, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
       propertyPath: m_IsActive
@@ -2594,7 +2593,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 782.6, y: -200.8}
+  m_AnchoredPosition: {x: 782.6, y: -375}
   m_SizeDelta: {x: 68.75, y: 93.75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!70 &1204830447
@@ -3435,7 +3434,6 @@ GameObject:
   - component: {fileID: 1672997769}
   - component: {fileID: 1672997768}
   - component: {fileID: 1672997771}
-  - component: {fileID: 1672997772}
   m_Layer: 0
   m_Name: DoodleTitleScreen_Play_1
   m_TagString: DoodlePlay
@@ -3566,29 +3564,8 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 425, y: 31.25}
+  m_Size: {x: 428.70593, y: 44.76}
   m_EdgeRadius: 0
---- !u!114 &1672997772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1672997766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7653474c183eab44a4be037c51cfd97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DoodlePlayButtonScript
-  playButtonEndSprite: {fileID: 929318464233277730, guid: 3af260bb80724af43ae9d32f89db4c1a, type: 3}
-  directionAmplifier: 500
-  lifes: 3
-  lostAllLife: 0
---- !u!4 &1703766062 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 923041917173731351, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
-  m_PrefabInstance: {fileID: 1068405290}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1760283666
 GameObject:
   m_ObjectHideFlags: 0
@@ -4342,6 +4319,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1136487507}
   - {fileID: 335620135}
+  - {fileID: 1068405290}
   - {fileID: 365346317}
   - {fileID: 1904162019}
   - {fileID: 932137110}

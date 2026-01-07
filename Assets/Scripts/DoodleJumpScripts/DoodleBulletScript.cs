@@ -14,14 +14,16 @@ public class DoodleBulletScript : Enemy
         Bounce = 1 << 1,
         UI = 1 << 2
     }
+    [Header("All Doodle Variant attributes")]
     [SerializeField] float enemyDetectionRadius;
-    private DoodleCameraScript cameraScript;
-    private HealthScript enemyHealthScript;
-    private Transform target;
     [SerializeField] DoodleBulletVariants doodleVariant = DoodleBulletVariants.Chase;
     [SerializeField] float bounceForce;
+    DoodleCameraScript cameraScript;
+    HealthScript enemyHealthScript;
+    Transform target;
     RectTransform doodleUITr;
     Vector2 canvasResolution;
+    DoodlePaddleScript doodlePaddleScript;
     protected override void EnemyAIMovement()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, enemyDetectionRadius);
@@ -141,6 +143,7 @@ public class DoodleBulletScript : Enemy
         }
         doodleUITr.anchoredPosition = pos;
     }
+
     protected override void PlayEnemySound()
     {   
         //AudioManager
@@ -151,16 +154,25 @@ public class DoodleBulletScript : Enemy
         base.OnCollisionEnter2D(collision);
         if((doodleVariant & DoodleBulletVariants.Bounce ) != 0) 
         {
-           if(collision.transform.tag == GameManagerScript.Instance.tagSO.doodlePaddleTag)
+           if(collision.transform.tag == GameManagerScript.Instance.tagSO.doodlePlayTag && !collision.gameObject.GetComponent<DoodlePlayButtonScript>().lostAllLife) 
             {
-             Bounce(collision);
+                collision.gameObject.GetComponent<Animator>().SetBool("GotHit", true);
+                collision.gameObject.GetComponent<DoodlePlayButtonScript>().lifes--;
+                if(collision.gameObject.GetComponent<DoodlePlayButtonScript>().lifes == 0) 
+                {
+                    doodlePaddleScript.SetPaddle(false);
+                    Destroy(gameObject);
+                }
+              
             }
-           if(collision.transform.tag == GameManagerScript.Instance.tagSO.doodlePlayTag) 
+            if (collision.transform.tag == GameManagerScript.Instance.tagSO.doodlePaddleTag)
             {
-                collision.gameObject.GetComponent<Animator>().SetBool("IsHovering", true);
+                if(doodlePaddleScript == null)
+                {
+                    doodlePaddleScript = collision.gameObject.GetComponent<DoodlePaddleScript>();
+                }
+                Bounce(collision);
             }
-            Debug.Log(collision.gameObject.name);
-
         }
     }
 
@@ -187,6 +199,29 @@ public static class UIExtensions
         Right,
         Above, 
         Below
+    }
+    public static void UIOrientation(RectTransform UITransform, Vector2 canvasResolution, float offset = 30)
+    {
+        UIExtensions.VectorOrientation orientation = UITransform.CheckOrientation();
+        Vector2 pos = UITransform.anchoredPosition;
+        switch (orientation)
+        {
+            case UIExtensions.VectorOrientation.Below:
+                pos.y = (canvasResolution.y / 2f) - offset;
+                break;
+
+            case UIExtensions.VectorOrientation.Above:
+                pos.y = (-canvasResolution.y / 2f) + offset;
+                break;
+
+            case UIExtensions.VectorOrientation.Left:
+                pos.x = (canvasResolution.x / 2f )- offset;
+                break;
+            case UIExtensions.VectorOrientation.Right:
+                pos.x = (-canvasResolution.x / 2f) + offset;
+                break;
+        }
+        UITransform.anchoredPosition = pos;
     }
     public static bool IsRectCompletelyOffScreen(this RectTransform rectTransform)
     {
@@ -243,6 +278,7 @@ public static class UIExtensions
             else if (screenPoint.x >= Screen.width) 
             {
                 anyRight = true;
+                Debug.Log(rectTransform.gameObject.name + "was right");
             }
             else if(screenPoint.x <= 0)
             {
