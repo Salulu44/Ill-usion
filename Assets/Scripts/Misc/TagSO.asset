@@ -18,3 +18,5 @@ MonoBehaviour:
   doodlePlayerBulletTag: DoodlePlayerBullet
   dialogueTag: Dialogue
   dialogueUITag: DialogueUI
+  doodlePaddleTag: DoodlePaddle
+  doodlePlayTag: DoodlePlay

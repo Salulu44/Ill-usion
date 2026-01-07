@@ -9,4 +9,6 @@ public class TagSO : ScriptableObject
     public string doodlePlayerBulletTag;
     public string dialogueTag;
     public string dialogueUITag;
+    public string doodlePaddleTag;
+    public string doodlePlayTag;
 }

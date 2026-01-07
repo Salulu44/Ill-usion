@@ -9,6 +9,8 @@ TagManager:
   - DoodlePlayerBullet
   - Dialogue
   - DialogueUI
+  - DoodlePaddle
+  - DoodlePlay
   layers:
   - Default
   - TransparentFX

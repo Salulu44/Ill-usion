@@ -21,6 +21,7 @@ public class DoodleBulletScript : Enemy
     [SerializeField] DoodleBulletVariants doodleVariant = DoodleBulletVariants.Chase;
     [SerializeField] float bounceForce;
     RectTransform doodleUITr;
+    Vector2 canvasResolution;
     protected override void EnemyAIMovement()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, enemyDetectionRadius);
@@ -54,23 +55,32 @@ public class DoodleBulletScript : Enemy
         enemyHealthScript = GetComponent<HealthScript>();
         enemyHealthScript.OnDamaged += PlayEnemySound;
         enemyHealthScript.OnDeath += Die;
-        switch (doodleVariant)
+        DetermineVariant();
+        //variantFlags |=(byte) DoodleBulletVariants.Bounce | (byte) DoodleBulletVariants.UI;
+        //Debug.Log(( (byte)variantFlags & (byte)DoodleBulletVariants.Bounce) != 0);
+        //Debug.Log($"doodleVariant: {(int)doodleVariant}");
+        //Debug.Log("Number" + (byte)(doodleVariant & DoodleBulletVariants.Bounce) + " " + gameObject.name);
+        //if (( (byte)doodleVariant & (byte) DoodleBulletVariants.Bounce) != 0)
+        //{
+        //    Debug.Log("Is no bounce " + gameObject.name);
+        //}
+        //else 
+        //{
+        //    Debug.Log("Yeah Bounce");
+        //}
+    }
+     void DetermineVariant() 
+    {
+        if ((doodleVariant & DoodleBulletVariants.Chase) != 0)
         {
-            case DoodleBulletVariants.Chase:
-                break;
-            case DoodleBulletVariants.UI:
-                doodleUITr = GetComponent<RectTransform>();
-                break;
+          //If something is needed in Start
         }
-        Debug.Log($"doodleVariant: {(int)doodleVariant}");
-        Debug.Log("Number" + (int)(doodleVariant & DoodleBulletVariants.Bounce) + " " + gameObject.name);
         if ((doodleVariant & DoodleBulletVariants.Bounce) != 0)
         {
-            Debug.Log("Is no bounce " + gameObject.name);
-        }
-        else 
-        {
-            Debug.Log("Yeah Bounce");
+            doodleUITr = GetComponent<RectTransform>();
+            Debug.Log("RectTransform " + gameObject.name);
+            canvasResolution = doodleUITr.parent.GetComponent<RectTransform>().rect.size;
+            
         }
     }
     protected override void Update()
@@ -85,36 +95,51 @@ public class DoodleBulletScript : Enemy
         }
         if ((doodleVariant & DoodleBulletVariants.Bounce) != 0)
         {
-            Bounce();
-            Debug.Log("Hi");
+            UIOrientation();
         }
 
     }
-    void Bounce() 
+    void Bounce(Collision2D collider)
     {
-        //Play SFX
-        //  enemyRb.AddForce(Vector2.up * bounceForce, ForceMode2D.Impulse);
-        //  Debug.Log(GetComponent<RectTransform>().IsRectVerticallyOffScreen().DisplayName());
+        float paddleX = collider.transform.position.x;
+        float ballX = transform.position.x;
+        float halfWidth = collider.collider.bounds.size.x * 0.5f;
+
+        // -1 (linke Ecke) bis +1 (rechte Ecke)
+        float t = Mathf.Clamp((ballX - paddleX) / halfWidth, -1f, 1f);
+
+        // Basiswinkel in Grad relativ zur Senkrechten
+        float maxAngle = 60f;
+        float angleDeg = t * maxAngle;
+
+        // Richtung aus Winkel bauen (immer nach oben)
+        float angleRad = angleDeg * Mathf.Deg2Rad;
+        Vector2 dir = new Vector2(Mathf.Sin(angleRad), Mathf.Cos(angleRad)).normalized;
+
+        enemyRb.linearVelocity = dir * bounceForce;
+    }
+    void UIOrientation() 
+    {
         UIExtensions.VectorOrientation orientation = doodleUITr.CheckOrientation();
-        switch (orientation) 
+        Vector2 pos = doodleUITr.anchoredPosition;
+        switch (orientation)
         {
             case UIExtensions.VectorOrientation.Below:
-                Debug.Log("Is Below");
+                pos.y = canvasResolution.y / 2f -30;
                 break;
+
+            case UIExtensions.VectorOrientation.Above:
+                pos.y = -canvasResolution.y / 2f +30;
+                break;
+
             case UIExtensions.VectorOrientation.Left:
-                Debug.Log("Is Below");
+                pos.x = canvasResolution.x / 2f -30;
                 break;
             case UIExtensions.VectorOrientation.Right:
-                Debug.Log("Is Below");
-                break;
-            case UIExtensions.VectorOrientation.Above:
-                Debug.Log("Is Below");
-                break;
-            default:
-                Debug.Log("Is Inside");
+                pos.x = -canvasResolution.x / 2f +30;
                 break;
         }
-        
+        doodleUITr.anchoredPosition = pos;
     }
     protected override void PlayEnemySound()
     {   
@@ -126,24 +151,16 @@ public class DoodleBulletScript : Enemy
         base.OnCollisionEnter2D(collision);
         if((doodleVariant & DoodleBulletVariants.Bounce ) != 0) 
         {
-            Bounce();
+           if(collision.transform.tag == GameManagerScript.Instance.tagSO.doodlePaddleTag)
+            {
+             Bounce(collision);
+            }
+           if(collision.transform.tag == GameManagerScript.Instance.tagSO.doodlePlayTag) 
+            {
+                collision.gameObject.GetComponent<Animator>().SetBool("IsHovering", true);
+            }
+            Debug.Log(collision.gameObject.name);
 
-            float paddleX = collision.transform.position.x;
-            float ballX = transform.position.x;
-            float halfWidth = collision.collider.bounds.size.x * 0.5f;
-
-            // -1 (linke Ecke) bis +1 (rechte Ecke)
-            float t = Mathf.Clamp((ballX - paddleX) / halfWidth, -1f, 1f);
-
-            // Basiswinkel in Grad relativ zur Senkrechten
-            float maxAngle = 60f;
-            float angleDeg = t * maxAngle;
-
-            // Richtung aus Winkel bauen (immer nach oben)
-            float angleRad = angleDeg * Mathf.Deg2Rad;
-            Vector2 dir = new Vector2(Mathf.Sin(angleRad), Mathf.Cos(angleRad)).normalized;
-
-            enemyRb.linearVelocity = dir * bounceForce;
         }
     }
 
