@@ -161,8 +161,11 @@ public class DoodleBulletScript : Enemy
         {
            if(collision.transform.tag == GameManagerScript.Instance.tagSO.doodlePlayTag && !collision.gameObject.GetComponent<DoodlePlayButtonScript>().lostAllLife) 
             {
+                collision.gameObject.GetComponent<Rigidbody2D>().AddForce(enemyRb.linearVelocity, ForceMode2D.Impulse);
+                Bounce(collision);
                 collision.gameObject.GetComponent<Animator>().SetBool("GotHit", true);
                 collision.gameObject.GetComponent<DoodlePlayButtonScript>().lifes--;
+                collision.gameObject.GetComponent<DoodlePlayButtonScript>().SetDamageColor();
                 if(collision.gameObject.GetComponent<DoodlePlayButtonScript>().lifes == 0) 
                 {
                     doodlePaddleScript.SetPaddle(false);
@@ -208,22 +211,45 @@ public static class UIExtensions
     public static void UIOrientation(RectTransform UITransform, Vector2 canvasResolution, float offset = 50)
     {
         //If objects are in a empty Gameobject, for some reason the left border isnt -Resolution/2, its just 0
-        UIExtensions.VectorOrientation orientation = UITransform.CheckOrientation();
+        VectorOrientation orientation = UITransform.CheckOrientation();
         Vector2 pos = UITransform.anchoredPosition;
         switch (orientation)
         {
-            case UIExtensions.VectorOrientation.Below:
+            case VectorOrientation.Below:
                 pos.y = canvasResolution.y  - offset;
                 break;
 
-            case UIExtensions.VectorOrientation.Above:
+            case VectorOrientation.Above:
                 pos.y = 0  + offset;
                 break;
 
-            case UIExtensions.VectorOrientation.Left:
+            case VectorOrientation.Left:
                 pos.x = canvasResolution.x  - offset;
                 break;
-            case UIExtensions.VectorOrientation.Right:
+            case VectorOrientation.Right:
+                pos.x = 0 + offset;
+                break;
+        }
+        UITransform.anchoredPosition = pos;
+    }
+    public static void UIOrientation(RectTransform UITransform, Vector2 canvasResolution, out VectorOrientation orientation , float offset = 50) 
+    {
+        orientation = UITransform.CheckOrientation();
+        Vector2 pos = UITransform.anchoredPosition;
+        switch (orientation)
+        {
+            case VectorOrientation.Below:
+                pos.y = canvasResolution.y - offset;
+                break;
+
+            case VectorOrientation.Above:
+                pos.y = 0 + offset;
+                break;
+
+            case VectorOrientation.Left:
+                pos.x = canvasResolution.x - offset;
+                break;
+            case VectorOrientation.Right:
                 pos.x = 0 + offset;
                 break;
         }
@@ -284,7 +310,6 @@ public static class UIExtensions
             else if (screenPoint.x >= Screen.width) 
             {
                 anyRight = true;
-                Debug.Log(rectTransform.gameObject.name + "was right");
             }
             else if(screenPoint.x <= 0)
             {
@@ -295,6 +320,7 @@ public static class UIExtensions
                 anyInside = true;
             }
         }
+        Debug.Log("AnyInside " + anyInside);
         if (anyInside)
             return VectorOrientation.Inside;
 

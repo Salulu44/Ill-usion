@@ -8,28 +8,48 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
     [SerializeField] Sprite playButtonEndSprite;
     [SerializeField] float directionAmplifier;
     [SerializeField] GameObject minigameObject;
+    [SerializeField] Color damageColor;
+    [SerializeField] float damageColorTimer;
+    Color defaultColor;
+    float damageColorTimerTmp;
+    [HideInInspector] public bool lostAllLife;
+    bool setDamageColor;
     public int lifes;
     Image playButtonRenderer;
-    [HideInInspector] public bool lostAllLife;
     RectTransform doodlePlayRectTr;
     Vector2 canvasResolution;
     Animator doodlePlayAnim;
-    Vector3[] directions = {Vector2.down, Vector2.up, Vector2.left,Vector2.right, Vector2.zero};
-
+    Vector3[] directions = {Vector2.down, Vector2.up, Vector2.left,Vector2.right};
+    Rigidbody2D playButtonRb;
     void Start()
     {
         playButtonRenderer = GetComponent<Image>();
+        defaultColor = playButtonRenderer.color;
         doodlePlayRectTr = GetComponent<RectTransform>();
         canvasResolution = doodlePlayRectTr.root.GetComponent<RectTransform>().rect.size;
         Debug.Log("Resolution " + canvasResolution);
         doodlePlayAnim = GetComponent<Animator>();
+        playButtonRb = GetComponent<Rigidbody2D>();
+        damageColorTimerTmp = damageColorTimer;
     }
 
     // Update is called once per frame
     void Update()
     {
         LifeCheck();
-        UIExtensions.UIOrientation(doodlePlayRectTr, canvasResolution, 100);
+        HandleOrientation();
+        SetColorToDefault();
+    }
+    void HandleOrientation()
+    {
+        UIExtensions.VectorOrientation vectorOrientation;
+        UIExtensions.UIOrientation(doodlePlayRectTr, canvasResolution, out vectorOrientation, 100);
+        Debug.Log("Orientation " + vectorOrientation);
+        if(vectorOrientation != UIExtensions.VectorOrientation.Inside) 
+        {
+            Debug.Log("Slow down");
+            playButtonRb.linearVelocity = new Vector2(playButtonRb.linearVelocity.x * .5f, playButtonRb.linearVelocityY * .5f);
+        }
     }
     void LifeCheck()
     {
@@ -44,6 +64,27 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
             GetComponent<Image>().SetNativeSize();
             button.onClick.AddListener(StartDoodleGame);
             GetComponent<BoxCollider2D>().size = new Vector2(doodlePlayRectTr.rect.width, doodlePlayRectTr.rect.height);
+        }
+    }
+    public void SetDamageColor() 
+    {
+        if (!setDamageColor) 
+        {
+            playButtonRenderer.color = damageColor;
+            setDamageColor = true;
+        }
+    }
+    void SetColorToDefault()
+    {
+        if (setDamageColor) 
+        {
+            damageColorTimer -= Time.deltaTime;
+            if(damageColorTimer <= 0) 
+            {
+                damageColorTimer = damageColorTimerTmp;
+                playButtonRenderer.color = defaultColor;
+                setDamageColor = false;
+            }
         }
     }
     public void StartDoodleGame()

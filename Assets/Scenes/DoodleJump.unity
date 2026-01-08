@@ -3473,6 +3473,7 @@ GameObject:
   - component: {fileID: 1672997768}
   - component: {fileID: 1672997771}
   - component: {fileID: 1672997772}
+  - component: {fileID: 1672997773}
   m_Layer: 0
   m_Name: DoodleTitleScreen_Play_1
   m_TagString: DoodlePlay
@@ -3620,8 +3621,37 @@ MonoBehaviour:
   playButtonEndSprite: {fileID: 929318464233277730, guid: 3af260bb80724af43ae9d32f89db4c1a, type: 3}
   directionAmplifier: 500
   minigameObject: {fileID: 335620134}
-  lifes: 3
+  damageColor: {r: 0.82641506, g: 0.3227696, b: 0.3227696, a: 1}
+  damageColorTimer: 0.5
   lostAllLife: 0
+  lifes: 3
+--- !u!50 &1672997773
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672997766}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1760283666
 GameObject:
   m_ObjectHideFlags: 0
