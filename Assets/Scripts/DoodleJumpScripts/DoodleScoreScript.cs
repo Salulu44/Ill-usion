@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -32,11 +33,14 @@ public class DoodleScoreScript : MonoBehaviour
     {
         highscoreData = SaveSystem.LoadHighScore(GameManagerScript.Instance.minigameSO.doodleJumpData);
     }
-    void Start()
+    IEnumerator Start()
     {
         tryAgainText = tryAgain.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         scoreText = GetComponent<TextMeshProUGUI>();
-        player = GameObject.FindWithTag("Player").transform;
+        Debug.Log("Waiting");
+        yield return new WaitUntil(() => GameObject.FindWithTag(GameManagerScript.Instance.tagSO.playerTag) != null);
+        Debug.Log("FInshed");
+        player = GameObject.FindWithTag(GameManagerScript.Instance.tagSO.playerTag).transform;
         scoreWord = "Altitude : ";
         rectTransform = GetComponent<RectTransform>();
         originPosition = rectTransform.anchoredPosition;
@@ -80,17 +84,20 @@ public class DoodleScoreScript : MonoBehaviour
     }
     void SetCurrentScore() 
     {
-        if (DoodleSpawnerScript.instance.spawnVertically)
+        if (DoodleSpawnerScript.instance != null && player != null)
         {
-            CurrentScore = (int)(player.transform.position.y * 100);
-            winningHorizontally = false;
+            if (DoodleSpawnerScript.instance.spawnVertically)
+            {
+                CurrentScore = (int)(player.transform.position.y * 100);
+                winningHorizontally = false;
+            }
+            else
+            {
+                winningHorizontally = true;
+                CurrentScore = (int)(player.transform.position.x * 100);
+            }
+            scoreText.text = scoreWord + CurrentScore;
         }
-        else
-        {
-            winningHorizontally = true;
-            CurrentScore = (int)(player.transform.position.x * 100);
-        }
-        scoreText.text = scoreWord + CurrentScore;
     }
     public void StartEnemySpawn() 
     {

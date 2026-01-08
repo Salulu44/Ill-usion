@@ -79,10 +79,15 @@ public class DoodleBulletScript : Enemy
         }
         if ((doodleVariant & DoodleBulletVariants.Bounce) != 0)
         {
+
+            
+        }
+        if ((doodleVariant & DoodleBulletVariants.UI) != 0)
+        {
             doodleUITr = GetComponent<RectTransform>();
             Debug.Log("RectTransform " + gameObject.name);
-            canvasResolution = doodleUITr.parent.GetComponent<RectTransform>().rect.size;
-            
+            canvasResolution = doodleUITr.root.GetComponent<RectTransform>().rect.size;
+            Debug.Log("Canvas Resolution " + canvasResolution);
         }
     }
     protected override void Update()
@@ -122,26 +127,26 @@ public class DoodleBulletScript : Enemy
     }
     void UIOrientation() 
     {
-        UIExtensions.VectorOrientation orientation = doodleUITr.CheckOrientation();
-        Vector2 pos = doodleUITr.anchoredPosition;
-        switch (orientation)
-        {
-            case UIExtensions.VectorOrientation.Below:
-                pos.y = canvasResolution.y / 2f -30;
-                break;
+        UIExtensions.UIOrientation(doodleUITr,canvasResolution);
+        //Vector2 pos = doodleUITr.anchoredPosition;
+        //switch (orientation)
+        //{
+        //    case UIExtensions.VectorOrientation.Below:
+        //        pos.y = canvasResolution.y / 2f + 50;
+        //        break;
 
-            case UIExtensions.VectorOrientation.Above:
-                pos.y = -canvasResolution.y / 2f +30;
-                break;
+        //    case UIExtensions.VectorOrientation.Above:
+        //        pos.y = -canvasResolution.y / 2f + 50;
+        //        break;
 
-            case UIExtensions.VectorOrientation.Left:
-                pos.x = canvasResolution.x / 2f -30;
-                break;
-            case UIExtensions.VectorOrientation.Right:
-                pos.x = -canvasResolution.x / 2f +30;
-                break;
-        }
-        doodleUITr.anchoredPosition = pos;
+        //    case UIExtensions.VectorOrientation.Left:
+        //        pos.x = canvasResolution.x / 2f - 50;
+        //        break;
+        //    case UIExtensions.VectorOrientation.Right:
+        //        pos.x = -canvasResolution.x / 2f + 50;
+        //        break;
+        //}
+        //doodleUITr.anchoredPosition = pos;
     }
 
     protected override void PlayEnemySound()
@@ -200,25 +205,26 @@ public static class UIExtensions
         Above, 
         Below
     }
-    public static void UIOrientation(RectTransform UITransform, Vector2 canvasResolution, float offset = 30)
+    public static void UIOrientation(RectTransform UITransform, Vector2 canvasResolution, float offset = 50)
     {
+        //If objects are in a empty Gameobject, for some reason the left border isnt -Resolution/2, its just 0
         UIExtensions.VectorOrientation orientation = UITransform.CheckOrientation();
         Vector2 pos = UITransform.anchoredPosition;
         switch (orientation)
         {
             case UIExtensions.VectorOrientation.Below:
-                pos.y = (canvasResolution.y / 2f) - offset;
+                pos.y = canvasResolution.y  - offset;
                 break;
 
             case UIExtensions.VectorOrientation.Above:
-                pos.y = (-canvasResolution.y / 2f) + offset;
+                pos.y = 0  + offset;
                 break;
 
             case UIExtensions.VectorOrientation.Left:
-                pos.x = (canvasResolution.x / 2f )- offset;
+                pos.x = canvasResolution.x  - offset;
                 break;
             case UIExtensions.VectorOrientation.Right:
-                pos.x = (-canvasResolution.x / 2f) + offset;
+                pos.x = 0 + offset;
                 break;
         }
         UITransform.anchoredPosition = pos;

@@ -7,21 +7,22 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
 {
     [SerializeField] Sprite playButtonEndSprite;
     [SerializeField] float directionAmplifier;
+    [SerializeField] GameObject minigameObject;
     public int lifes;
     Image playButtonRenderer;
     [HideInInspector] public bool lostAllLife;
     RectTransform doodlePlayRectTr;
     Vector2 canvasResolution;
-    Animator doodlePAddleAnim;
+    Animator doodlePlayAnim;
     Vector3[] directions = {Vector2.down, Vector2.up, Vector2.left,Vector2.right, Vector2.zero};
 
     void Start()
     {
         playButtonRenderer = GetComponent<Image>();
         doodlePlayRectTr = GetComponent<RectTransform>();
-        canvasResolution = doodlePlayRectTr.parent.GetComponent<RectTransform>().rect.size;
+        canvasResolution = doodlePlayRectTr.root.GetComponent<RectTransform>().rect.size;
         Debug.Log("Resolution " + canvasResolution);
-        doodlePAddleAnim = GetComponent<Animator>();
+        doodlePlayAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -34,10 +35,10 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
     {
         if (lifes == 0 && !lostAllLife)
         {
-            doodlePAddleAnim.SetBool("GotHit", false);
+            doodlePlayAnim.SetBool("GotHit", false);
             playButtonRenderer.sprite = playButtonEndSprite;
             lostAllLife = true;
-            doodlePAddleAnim.enabled = false;
+            doodlePlayAnim.enabled = false;
             // I need to deactivate the animator to set the sprite properly
             Button button = gameObject.AddComponent<Button>();
             GetComponent<Image>().SetNativeSize();
@@ -48,11 +49,24 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
     public void StartDoodleGame()
     {
         Debug.Log("Start Game");
+        minigameObject.SetActive(true);
+        if (Camera.main.gameObject.TryGetComponent(out DoodleCameraScript doodleCameraScript))
+        {
+            doodleCameraScript.SetPlayerReference();
+            Debug.Log("Set Player reference");
+        }
+        else
+        {
+            Debug.Log("There is no " + typeof(DoodleCameraScript).ToString() + " attached to this gameobject");
+        }
+
+        gameObject.transform.parent.gameObject.SetActive(false);
     }
     public void MoveAway()
     {
         if (lostAllLife)
         {
+            //I need to maybe implement that the button always need to be inside the canvas, so that the players dont get softlocked
             Debug.Log($"Active: {gameObject.activeInHierarchy}, LostLife: {lostAllLife}, TimeScale: {Time.timeScale}, Tweening: {DOTween.IsTweening(transform)}");
 
             if (!lostAllLife || !gameObject.activeInHierarchy)

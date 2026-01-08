@@ -13,13 +13,36 @@ public class DoodleCameraScript : MonoBehaviour
     bool isShaking;
     private void OnEnable()
     {
+
+    }
+    private IEnumerator Start()
+    {
+        yield return new WaitUntil(() => GameObject.FindGameObjectsWithTag(GameManagerScript.Instance.tagSO.playerTag)!= null);
         GameObject[] allPlayerInstances = GameObject.FindGameObjectsWithTag(GameManagerScript.Instance.tagSO.playerTag);
-        foreach(GameObject playerInstance in allPlayerInstances) 
+        foreach (GameObject playerInstance in allPlayerInstances)
         {
-            if(playerInstance.TryGetComponent(out DoodlePlayerScript doodlePlayerScript)) 
+            if (playerInstance.TryGetComponent(out DoodlePlayerScript doodlePlayerScript))
             {
                 player = playerInstance.transform;
                 break;
+            }
+        }
+    }
+    public void SetPlayerReference()
+    {
+        GameObject[] allPlayerInstances = GameObject.FindGameObjectsWithTag(GameManagerScript.Instance.tagSO.playerTag);
+        Debug.Log("All player " + allPlayerInstances.Length);
+        foreach (GameObject playerInstance in allPlayerInstances)
+        {
+            if (playerInstance.TryGetComponent(out DoodlePlayerScript doodlePlayerScript))
+            {
+                player = playerInstance.transform;
+                Debug.Log("Set Player in Camera");
+                break;
+            }
+            else
+            {
+                Debug.Log("Found no DoodlePlayerScript");
             }
         }
     }
@@ -43,7 +66,11 @@ public class DoodleCameraScript : MonoBehaviour
 
         if (shouldPlayerInViweport) 
         {
-            StayInViewPort(player);
+            if(player != null)
+            {
+                StayInViewPort(player);
+            }
+
         }
         if (Input.GetKeyDown(KeyCode.Return)) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -101,7 +128,8 @@ public class DoodleCameraScript : MonoBehaviour
     }
     public void CameraMovement() 
     {
-        if (shouldPlayerInViweport)
+       
+        if (shouldPlayerInViweport && player != null)
         {
             if (player.transform.position.y >= transform.position.y && DoodleSpawnerScript.instance.spawnVertically)
             {
@@ -112,7 +140,7 @@ public class DoodleCameraScript : MonoBehaviour
                 transform.position = new Vector3(player.transform.position.x, transform.position.y, -10);
             }
         }
-        else
+        else if(!shouldPlayerInViweport && player != null)
         {
 
             transform.position = new Vector3(player.position.x, player.position.y, -10);
