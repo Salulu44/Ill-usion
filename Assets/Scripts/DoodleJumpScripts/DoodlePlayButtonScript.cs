@@ -10,6 +10,7 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
     [SerializeField] GameObject minigameObject;
     [SerializeField] Color damageColor;
     [SerializeField] float damageColorTimer;
+    [SerializeField] GameObject doodleUIBackground;
     Color defaultColor;
     float damageColorTimerTmp;
     [HideInInspector] public bool lostAllLife;
@@ -101,7 +102,8 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
             Debug.Log("There is no " + typeof(DoodleCameraScript).ToString() + " attached to this gameobject");
         }
 
-        gameObject.transform.parent.gameObject.SetActive(false);
+        doodleUIBackground.SetActive(false);
+        transform.parent.gameObject.SetActive(false);
     }
     public void MoveAway()
     {

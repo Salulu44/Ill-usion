@@ -19,6 +19,8 @@ public class DoodleSpawnerScript : MonoBehaviour
     [SerializeField] public Enemy[] enemies;
     [SerializeField,Range(0f,1f)] float spawnChangeChance;
     [SerializeField, Range(0f, 1f)] float exitGateKeeperChance;
+    [SerializeField] GameObject doodleQuitButton;
+    bool isQutting;
     public bool shouldSpawn = true;
     public bool spawnVertically = true;
     GameObject leftBorder;
@@ -31,7 +33,15 @@ public class DoodleSpawnerScript : MonoBehaviour
         }
         instance = this;
     }
-
+    void OpenQuitPanel() 
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isQutting = !isQutting;
+            doodleQuitButton.SetActive(isQutting);
+            doodleQuitButton.transform.parent.gameObject.SetActive(isQutting);
+        }
+    }
     private void Start()
     {
        if(Camera.main.TryGetComponent(out DoodleCameraScript doodleCameraScript))
@@ -63,6 +73,7 @@ public class DoodleSpawnerScript : MonoBehaviour
             leftBorder.transform.position = new Vector3(leftBorder.transform.position.x, player.transform.position.y, 0);
             rightBorder.transform.position = new Vector3(rightBorder.transform.position.x, player.transform.position.y, 0);
         }
+        OpenQuitPanel();
     }
     public void SpawnEnemiesEvent() 
     {
