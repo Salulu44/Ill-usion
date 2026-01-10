@@ -11,6 +11,7 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
     [SerializeField] Color damageColor;
     [SerializeField] float damageColorTimer;
     [SerializeField] GameObject doodleUIBackground;
+    [SerializeField] DialogueScript dialogueScript;
     Color defaultColor;
     float damageColorTimerTmp;
     [HideInInspector] public bool lostAllLife;
@@ -28,7 +29,6 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
         defaultColor = playButtonRenderer.color;
         doodlePlayRectTr = GetComponent<RectTransform>();
         canvasResolution = doodlePlayRectTr.root.GetComponent<RectTransform>().rect.size;
-        Debug.Log("Resolution " + canvasResolution);
         doodlePlayAnim = GetComponent<Animator>();
         playButtonRb = GetComponent<Rigidbody2D>();
         damageColorTimerTmp = damageColorTimer;
@@ -45,10 +45,8 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
     {
         UIExtensions.VectorOrientation vectorOrientation;
         UIExtensions.UIOrientation(doodlePlayRectTr, canvasResolution, out vectorOrientation, 100);
-        Debug.Log("Orientation " + vectorOrientation);
         if(vectorOrientation != UIExtensions.VectorOrientation.Inside) 
         {
-            Debug.Log("Slow down");
             playButtonRb.linearVelocity = new Vector2(playButtonRb.linearVelocity.x * .5f, playButtonRb.linearVelocityY * .5f);
         }
     }
@@ -73,6 +71,8 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
         {
             playButtonRenderer.color = damageColor;
             setDamageColor = true;
+            dialogueScript.enabled = true;
+            dialogueScript.StartDialogue();
         }
     }
     void SetColorToDefault()

@@ -85,9 +85,7 @@ public class DoodleBulletScript : Enemy
         if ((doodleVariant & DoodleBulletVariants.UI) != 0)
         {
             doodleUITr = GetComponent<RectTransform>();
-            Debug.Log("RectTransform " + gameObject.name);
             canvasResolution = doodleUITr.root.GetComponent<RectTransform>().rect.size;
-            Debug.Log("Canvas Resolution " + canvasResolution);
         }
     }
     protected override void Update()
@@ -320,7 +318,6 @@ public static class UIExtensions
                 anyInside = true;
             }
         }
-        Debug.Log("AnyInside " + anyInside);
         if (anyInside)
             return VectorOrientation.Inside;
 

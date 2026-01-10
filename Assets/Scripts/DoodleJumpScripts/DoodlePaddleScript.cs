@@ -35,7 +35,6 @@ public class DoodlePaddleScript : MonoBehaviour, IPointerEnterHandler
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject.name);
     }
     public void SetPaddle(bool on = true)
     {

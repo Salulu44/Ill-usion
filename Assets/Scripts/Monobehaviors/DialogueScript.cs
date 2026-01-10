@@ -7,9 +7,18 @@ using TMPro;
 [RequireComponent(typeof(DialogueUI))]
 public class DialogueScript : MonoBehaviour
 {
-    [SerializeField] Dialogue dialogueAsset;
+    [SerializeField] Dialogue[] dialogueAsset;
     [SerializeField] GameObject dialogueObject;
     [SerializeField] int severityLine;
+    [SerializeField] bool onlyText;
+    [SerializeField] bool shouldSkip;
+    [SerializeField] bool changeUIPosition;
+    [SerializeField] bool playOnlyOneLine;
+    [SerializeField] Vector3 textPosition;
+    [SerializeField] TextAlignmentOptions textAlignment;
+    [SerializeField] float typeSpeed = 0.05f;
+    int dialogueAssetIndex;
+    bool skipDialogue;
     DialogueUI dialogueUI;
     Button[] choiceButtons = new Button[3];
     public event Action OnStartDialogue;
@@ -20,12 +29,11 @@ public class DialogueScript : MonoBehaviour
     StringBuilder currentText = new StringBuilder();
     bool isTyping = false;
     bool isDialogueFinished = true;
-    float typeSpeed = 0.05f;
     float typeTimer = 0f;
     int NPCSeverityScore = 0;
     void Start()
     {
-        currentDialogueID = dialogueAsset.dialogueLines[0].dialogueID;
+        currentDialogueID = dialogueAsset[dialogueAssetIndex].dialogueLines[0].dialogueID;
         dialogueUI = GetComponent<DialogueUI>();
         if (dialogueUI.dialogueSprite == null)
         {
@@ -58,14 +66,18 @@ public class DialogueScript : MonoBehaviour
     void BuildDialogueDictionary()
     {
         dialogueDict = new Dictionary<string, DialogueLine>();
-        foreach (DialogueLine line in dialogueAsset.dialogueLines)
+        int index = 0;
+        foreach (Dialogue dialogue in dialogueAsset) 
         {
-            if (dialogueDict.ContainsKey(line.dialogueID))
-                Debug.LogWarning($"Duplicate dialogueID: {line.dialogueID}");
-            else
-                dialogueDict.Add(line.dialogueID, line);
+            foreach (DialogueLine line in dialogue.dialogueLines)
+            {
+                if (dialogueDict.ContainsKey(line.dialogueID))
+                    Debug.LogWarning($"Duplicate dialogueID: {line.dialogueID}");
+                else
+                    dialogueDict.Add(line.dialogueID, line);
+            }
         }
-        dialogueDict.Add(dialogueAsset.severeLine.dialogueID, dialogueAsset.severeLine);
+        dialogueDict.Add(dialogueAsset[dialogueAssetIndex].severeLine.dialogueID, dialogueAsset[dialogueAssetIndex].severeLine);
     }
     private void SetButtons() 
     {
@@ -81,6 +93,24 @@ public class DialogueScript : MonoBehaviour
     {
         ShowDialogueLine(currentDialogueID);
         dialogueObject.SetActive(true);
+        Transform textTr = null;
+        if (onlyText)
+        {
+            foreach (Transform child in dialogueObject.transform)
+            {
+                if (child.gameObject != dialogueUI.textbox.gameObject)
+                {
+                    Debug.Log("child " + child.gameObject.name);
+                    child.gameObject.SetActive(false);
+                }
+                textTr = child;
+            }
+        }
+        if (changeUIPosition) 
+        {
+            textTr.localPosition = textPosition;
+            textTr.gameObject.GetComponent<TextMeshProUGUI>().alignment = textAlignment;
+        }
         OnStartDialogue?.Invoke();
         isDialogueFinished = false;
     }
@@ -102,6 +132,10 @@ public class DialogueScript : MonoBehaviour
         else
             HideChoices();
     }
+    public void PlayOneDialogueLine() 
+    {
+
+    }
     void Update()
     {
         DialogueCheck();
@@ -109,16 +143,14 @@ public class DialogueScript : MonoBehaviour
     void DialogueCheck() 
     {
         dialogueDict.TryGetValue(currentDialogueID, out DialogueLine line);
-        print(line.nextDialogueID);
-        if (Input.GetKeyDown(KeyCode.F) && !isDialogueFinished && !isTyping && line.choices.Length == 0)
+        if ((Input.GetKeyDown(KeyCode.F) && !isDialogueFinished && !isTyping && line.choices.Length == 0) || skipDialogue)
         {
             currentDialogueID = line.nextDialogueID;
             ShowDialogueLine(currentDialogueID);
         }
-        if (Input.GetKeyDown(KeyCode.F) && line.nextDialogueID.ToUpper() == "END")
+        if (Input.GetKeyDown(KeyCode.F) && line.nextDialogueID.ToUpper() == "END" || line.nextDialogueID.ToUpper() == "END" && skipDialogue)
         {
             EndDialogue();
-            OnEndDialogue?.Invoke();
         }
         if (isTyping)
             TypewriterTick();
@@ -127,6 +159,7 @@ public class DialogueScript : MonoBehaviour
     {
         if (!dialogueDict.TryGetValue(currentDialogueID, out DialogueLine line))
             return;
+        skipDialogue = false;
         string fullText = line.textContent;
         typeTimer -= Time.deltaTime;
         if (typeTimer <= 0)
@@ -138,10 +171,25 @@ public class DialogueScript : MonoBehaviour
                 if (line.audioClip != null)
                     AudioManagerScript.Instance.PlayDialogue(line.audioClip, line.AudioVolume, 1);
                 typeTimer = typeSpeed;
+                
             }
             else
             {
                 isTyping = false;
+                if (shouldSkip) 
+                {
+                    skipDialogue = true;
+                }
+                if (playOnlyOneLine) 
+                {
+                    if(line.nextDialogueID == "END") 
+                    {
+                        EndDialogue();
+                        return;
+                    }
+                    dialogueObject.SetActive(false);
+                    enabled = false;
+                }
             }
         }
     }
@@ -171,8 +219,8 @@ public class DialogueScript : MonoBehaviour
         NPCSeverityScore += choice.severity;
         if (NPCSeverityScore > severityLine)
         {
-            currentDialogueID = dialogueAsset.severeLine.dialogueID;
-            ShowDialogueLine(dialogueAsset.severeLine.dialogueID);
+            currentDialogueID = dialogueAsset[dialogueAssetIndex].severeLine.dialogueID;
+            ShowDialogueLine(dialogueAsset[dialogueAssetIndex].severeLine.dialogueID);
             HideChoices();
             return;
         }
@@ -181,14 +229,33 @@ public class DialogueScript : MonoBehaviour
     }
     void EndDialogue()
     {
-        dialogueObject.SetActive(false);
+        if (onlyText) 
+        {
+            foreach(Transform child in dialogueObject.transform) 
+            {
+                child.gameObject.SetActive(true);
+            }
+        }
+        dialogueAssetIndex++;
+        if(dialogueAssetIndex >= dialogueAsset.Length) 
+        {
+            dialogueAssetIndex = 0;
+        }
         NPCSeverityScore = 0;
         isTyping = false;
         isDialogueFinished = true;
-        currentDialogueID = dialogueAsset.dialogueLines[0].dialogueID;
+        currentDialogueID = dialogueAsset[dialogueAssetIndex].dialogueLines[0].dialogueID;
+        skipDialogue = false;
+        dialogueObject.SetActive(false);
+        OnEndDialogue?.Invoke();
     }
     void SetDialogueReferences(DialogueLine line)
     {
+        if(dialogueUI.dialogueSprite.sprite == null || dialogueUI.nameText == null) 
+        {
+            Debug.Log("I have not assigned the references, maybe it is a OnlyText-dialogue, check it");
+            return;
+        }
         dialogueUI.dialogueSprite.sprite = line.sprite;
         dialogueUI.nameText.text = line.speaker;
     }
