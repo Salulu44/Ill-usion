@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,6 +21,7 @@ public class DoodleSpawnerScript : MonoBehaviour
     [SerializeField,Range(0f,1f)] float spawnChangeChance;
     [SerializeField, Range(0f, 1f)] float exitGateKeeperChance;
     [SerializeField] GameObject doodleQuitButton;
+    [SerializeField] DialogueScript quitDialogueScript;
     bool isQutting;
     public bool shouldSpawn = true;
     public bool spawnVertically = true;
@@ -37,7 +39,18 @@ public class DoodleSpawnerScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Time.timeScale = isQutting ? 1f: 0f;
             isQutting = !isQutting;
+            if (isQutting)
+            {
+                quitDialogueScript.enabled = true;
+                quitDialogueScript.StartDialogue();
+            }
+            else 
+            {
+                quitDialogueScript.CloseCanvas();
+                quitDialogueScript.enabled = false;
+            }
             doodleQuitButton.SetActive(isQutting);
             doodleQuitButton.transform.parent.gameObject.SetActive(isQutting);
         }
@@ -89,7 +102,7 @@ public class DoodleSpawnerScript : MonoBehaviour
             Destroy(rightBorder, 3);
         }
       Vector3 topScreenPosition = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height + 200, 0));
-      Enemy enemy =  Instantiate(enemies[Random.Range(0, enemies.Length)],new Vector3(topScreenPosition.x,topScreenPosition.y,0),Quaternion.identity);
+      Enemy enemy =  Instantiate(enemies[UnityEngine.Random.Range(0, enemies.Length)],new Vector3(topScreenPosition.x,topScreenPosition.y,0),Quaternion.identity);
       enemy.transform.SetParent(platformParent.transform);
     }
     public void SpawnHorizontally(Vector3 spawnStart) 
@@ -98,25 +111,25 @@ public class DoodleSpawnerScript : MonoBehaviour
         Vector2[] moveDirections = { Vector2.right, Vector2.left, Vector2.down,Vector2.up};
         for (int i = 0; i < platformAmount; i++)
         {
-            spawnPosition.x += Random.Range(1, 5f);
+            spawnPosition.x += UnityEngine.Random.Range(1, 5f);
             if (Mathf.Abs(spawnPosition.x - previousValueX) < 3f)
             {
                 i--;
                 continue;
             }
-            spawnPosition.y = Random.Range(-3, 3f);
+            spawnPosition.y = UnityEngine.Random.Range(-3, 3f);
             GameObject platform = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
             platform.GetComponent<DoodlePlatformScript>().SetRandomPlatformState();
-            platform.GetComponent<DoodlePlatformScript>().SetMoveDirection(moveDirections[Random.Range(0, moveDirections.Length)]);
+            platform.GetComponent<DoodlePlatformScript>().SetMoveDirection(moveDirections[UnityEngine.Random.Range(0, moveDirections.Length)]);
             previousValueX = spawnPosition.x;
             highestPoint = platform.transform.position;
             platform.transform.SetParent(platformParent.transform);
-            int random = Random.Range(0, 26);
+            int random = UnityEngine.Random.Range(0, 26);
             if (random == 25)
             {
                 while (Mathf.Abs(spawnPosition.x - previousValueX) < 3f)
                 {
-                    spawnPosition.x += Random.Range(1, 5f);
+                    spawnPosition.x += UnityEngine.Random.Range(1, 5f);
                 }
                 Transform rocket = Instantiate(rocketPrefab, spawnPosition, Quaternion.identity);
                 rocket.SetParent(platformParent.transform);
@@ -126,9 +139,9 @@ public class DoodleSpawnerScript : MonoBehaviour
             {  
                 while (Mathf.Abs(spawnPosition.x - previousValueX) < 3f)
                 {
-                    spawnPosition.x += Random.Range(1, 5f);
+                    spawnPosition.x +=  UnityEngine.Random.Range(1, 5f);
                 }
-                random = Random.Range(0, enemies.Length);
+                random = UnityEngine.Random.Range(0, enemies.Length);
                 Transform enemy = Instantiate(enemies[random], spawnPosition, Quaternion.identity).transform;
                 enemy.SetParent(platformParent.transform);
             }
@@ -140,25 +153,25 @@ public class DoodleSpawnerScript : MonoBehaviour
         Vector2[] moveDirections = { Vector2.left, Vector2.right,Vector2.down,Vector2.up};
         for (int i = 0; i < platformAmount; i++)
         {
-            spawnPosition.x = Random.Range(-5, 5f);
+            spawnPosition.x = UnityEngine.Random.Range(-5, 5f);
             if (Mathf.Abs(spawnPosition.x - previousValueX) < 3f)
             {
                 i--;
                 continue;
             }
-            spawnPosition.y += Random.Range(2, 3f);
+            spawnPosition.y += UnityEngine.Random.Range(2, 3f);
             GameObject platform = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
             platform.GetComponent<DoodlePlatformScript>().SetRandomPlatformState();
-            platform.GetComponent<DoodlePlatformScript>().SetMoveDirection(moveDirections[Random.Range(0, moveDirections.Length)]);
+            platform.GetComponent<DoodlePlatformScript>().SetMoveDirection(moveDirections[UnityEngine.Random.Range(0, moveDirections.Length)]);
             previousValueX = spawnPosition.x;
             highestPoint = platform.transform.position;
             platform.transform.SetParent(platformParent.transform);
-            int random = Random.Range(0, 26);
+            int random = UnityEngine.Random.Range(0, 26);
             if (random == 25)
             {
                 while(Mathf.Abs(spawnPosition.x - previousValueX) < 3f) 
                 {
-                    spawnPosition.x = Random.Range(-5, 5f);
+                    spawnPosition.x = UnityEngine.Random.Range(-5, 5f);
                 }
                 Transform rocket = Instantiate(rocketPrefab, spawnPosition, Quaternion.identity);
                 rocket.SetParent(platformParent.transform);
@@ -167,9 +180,9 @@ public class DoodleSpawnerScript : MonoBehaviour
             {
                 while (Mathf.Abs(spawnPosition.x - previousValueX) < 3f)
                 {
-                    spawnPosition.x = Random.Range(-5, 5f);
+                    spawnPosition.x = UnityEngine.Random.Range(-5, 5f);
                 }
-                random = Random.Range(0, enemies.Length);
+                random = UnityEngine.Random.Range(0, enemies.Length);
                 Transform enemy = Instantiate(enemies[random], spawnPosition, Quaternion.identity).transform;
                 enemy.SetParent(platformParent.transform);
             }

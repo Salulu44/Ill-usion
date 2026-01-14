@@ -26,16 +26,6 @@ public class DoodleBulletScript : Enemy
     DoodlePaddleScript doodlePaddleScript;
     protected override void EnemyAIMovement()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, enemyDetectionRadius);
-        foreach (Collider2D collider in colliders) 
-        {
-            if (collider.transform.tag == GameManagerScript.Instance.tagSO.playerTag)
-            {
-                target = collider.transform;
-                break;
-            }
-            else target = null;
-        }
         if(target == null) 
         {
             float forceX = Mathf.Sin(Time.time) * enemySpeed;
@@ -88,21 +78,41 @@ public class DoodleBulletScript : Enemy
             canvasResolution = doodleUITr.root.GetComponent<RectTransform>().rect.size;
         }
     }
+    private void FixedUpdate()
+    {
+        if ((doodleVariant & DoodleBulletVariants.Chase) != 0)
+        {
+            EnemyAIMovement();
+        }
+    }
     protected override void Update()
     {
         if((doodleVariant & DoodleBulletVariants.Chase) != 0) 
         {
-            EnemyAIMovement();
+           DetectPlayer();
         }
         else 
         {
-            Debug.Log("Ist null" + (doodleVariant & DoodleBulletVariants.Chase) + " " + gameObject.name);
+          //  Debug.Log("Ist null" + (doodleVariant & DoodleBulletVariants.Chase) + " " + gameObject.name);
         }
         if ((doodleVariant & DoodleBulletVariants.Bounce) != 0)
         {
             UIOrientation();
         }
 
+    }
+    void DetectPlayer() 
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, enemyDetectionRadius);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.transform.tag == GameManagerScript.Instance.tagSO.playerTag)
+            {
+                target = collider.transform;
+                break;
+            }
+            else target = null;
+        }
     }
     void Bounce(Collision2D collider)
     {
@@ -162,8 +172,15 @@ public class DoodleBulletScript : Enemy
                 collision.gameObject.GetComponent<Rigidbody2D>().AddForce(enemyRb.linearVelocity, ForceMode2D.Impulse);
                 Bounce(collision);
                 collision.gameObject.GetComponent<Animator>().SetBool("GotHit", true);
-                collision.gameObject.GetComponent<DoodlePlayButtonScript>().lifes--;
-                collision.gameObject.GetComponent<DoodlePlayButtonScript>().SetDamageColor();
+                DoodlePlayButtonScript doodlePlayButtonScript = collision.gameObject.GetComponent<DoodlePlayButtonScript>();
+                if (!doodlePlayButtonScript.dialogueScript.IsDialogueFinished)
+                {
+                   // doodlePlayButtonScript.dialogueScript.shouldSkipWhilePressing = true;
+                    doodlePlayButtonScript.dialogueScript.SetNextLine();
+                }
+                doodlePlayButtonScript.lifes--;
+                doodlePlayButtonScript.SetDamageColor();
+
                 if(collision.gameObject.GetComponent<DoodlePlayButtonScript>().lifes == 0) 
                 {
                     doodlePaddleScript.SetPaddle(false);

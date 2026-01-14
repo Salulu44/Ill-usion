@@ -38,6 +38,11 @@ public class DoodlePlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0f) return;
+        else
+        {
+            Debug.Log("Time is not zero");
+        }
         DoubleJump();
         Movement();
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
@@ -85,7 +90,7 @@ public class DoodlePlayerScript : MonoBehaviour
         horizontalInputX = Input.GetAxis("Horizontal");
         verticalInputY = Input.GetAxis("Vertical");
         Vector2 velocity = playerRb.linearVelocity;
-        velocity += new Vector2(horizontalInputX, -Mathf.Abs(verticalInputY)) * movementSpeed * Time.unscaledDeltaTime;
+        velocity += new Vector2(horizontalInputX, -Mathf.Abs(verticalInputY)) * movementSpeed * Time.deltaTime;
         if (playerRb.bodyType == RigidbodyType2D.Dynamic)
         {
             velocity.x = Mathf.Clamp(velocity.x, -10, 10);

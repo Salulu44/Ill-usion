@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class DoodleQuitScript : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] Sprite[] quitSprites;
+    [SerializeField] DialogueScript dialogueScript;
     Image quitRenderer;
     int spriteIndex;
     [SerializeField] GameObject lifeBar;

@@ -36,7 +36,7 @@ public class GameManagerScript : MonoBehaviour
     private void Update()
     {
 
-        Time.timeScale = timeScale;
+      //  Time.timeScale = timeScale;
 
         //Debug.Log($"unscaledDeltaTime: {Time.unscaledDeltaTime:F3}, deltaTime: {Time.deltaTime:F3}");
     }

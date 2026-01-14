@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,7 +12,7 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
     [SerializeField] Color damageColor;
     [SerializeField] float damageColorTimer;
     [SerializeField] GameObject doodleUIBackground;
-    [SerializeField] DialogueScript dialogueScript;
+    [SerializeField] public DialogueScript dialogueScript;
     Color defaultColor;
     float damageColorTimerTmp;
     [HideInInspector] public bool lostAllLife;
@@ -73,6 +74,7 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
             setDamageColor = true;
             dialogueScript.enabled = true;
             dialogueScript.StartDialogue();
+            GetComponent<Collider2D>().enabled = false;
         }
     }
     void SetColorToDefault()
@@ -82,6 +84,7 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
             damageColorTimer -= Time.deltaTime;
             if(damageColorTimer <= 0) 
             {
+                GetComponent<Collider2D>().enabled = true;
                 damageColorTimer = damageColorTimerTmp;
                 playButtonRenderer.color = defaultColor;
                 setDamageColor = false;
@@ -123,7 +126,7 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
                 Debug.Log("Tween läuft schon");
                 return;
             }
-            Vector2 currentDirection = new Vector2(directions[Random.Range(0, directions.Length)].x * directionAmplifier, directions[Random.Range(0, directions.Length)].y * directionAmplifier);
+            Vector2 currentDirection = new Vector2(directions[UnityEngine.Random.Range(0, directions.Length)].x * directionAmplifier, directions[UnityEngine.Random.Range(0, directions.Length)].y * directionAmplifier);
             Vector2 targetPosition = transform.position + (Vector3) currentDirection;
             transform.DOMove(targetPosition, .2f);
             Debug.Log("Hiiiii");

@@ -1865,7 +1865,7 @@ MonoBehaviour:
   dialogueObject: {fileID: 0}
   severityLine: 0
   onlyText: 0
-  shouldSkip: 0
+  shouldSkipWithoutPressing: 0
   changeUIPosition: 0
   playOnlyOneLine: 0
   textPosition: {x: 0, y: 0, z: 0}
@@ -2868,7 +2868,7 @@ MonoBehaviour:
   dialogueObject: {fileID: 1068405292}
   severityLine: 0
   onlyText: 1
-  shouldSkip: 1
+  shouldSkipWithoutPressing: 1
   changeUIPosition: 1
   playOnlyOneLine: 1
   textPosition: {x: 0, y: 0, z: 0}
@@ -4067,6 +4067,137 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1795546356}
   m_CullTransparentMesh: 1
+--- !u!1 &1851228489
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1851228492}
+  - component: {fileID: 1851228491}
+  - component: {fileID: 1851228490}
+  m_Layer: 0
+  m_Name: QuitDialogue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1851228490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851228489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 635180800c2fc794487c3f6d16839a6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueScript
+  dialogueAsset:
+  - dialogueLines:
+    - dialogueID: Start
+      nextDialogueID: Second
+      speaker: 
+      textContent: WHY QUIT?
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      audioVolume: 0
+      hasSpecialEffect: 0
+      choices: []
+    - dialogueID: Second
+      nextDialogueID: 
+      speaker: 
+      textContent: DONT YOU HAVE FUN?
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      audioVolume: 0
+      hasSpecialEffect: 0
+      choices:
+      - choiceText: I dont know...
+        severity: 0
+        nextDialogueID: dontKnow
+      - choiceText: No i do but...
+        severity: 0
+        nextDialogueID: 
+      - choiceText: I DONT!
+        severity: 0
+        nextDialogueID: 
+    - dialogueID: dontKnow
+      nextDialogueID: 
+      speaker: 
+      textContent: HOW COME?
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      audioVolume: 0
+      hasSpecialEffect: 0
+      choices:
+      - choiceText: I am bored
+        severity: 0
+        nextDialogueID: bored
+    - dialogueID: bored
+      nextDialogueID: END
+      speaker: 
+      textContent: YOU CANT BE BORED
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      audioVolume: 0
+      hasSpecialEffect: 0
+      choices: []
+    SFXs: []
+    severeLine:
+      dialogueID: 
+      nextDialogueID: 
+      speaker: 
+      textContent: 
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      audioVolume: 0
+      hasSpecialEffect: 0
+      choices: []
+  dialogueObject: {fileID: 1068405292}
+  severityLine: 0
+  onlyText: 1
+  shouldSkipWithoutPressing: 0
+  changeUIPosition: 1
+  playOnlyOneLine: 0
+  textPosition: {x: 0, y: 0, z: 0}
+  textAlignment: 1026
+  typeSpeed: 0.4
+--- !u!114 &1851228491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851228489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 057d5f301a9bd394f9ee72edcef8260f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueUI
+  dialoguePanel: {fileID: 0}
+  nameText: {fileID: 0}
+  textbox: {fileID: 1068405291}
+  dialogueSprite: {fileID: 0}
+--- !u!4 &1851228492
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851228489}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1372.9386, y: 836.4906, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1904162017
 GameObject:
   m_ObjectHideFlags: 0
@@ -4228,6 +4359,7 @@ MonoBehaviour:
   spawnChangeChance: 0
   exitGateKeeperChance: 1
   doodleQuitButton: {fileID: 1982727016}
+  quitDialogueScript: {fileID: 1851228490}
   shouldSpawn: 1
   spawnVertically: 1
 --- !u!4 &1922833998
@@ -4494,6 +4626,7 @@ MonoBehaviour:
   - {fileID: -4700537772607076239, guid: 17ce28b9c6e58dd418e0ee9259dbd966, type: 3}
   - {fileID: -9030531314992985337, guid: 17ce28b9c6e58dd418e0ee9259dbd966, type: 3}
   - {fileID: -7050553694437614713, guid: 17ce28b9c6e58dd418e0ee9259dbd966, type: 3}
+  dialogueScript: {fileID: 0}
   lifeBar: {fileID: 1598386846}
 --- !u!61 &1982727021
 BoxCollider2D:
@@ -4687,3 +4820,4 @@ SceneRoots:
   - {fileID: 335620135}
   - {fileID: 365346317}
   - {fileID: 1206131051}
+  - {fileID: 1851228492}

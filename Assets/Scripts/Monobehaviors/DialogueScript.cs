@@ -11,7 +11,7 @@ public class DialogueScript : MonoBehaviour
     [SerializeField] GameObject dialogueObject;
     [SerializeField] int severityLine;
     [SerializeField] bool onlyText;
-    [SerializeField] bool shouldSkip;
+    [SerializeField] bool shouldSkipWithoutPressing;
     [SerializeField] bool changeUIPosition;
     [SerializeField] bool playOnlyOneLine;
     [SerializeField] Vector3 textPosition;
@@ -28,7 +28,8 @@ public class DialogueScript : MonoBehaviour
     string currentDialogueID;
     StringBuilder currentText = new StringBuilder();
     bool isTyping = false;
-    bool isDialogueFinished = true;
+    private bool isDialogueFinished = true;
+    public bool IsDialogueFinished { get => isDialogueFinished; private set => isDialogueFinished = value; }
     float typeTimer = 0f;
     int NPCSeverityScore = 0;
     void Start()
@@ -66,7 +67,6 @@ public class DialogueScript : MonoBehaviour
     void BuildDialogueDictionary()
     {
         dialogueDict = new Dictionary<string, DialogueLine>();
-        int index = 0;
         foreach (Dialogue dialogue in dialogueAsset) 
         {
             foreach (DialogueLine line in dialogue.dialogueLines)
@@ -89,6 +89,11 @@ public class DialogueScript : MonoBehaviour
             }
         }
     }
+    public void CloseCanvas() 
+    {
+       dialogueObject.SetActive(false);
+       typeTimer = typeSpeed;
+    }
     public void StartDialogue() 
     {
         ShowDialogueLine(currentDialogueID);
@@ -100,7 +105,6 @@ public class DialogueScript : MonoBehaviour
             {
                 if (child.gameObject != dialogueUI.textbox.gameObject)
                 {
-                    Debug.Log("child " + child.gameObject.name);
                     child.gameObject.SetActive(false);
                 }
                 textTr = child;
@@ -114,14 +118,28 @@ public class DialogueScript : MonoBehaviour
         OnStartDialogue?.Invoke();
         isDialogueFinished = false;
     }
+    public void SetNextLine()
+    {
+        if(dialogueDict.TryGetValue(currentDialogueID,out DialogueLine dialogueLine))
+        {
+            Debug.Log("NEXT LINE");
+            currentDialogueID = dialogueLine.nextDialogueID;
+            currentText.Clear();
+            if (currentDialogueID.ToUpper() == "END") 
+            {
+                EndDialogue();
+            }
+        }
+    }
     void ShowDialogueLine(string dialogueID)
     {
         if (!dialogueDict.TryGetValue(dialogueID, out DialogueLine line))
         {
-            //Debug.LogWarning($"no Dialogueline with ID '{dialogueID}' found.");
+            Debug.LogWarning($"no Dialogueline with ID '{dialogueID}' found.");
             //EndDialogue();
             return;
         }
+        Debug.Log("Test");
         dialogueUI.textbox.text = "";
         currentText.Clear();
         SetDialogueReferences(line);
@@ -143,13 +161,16 @@ public class DialogueScript : MonoBehaviour
     void DialogueCheck() 
     {
         dialogueDict.TryGetValue(currentDialogueID, out DialogueLine line);
-        if ((Input.GetKeyDown(KeyCode.F) && !isDialogueFinished && !isTyping && line.choices.Length == 0) || skipDialogue)
+        if (((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Mouse0) )&& !isDialogueFinished && !isTyping && line.choices.Length == 0) || skipDialogue)
         {
+            Debug.Log("SkipDialogue");
             currentDialogueID = line.nextDialogueID;
             ShowDialogueLine(currentDialogueID);
         }
-        if (Input.GetKeyDown(KeyCode.F) && line.nextDialogueID.ToUpper() == "END" || line.nextDialogueID.ToUpper() == "END" && skipDialogue)
+        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Mouse0)) && line.nextDialogueID.ToUpper() == "END" || line.nextDialogueID.ToUpper() == "END" && skipDialogue)
         {
+            Debug.Log("End Dialogue " + line.dialogueID);
+
             EndDialogue();
         }
         if (isTyping)
@@ -161,22 +182,21 @@ public class DialogueScript : MonoBehaviour
             return;
         skipDialogue = false;
         string fullText = line.textContent;
-        typeTimer -= Time.deltaTime;
+        typeTimer -= Time.unscaledDeltaTime;
         if (typeTimer <= 0)
         {
+            typeTimer = typeSpeed;
             if (currentText.Length < fullText.Length)
             {
                 currentText.Append(fullText[currentText.Length]);
                 dialogueUI.textbox.text = currentText.ToString();
                 if (line.audioClip != null)
                     AudioManagerScript.Instance.PlayDialogue(line.audioClip, line.AudioVolume, 1);
-                typeTimer = typeSpeed;
-                
             }
             else
             {
                 isTyping = false;
-                if (shouldSkip) 
+                if (shouldSkipWithoutPressing) 
                 {
                     skipDialogue = true;
                 }
@@ -184,20 +204,23 @@ public class DialogueScript : MonoBehaviour
                 {
                     if(line.nextDialogueID == "END") 
                     {
+                        Debug.Log("ENDDDD");
                         EndDialogue();
                         return;
                     }
+                    isDialogueFinished = true;
                     dialogueObject.SetActive(false);
                     enabled = false;
                 }
             }
+
         }
     }
     void ShowChoices(DialogueChoice[] choices)
     {
         GameManagerScript.Instance.decisionButtons.SetActive(true);
         GameManagerScript.Instance.decisionTimer.SetActive(true);
-        for (int i = 0; i < choiceButtons.Length; i++)
+        for (int i = 0; i < choices.Length; i++)
         {
             int index = i;
             choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = choices[i].choiceText;
