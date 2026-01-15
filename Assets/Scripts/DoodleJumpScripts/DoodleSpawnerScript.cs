@@ -21,7 +21,7 @@ public class DoodleSpawnerScript : MonoBehaviour
     [SerializeField,Range(0f,1f)] float spawnChangeChance;
     [SerializeField, Range(0f, 1f)] float exitGateKeeperChance;
     [SerializeField] GameObject doodleQuitButton;
-    [SerializeField] DialogueScript quitDialogueScript;
+    [SerializeField] DialogueScript quitDialogueMenuScript;
     bool isQutting;
     public bool shouldSpawn = true;
     public bool spawnVertically = true;
@@ -43,13 +43,13 @@ public class DoodleSpawnerScript : MonoBehaviour
             isQutting = !isQutting;
             if (isQutting)
             {
-                quitDialogueScript.enabled = true;
-                quitDialogueScript.StartDialogue();
+                quitDialogueMenuScript.enabled = true;
+                quitDialogueMenuScript.StartDialogue();
             }
             else 
             {
-                quitDialogueScript.CloseCanvas();
-                quitDialogueScript.enabled = false;
+                quitDialogueMenuScript.CloseCanvas();
+                quitDialogueMenuScript.enabled = false;
             }
             doodleQuitButton.SetActive(isQutting);
             doodleQuitButton.transform.parent.gameObject.SetActive(isQutting);

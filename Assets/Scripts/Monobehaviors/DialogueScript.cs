@@ -58,10 +58,22 @@ public class DialogueScript : MonoBehaviour
     {
         if(dialogueDict.TryGetValue(currentDialogueID, out DialogueLine line)) 
         {
-            int index = UnityEngine.Random.Range(0, 3);
-            choiceButtons[index].onClick.AddListener(() => OnChoiceSelected(line.choices[index]));
-            choiceButtons[index].onClick.Invoke();
-            choiceButtons[index].onClick.RemoveAllListeners();
+
+            if (!isDialogueFinished) 
+            {
+                Debug.Log("This is the current DialogueId " + currentDialogueID + "gameObject " + gameObject.name);
+                int index = UnityEngine.Random.Range(0, 3);
+                try
+                {
+                    choiceButtons[index].onClick.Invoke();
+                    choiceButtons[index].onClick.RemoveAllListeners();
+                }
+                catch (IndexOutOfRangeException range)
+                {
+                    Debug.Log(range.Message + " index " + index);
+                    Debug.Log("thats the length of choices " + line.choices.Length);
+                }
+            }
         }
     }
     void BuildDialogueDictionary()
@@ -139,7 +151,6 @@ public class DialogueScript : MonoBehaviour
             //EndDialogue();
             return;
         }
-        Debug.Log("Test");
         dialogueUI.textbox.text = "";
         currentText.Clear();
         SetDialogueReferences(line);
@@ -166,6 +177,7 @@ public class DialogueScript : MonoBehaviour
             Debug.Log("SkipDialogue");
             currentDialogueID = line.nextDialogueID;
             ShowDialogueLine(currentDialogueID);
+
         }
         if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Mouse0)) && line.nextDialogueID.ToUpper() == "END" || line.nextDialogueID.ToUpper() == "END" && skipDialogue)
         {
@@ -180,6 +192,7 @@ public class DialogueScript : MonoBehaviour
     {
         if (!dialogueDict.TryGetValue(currentDialogueID, out DialogueLine line))
             return;
+        OnWhileDialogue?.Invoke();
         skipDialogue = false;
         string fullText = line.textContent;
         typeTimer -= Time.unscaledDeltaTime;
@@ -218,13 +231,16 @@ public class DialogueScript : MonoBehaviour
     }
     void ShowChoices(DialogueChoice[] choices)
     {
+
         GameManagerScript.Instance.decisionButtons.SetActive(true);
         GameManagerScript.Instance.decisionTimer.SetActive(true);
+        GameManagerScript.Instance.decisionTimer.GetComponent<SliderScript>().ResetSlider();
         for (int i = 0; i < choices.Length; i++)
         {
             int index = i;
             choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = choices[i].choiceText;
             choiceButtons[i].onClick.RemoveAllListeners();
+            Debug.Log("Remove");
             choiceButtons[i].onClick.AddListener(() => OnChoiceSelected(choices[index]));   
         }
     }
@@ -239,16 +255,19 @@ public class DialogueScript : MonoBehaviour
     }
     void OnChoiceSelected(DialogueChoice choice)
     {
+
         NPCSeverityScore += choice.severity;
         if (NPCSeverityScore > severityLine)
         {
+            Debug.Log("Severe");
             currentDialogueID = dialogueAsset[dialogueAssetIndex].severeLine.dialogueID;
             ShowDialogueLine(dialogueAsset[dialogueAssetIndex].severeLine.dialogueID);
-            HideChoices();
             return;
         }
+        HideChoices();
         ShowDialogueLine(choice.nextDialogueID);
         currentDialogueID = choice.nextDialogueID;
+        Debug.Log("I have chosen");
     }
     void EndDialogue()
     {
@@ -276,7 +295,7 @@ public class DialogueScript : MonoBehaviour
     {
         if(dialogueUI.dialogueSprite.sprite == null || dialogueUI.nameText == null) 
         {
-            Debug.Log("I have not assigned the references, maybe it is a OnlyText-dialogue, check it");
+           // Debug.Log("I have not assigned the references, maybe it is a OnlyText-dialogue, check it");
             return;
         }
         dialogueUI.dialogueSprite.sprite = line.sprite;

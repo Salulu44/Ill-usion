@@ -37,9 +37,9 @@ public class DoodleScoreScript : MonoBehaviour
     {
         tryAgainText = tryAgain.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         scoreText = GetComponent<TextMeshProUGUI>();
-        Debug.Log("Waiting");
+        // Debug.Log("Waiting");
         yield return new WaitUntil(() => GameObject.FindWithTag(GameManagerScript.Instance.tagSO.playerTag) != null);
-        Debug.Log("FInshed");
+        //Debug.Log("FInshed");
         player = GameObject.FindWithTag(GameManagerScript.Instance.tagSO.playerTag).transform;
         scoreWord = "Altitude : ";
         rectTransform = GetComponent<RectTransform>();

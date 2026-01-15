@@ -82,7 +82,6 @@ public class DoodleCameraScript : MonoBehaviour
     {
 
         Vector3 gameObjectScreenPosition = Camera.main.WorldToScreenPoint(gameObject.position);
-        Debug.Log(gameObject.name);
         if (DoodleSpawnerScript.instance.spawnVertically)
         {
             if (gameObjectScreenPosition.x >= Screen.width)

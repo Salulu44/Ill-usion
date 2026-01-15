@@ -36,8 +36,4 @@ public class DoodleLifeBarScript : MonoBehaviour
     {
         lifeBar.fillAmount = fillAmount;
     }
-    private void OnDestroy()
-    {
-        Debug.Log("i got destroyed");
-    }
 }

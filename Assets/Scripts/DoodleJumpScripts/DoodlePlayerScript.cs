@@ -39,10 +39,6 @@ public class DoodlePlayerScript : MonoBehaviour
     void Update()
     {
         if (Time.timeScale == 0f) return;
-        else
-        {
-            Debug.Log("Time is not zero");
-        }
         DoubleJump();
         Movement();
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
