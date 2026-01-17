@@ -66,7 +66,7 @@ public class DialogueScript : MonoBehaviour
                 try
                 {
                     choiceButtons[index].onClick.Invoke();
-                    choiceButtons[index].onClick.RemoveAllListeners();
+                   // choiceButtons[index].onClick.RemoveAllListeners();
                 }
                 catch (IndexOutOfRangeException range)
                 {
@@ -234,7 +234,7 @@ public class DialogueScript : MonoBehaviour
 
         GameManagerScript.Instance.decisionButtons.SetActive(true);
         GameManagerScript.Instance.decisionTimer.SetActive(true);
-        GameManagerScript.Instance.decisionTimer.GetComponent<SliderScript>().ResetSlider();
+
         for (int i = 0; i < choices.Length; i++)
         {
             int index = i;
@@ -243,6 +243,7 @@ public class DialogueScript : MonoBehaviour
             Debug.Log("Remove");
             choiceButtons[i].onClick.AddListener(() => OnChoiceSelected(choices[index]));   
         }
+        GameManagerScript.Instance.decisionTimer.GetComponent<SliderScript>().ResetSlider();
     }
     void HideChoices()
     {

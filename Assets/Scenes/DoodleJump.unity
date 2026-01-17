@@ -3465,7 +3465,7 @@ MonoBehaviour:
   winPosition: {fileID: 1173892988}
   spawnEnemiesTestScript: {fileID: 83766859}
   scoreChangeChance: 0
-  <MaxScore>k__BackingField: 10000
+  <MaxScore>k__BackingField: 10
   <CurrentScore>k__BackingField: 0
 --- !u!1 &1502526583
 GameObject:

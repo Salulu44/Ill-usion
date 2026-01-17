@@ -23,9 +23,9 @@ public class SliderScript : MonoBehaviour
             if (slider.value > slider.maxValue - .01f)
             {
                 Debug.Log("Slideerrrr");
-                OnTimerEnd?.Invoke();
+                isReadyFillingUp = false;
                 slider.value = 0f;
-                isReadyFillingUp =false;
+                OnTimerEnd?.Invoke();
             }
         }
 
