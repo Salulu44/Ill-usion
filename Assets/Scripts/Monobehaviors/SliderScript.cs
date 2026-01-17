@@ -32,6 +32,7 @@ public class SliderScript : MonoBehaviour
     }
     public void ResetSlider()
     {
+        Debug.Log("Called ResetSlider");
         if(slider != null) 
         {
             Debug.Log("HIIIII");

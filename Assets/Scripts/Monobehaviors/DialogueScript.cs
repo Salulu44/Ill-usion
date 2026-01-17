@@ -62,7 +62,8 @@ public class DialogueScript : MonoBehaviour
             if (!isDialogueFinished) 
             {
                 Debug.Log("This is the current DialogueId " + currentDialogueID + "gameObject " + gameObject.name);
-                int index = UnityEngine.Random.Range(0, 3);
+                Debug.Log("LineCHoiceLength " + line.choices.Length + "CurrentDialogueID " + currentDialogueID ); 
+                int index = UnityEngine.Random.Range(0,line.choices.Length);
                 try
                 {
                     choiceButtons[index].onClick.Invoke();
@@ -108,6 +109,7 @@ public class DialogueScript : MonoBehaviour
     }
     public void StartDialogue() 
     {
+        Debug.Log("Ive started Dialogue");
         ShowDialogueLine(currentDialogueID);
         dialogueObject.SetActive(true);
         Transform textTr = null;
@@ -172,14 +174,14 @@ public class DialogueScript : MonoBehaviour
     void DialogueCheck() 
     {
         dialogueDict.TryGetValue(currentDialogueID, out DialogueLine line);
-        if (((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Mouse0) )&& !isDialogueFinished && !isTyping && line.choices.Length == 0) || skipDialogue)
+        if (((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Mouse1) )&& !isDialogueFinished && !isTyping && line.choices.Length == 0) || skipDialogue)
         {
             Debug.Log("SkipDialogue");
             currentDialogueID = line.nextDialogueID;
             ShowDialogueLine(currentDialogueID);
 
         }
-        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Mouse0)) && line.nextDialogueID.ToUpper() == "END" || line.nextDialogueID.ToUpper() == "END" && skipDialogue)
+        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Mouse1)) && line.nextDialogueID.ToUpper() == "END" || line.nextDialogueID.ToUpper() == "END" && skipDialogue)
         {
             Debug.Log("End Dialogue " + line.dialogueID);
 
@@ -221,6 +223,7 @@ public class DialogueScript : MonoBehaviour
                         EndDialogue();
                         return;
                     }
+                    OnEndDialogue?.Invoke();
                     isDialogueFinished = true;
                     dialogueObject.SetActive(false);
                     enabled = false;
@@ -235,22 +238,35 @@ public class DialogueScript : MonoBehaviour
         GameManagerScript.Instance.decisionButtons.SetActive(true);
         GameManagerScript.Instance.decisionTimer.SetActive(true);
 
+        GameManagerScript.Instance.decisionTimer.GetComponent<SliderScript>().ResetSlider();
+        Debug.Log("HiiiiYa");
+        for (int i = 0; i < choiceButtons.Length; i++)
+        {
+            choiceButtons[i].gameObject.SetActive(true);
+        }
+        int index = 0;
         for (int i = 0; i < choices.Length; i++)
         {
-            int index = i;
+            index = i;
             choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = choices[i].choiceText;
             choiceButtons[i].onClick.RemoveAllListeners();
-            Debug.Log("Remove");
-            choiceButtons[i].onClick.AddListener(() => OnChoiceSelected(choices[index]));   
+            //Debug.Log("Remove");
+            choiceButtons[i].onClick.AddListener(() => OnChoiceSelected(choices[index]));
         }
-        GameManagerScript.Instance.decisionTimer.GetComponent<SliderScript>().ResetSlider();
+        Debug.Log("Index " + index);
+        Debug.Log("ChoiceButtonLength " + choiceButtons.Length);
+        for (int i = index +1; i < choiceButtons.Length; i++)
+        {
+            choiceButtons[i].gameObject.SetActive(false);
+        }
+
     }
     void HideChoices()
     {
-        foreach (var btn in choiceButtons)
-        {
-            btn.onClick.RemoveAllListeners();
-        }
+        //foreach (var btn in choiceButtons)
+        //{
+        //    btn.onClick.RemoveAllListeners();
+        //}
         GameManagerScript.Instance.decisionButtons.SetActive(false);
         GameManagerScript.Instance.decisionTimer.SetActive(false);
     }

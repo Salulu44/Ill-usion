@@ -14,29 +14,28 @@ public class DoodleQuitScript : MonoBehaviour, IPointerDownHandler
     {
         Debug.Log("Yeah");
         quitRenderer = GetComponent<Image>();
-        quitMenuScript.OnWhileDialogue += CancelCurrentDialogueEvent;
+     //   quitMenuScript.OnWhileDialogue += CancelCurrentDialogueEvent;
         hitQuitButtonScript.OnEndDialogue += HitQuitButtonEvent;
     }
 
     private void HitQuitButtonEvent()
     {
+        Debug.Log("End of dialogue");
         quitMenuScript.enabled = true;
+        quitMenuScript.StartDialogue();
        // hitQuitButtonScript.StartDialogue();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O)) 
-        {
-            Destroy(lifeBar);
-        }
     }
     public void OnPointerDown(PointerEventData eventData)
     {
         if(spriteIndex < quitSprites.Length) 
         {
             quitRenderer.sprite = quitSprites[spriteIndex++];
+            hitQuitButtonScript.enabled = true;
             hitQuitButtonScript.StartDialogue();
         }
 

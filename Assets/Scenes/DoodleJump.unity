@@ -2321,6 +2321,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 598707332004209082, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 606876686558447270, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2369,9 +2373,57 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1047951147764836461, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1047951147764836461, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1047951147764836461, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1047951147764836461, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1047951147764836461, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 540
+      objectReference: {fileID: 0}
+    - target: {fileID: 1047951147764836461, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -385
+      objectReference: {fileID: 0}
     - target: {fileID: 1589539395565585986, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1755903685512320279, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1755903685512320279, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1755903685512320279, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1755903685512320279, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1755903685512320279, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1755903685512320279, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -385
       objectReference: {fileID: 0}
     - target: {fileID: 5043334471721553397, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
       propertyPath: m_IsActive
@@ -2381,6 +2433,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7973064923278963164, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7978792630281277285, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
       propertyPath: m_Name
       value: SceneHandler
@@ -2388,6 +2444,26 @@ PrefabInstance:
     - target: {fileID: 7978792630281277285, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9036975519622063313, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -450.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088061566209277050, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088061566209277050, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088061566209277050, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088061566209277050, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -385
       objectReference: {fileID: 0}
     - target: {fileID: 9126177758784544040, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
       propertyPath: m_IsActive
@@ -2483,7 +2559,7 @@ MonoBehaviour:
   playOnlyOneLine: 1
   textPosition: {x: 0, y: 0, z: 0}
   textAlignment: 258
-  typeSpeed: 0.4
+  typeSpeed: 0.1
 --- !u!114 &1094432567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3465,7 +3541,7 @@ MonoBehaviour:
   winPosition: {fileID: 1173892988}
   spawnEnemiesTestScript: {fileID: 83766859}
   scoreChangeChance: 0
-  <MaxScore>k__BackingField: 10
+  <MaxScore>k__BackingField: 1000000
   <CurrentScore>k__BackingField: 0
 --- !u!1 &1502526583
 GameObject:
@@ -4200,10 +4276,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueScript
   dialogueAsset:
   - dialogueLines:
-    - dialogueID: Start
-      nextDialogueID: Second
+    - dialogueID: Start1
+      nextDialogueID: Start2
       speaker: 
       textContent: WHY QUIT?
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      audioVolume: 0
+      hasSpecialEffect: 0
+      choices: []
+    - dialogueID: Start2
+      nextDialogueID: Second
+      speaker: 
+      textContent: No Seriously?
       sprite: {fileID: 0}
       audioClip: {fileID: 0}
       audioVolume: 0
@@ -4243,6 +4328,18 @@ MonoBehaviour:
       nextDialogueID: END
       speaker: 
       textContent: YOU CANT BE BORED
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      audioVolume: 0
+      hasSpecialEffect: 0
+      choices:
+      - choiceText: Of course I can
+        severity: 0
+        nextDialogueID: Hatred
+    - dialogueID: Hatred
+      nextDialogueID: END
+      speaker: 
+      textContent: I HATE YOU
       sprite: {fileID: 0}
       audioClip: {fileID: 0}
       audioVolume: 0
