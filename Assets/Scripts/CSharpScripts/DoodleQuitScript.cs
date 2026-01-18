@@ -21,6 +21,7 @@ public class DoodleQuitScript : MonoBehaviour, IPointerDownHandler
     private void HitQuitButtonEvent()
     {
         Debug.Log("End of dialogue");
+      //  hitQuitButtonScript.enabled = true;
         quitMenuScript.enabled = true;
         quitMenuScript.StartDialogue();
        // hitQuitButtonScript.StartDialogue();
@@ -37,6 +38,7 @@ public class DoodleQuitScript : MonoBehaviour, IPointerDownHandler
             quitRenderer.sprite = quitSprites[spriteIndex++];
             hitQuitButtonScript.enabled = true;
             hitQuitButtonScript.StartDialogue();
+            quitMenuScript.enabled = false;
         }
 
     }

@@ -34,13 +34,14 @@ public class DialogueScript : MonoBehaviour
     int NPCSeverityScore = 0;
     void Start()
     {
+        BuildDialogueDictionary();
         currentDialogueID = dialogueAsset[dialogueAssetIndex].dialogueLines[0].dialogueID;
+        Debug.Log(currentDialogueID);
         dialogueUI = GetComponent<DialogueUI>();
         if (dialogueUI.dialogueSprite == null)
         {
             SearchUIReferences();
         }
-        BuildDialogueDictionary();
         SetButtons();
         if(dialogueObject == null) 
         {
@@ -174,14 +175,14 @@ public class DialogueScript : MonoBehaviour
     void DialogueCheck() 
     {
         dialogueDict.TryGetValue(currentDialogueID, out DialogueLine line);
-        if (((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Mouse1) )&& !isDialogueFinished && !isTyping && line.choices.Length == 0) || skipDialogue)
+        if (((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Mouse0) )&& !isDialogueFinished && !isTyping && line.choices.Length == 0) || skipDialogue)
         {
             Debug.Log("SkipDialogue");
             currentDialogueID = line.nextDialogueID;
             ShowDialogueLine(currentDialogueID);
 
         }
-        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Mouse1)) && line.nextDialogueID.ToUpper() == "END" || line.nextDialogueID.ToUpper() == "END" && skipDialogue)
+        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Mouse0)) && line.nextDialogueID == "END" || line.nextDialogueID == "END" && skipDialogue)
         {
             Debug.Log("End Dialogue " + line.dialogueID);
 
@@ -223,10 +224,10 @@ public class DialogueScript : MonoBehaviour
                         EndDialogue();
                         return;
                     }
-                    OnEndDialogue?.Invoke();
                     isDialogueFinished = true;
                     dialogueObject.SetActive(false);
                     enabled = false;
+                    OnEndDialogue?.Invoke();
                 }
             }
 

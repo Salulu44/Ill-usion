@@ -2522,19 +2522,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueScript
   dialogueAsset:
   - dialogueLines:
-    - dialogueID: Start
-      nextDialogueID: Second
+    - dialogueID:
+        value: Start
+      nextDialogueID:
+        value: Play
       speaker: 
-      textContent: WHY DID YOU DO THAT?
+      textContent: Why do want to quit?
       sprite: {fileID: 0}
       audioClip: {fileID: 0}
       audioVolume: 0
       hasSpecialEffect: 0
       choices: []
-    - dialogueID: Second
-      nextDialogueID: END
+    - dialogueID:
+        value: Play
+      nextDialogueID:
+        value: Play2
       speaker: 
-      textContent: STOP!
+      textContent: Play with me
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      audioVolume: 0
+      hasSpecialEffect: 0
+      choices: []
+    - dialogueID:
+        value: Play2
+      nextDialogueID:
+        value: END
+      speaker: 
+      textContent: YOU LOVE PLAYING, SO WHY STOP????
       sprite: {fileID: 0}
       audioClip: {fileID: 0}
       audioVolume: 0
@@ -2542,15 +2557,29 @@ MonoBehaviour:
       choices: []
     SFXs: []
     severeLine:
-      dialogueID: 
-      nextDialogueID: 
+      dialogueID:
+        value: 
+      nextDialogueID:
+        value: 
       speaker: 
       textContent: 
       sprite: {fileID: 0}
       audioClip: {fileID: 0}
       audioVolume: 0
       hasSpecialEffect: 0
-      choices: []
+      choices:
+      - choiceText: 
+        severity: 0
+        nextDialogueID:
+          value: 
+      - choiceText: 
+        severity: 0
+        nextDialogueID:
+          value: 
+      - choiceText: 
+        severity: 0
+        nextDialogueID:
+          value: 
   dialogueObject: {fileID: 1068405292}
   severityLine: 0
   onlyText: 1
@@ -2977,7 +3006,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1206131049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2992,28 +3021,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueScript
   dialogueAsset:
   - dialogueLines:
-    - dialogueID: Start
-      nextDialogueID: Second
-      speaker: 
-      textContent: GOT HIM
-      sprite: {fileID: 0}
-      audioClip: {fileID: 0}
-      audioVolume: 0
-      hasSpecialEffect: 0
-      choices: []
-    - dialogueID: Second
-      nextDialogueID: END
-      speaker: 
-      textContent: WOOW DOUBLE
-      sprite: {fileID: 0}
-      audioClip: {fileID: 0}
-      audioVolume: 0
-      hasSpecialEffect: 0
-      choices: []
-    SFXs: []
-    severeLine:
-      dialogueID: 
-      nextDialogueID: 
+    - dialogueID:
+        value: Start
+      nextDialogueID:
+        value: 
       speaker: 
       textContent: 
       sprite: {fileID: 0}
@@ -3021,27 +3032,57 @@ MonoBehaviour:
       audioVolume: 0
       hasSpecialEffect: 0
       choices: []
-  - dialogueLines:
-    - dialogueID: Start2
-      nextDialogueID: END
-      speaker: 
-      textContent: FINISH HIM!
-      sprite: {fileID: 0}
-      audioClip: {fileID: 0}
-      audioVolume: 0
-      hasSpecialEffect: 0
-      choices: []
     SFXs: []
     severeLine:
-      dialogueID: 
-      nextDialogueID: 
+      dialogueID:
+        value: 
+      nextDialogueID:
+        value: 
       speaker: 
       textContent: 
       sprite: {fileID: 0}
       audioClip: {fileID: 0}
       audioVolume: 0
       hasSpecialEffect: 0
-      choices: []
+      choices:
+      - choiceText: 
+        severity: 0
+        nextDialogueID:
+          value: 
+      - choiceText: 
+        severity: 0
+        nextDialogueID:
+          value: 
+      - choiceText: 
+        severity: 0
+        nextDialogueID:
+          value: 
+  - dialogueLines: []
+    SFXs: []
+    severeLine:
+      dialogueID:
+        value: 
+      nextDialogueID:
+        value: 
+      speaker: 
+      textContent: 
+      sprite: {fileID: 0}
+      audioClip: {fileID: 0}
+      audioVolume: 0
+      hasSpecialEffect: 0
+      choices:
+      - choiceText: 
+        severity: 0
+        nextDialogueID:
+          value: 
+      - choiceText: 
+        severity: 0
+        nextDialogueID:
+          value: 
+      - choiceText: 
+        severity: 0
+        nextDialogueID:
+          value: 
   dialogueObject: {fileID: 1068405292}
   severityLine: 0
   onlyText: 1
@@ -4276,70 +4317,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueScript
   dialogueAsset:
   - dialogueLines:
-    - dialogueID: Start1
-      nextDialogueID: Start2
+    - dialogueID:
+        value: Test1
+      nextDialogueID:
+        value: teSt2
       speaker: 
-      textContent: WHY QUIT?
+      textContent: Then go and Play.
       sprite: {fileID: 0}
       audioClip: {fileID: 0}
       audioVolume: 0
       hasSpecialEffect: 0
       choices: []
-    - dialogueID: Start2
-      nextDialogueID: Second
+    - dialogueID:
+        value: test2
+      nextDialogueID:
+        value: END
       speaker: 
-      textContent: No Seriously?
-      sprite: {fileID: 0}
-      audioClip: {fileID: 0}
-      audioVolume: 0
-      hasSpecialEffect: 0
-      choices: []
-    - dialogueID: Second
-      nextDialogueID: 
-      speaker: 
-      textContent: DONT YOU HAVE FUN?
-      sprite: {fileID: 0}
-      audioClip: {fileID: 0}
-      audioVolume: 0
-      hasSpecialEffect: 0
-      choices:
-      - choiceText: I dont know...
-        severity: 0
-        nextDialogueID: dontKnow
-      - choiceText: No i do but...
-        severity: 0
-        nextDialogueID: dontKnow
-      - choiceText: I DONT!
-        severity: 0
-        nextDialogueID: dontKnow
-    - dialogueID: dontKnow
-      nextDialogueID: 
-      speaker: 
-      textContent: HOW COME?
-      sprite: {fileID: 0}
-      audioClip: {fileID: 0}
-      audioVolume: 0
-      hasSpecialEffect: 0
-      choices:
-      - choiceText: I am bored
-        severity: 0
-        nextDialogueID: bored
-    - dialogueID: bored
-      nextDialogueID: END
-      speaker: 
-      textContent: YOU CANT BE BORED
-      sprite: {fileID: 0}
-      audioClip: {fileID: 0}
-      audioVolume: 0
-      hasSpecialEffect: 0
-      choices:
-      - choiceText: Of course I can
-        severity: 0
-        nextDialogueID: Hatred
-    - dialogueID: Hatred
-      nextDialogueID: END
-      speaker: 
-      textContent: I HATE YOU
+      textContent: Yeah.
       sprite: {fileID: 0}
       audioClip: {fileID: 0}
       audioVolume: 0
@@ -4347,8 +4341,10 @@ MonoBehaviour:
       choices: []
     SFXs: []
     severeLine:
-      dialogueID: 
-      nextDialogueID: 
+      dialogueID:
+        value: 
+      nextDialogueID:
+        value: 
       speaker: 
       textContent: 
       sprite: {fileID: 0}

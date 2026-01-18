@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 [System.Serializable]
 public class Dialogue
 {
@@ -15,13 +16,23 @@ public class Dialogue
         public float pitch;
     }
     public DialogueLine severeLine;
+
+}
+[System.Serializable]
+public class UpperCaseString 
+{
+    [SerializeField] private string value;
+    public static implicit operator string(UpperCaseString upper) => upper?.value?.ToUpper() ?? "";
+
+    public static implicit operator UpperCaseString(string s) => new UpperCaseString { value = s?.ToUpper() };
+    public override string ToString() => value?.ToUpper() ?? "";
 }
 [System.Serializable]
 public class DialogueLine
 {
-    public string dialogueID;
+    public UpperCaseString dialogueID;
     //public bool hasDecision;
-    public string nextDialogueID;
+    public UpperCaseString nextDialogueID;
     public string speaker;
     [TextArea(3, 10)]
     public string textContent;
@@ -31,82 +42,18 @@ public class DialogueLine
     public float AudioVolume { get { return audioVolume; } set { if (value <= 0) audioVolume = 0; else audioVolume = value; } }
     public bool hasSpecialEffect;
     public DialogueChoice[] choices = new DialogueChoice[3];
-
+    //public void ToUpperIDs()
+    //{
+    //    if (!string.IsNullOrEmpty(dialogueID))
+    //        dialogueID = dialogueID.ToUpper();
+    //    if (!string.IsNullOrEmpty(nextDialogueID))
+    //        nextDialogueID = nextDialogueID.ToUpper();
+    //}
 }
 [System.Serializable]
 public struct DialogueChoice
 {
     public string choiceText;
     public int severity;
-    public string nextDialogueID;
+    public UpperCaseString nextDialogueID;
 }
-
-////
-////  Dialogue.asset – speichert einen kompletten Dialog (z. B. ein Gespräch)
-////
-//[CreateAssetMenu(fileName = "NewDialogue", menuName = "Dialogue/Dialogue Asset")]
-//public class Dialogue : ScriptableObject
-//{
-//    [Header("Dialogue Info")]
-//    public string dialogueName;
-//    [Tooltip("Liste aller Dialogzeilen in der richtigen Reihenfolge")]
-//    public DialogueLine[] lines;
-//}
-
-////
-////  Eine einzelne Zeile innerhalb eines Dialogs
-////
-//[System.Serializable]
-//public class DialogueLine
-//{
-//    [Header("Basic Info")]
-//    public string speakerName;
-
-//    [TextArea(3, 10)]
-//    public string text;
-
-//    [Header("Visuals & Audio")]
-//    public Sprite portrait;
-
-//    public AudioClip voiceClip;
-//    [Range(0f, 1f)] public float voiceVolume = 1f;
-
-//    public SFXData sfx;
-
-//    [Header("Flow Control")]
-//    [Tooltip("Wenn true, gibt es Auswahlmöglichkeiten (z. B. Ja/Nein).")]
-//    public bool hasDecision;
-//    [Tooltip("Liste der möglichen Antworten, falls hasDecision true ist.")]
-//    public DialogueDecision[] decisions;
-
-//    [Tooltip("Index der nächsten Zeile im Dialogue.lines Array (-1 = Ende).")]
-//    public int nextLineIndex = -1;
-
-//    [Header("Special Effects")]
-//    public bool triggerSpecialEffect;
-//    [Tooltip("Ein Event oder Effektname, der von deinem System verarbeitet werden kann.")]
-//    public string specialEffectName;
-//}
-
-////
-////  Eine mögliche Entscheidung des Spielers während des Dialogs
-////
-//[System.Serializable]
-//public class DialogueDecision
-//{
-//    public string choiceText;
-//    [Tooltip("Index im Dialogue.lines Array, zu dem diese Entscheidung führt.")]
-//    public int nextLineIndex;
-//}
-
-////
-////  Optionale Soundeffekte, die zusätzlich zu Voice Clips abgespielt werden
-////
-//[System.Serializable]
-//public class SFXData
-//{
-//    public bool playSFX;
-//    public AudioClip clip;
-//    [Range(-3f, 3f)] public float pitch = 1f;
-//    [Range(0f, 1f)] public float volume = 1f;
-//}
