@@ -45,7 +45,7 @@ public class DoodlePlayButtonScript : MonoBehaviour, IPointerEnterHandler
     void HandleOrientation()
     {
         UIExtensions.VectorOrientation vectorOrientation;
-        UIExtensions.UIOrientation(doodlePlayRectTr, canvasResolution, out vectorOrientation, 100);
+        UIExtensions.SetUIOrientation(doodlePlayRectTr, canvasResolution, out vectorOrientation, 100);
         if(vectorOrientation != UIExtensions.VectorOrientation.Inside) 
         {
             playButtonRb.linearVelocity = new Vector2(playButtonRb.linearVelocity.x * .5f, playButtonRb.linearVelocityY * .5f);

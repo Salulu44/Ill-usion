@@ -247,9 +247,32 @@ public static class UIExtensions
         }
         UITransform.anchoredPosition = pos;
     }
-    public static void UIOrientation(RectTransform UITransform, Vector2 canvasResolution, out VectorOrientation orientation , float offset = 50) 
+    public static void SetUIOrientation(RectTransform UITransform, Vector2 canvasResolution, out VectorOrientation orientation , float offset = 50) 
     {
         orientation = UITransform.CheckOrientation();
+        Vector2 pos = UITransform.anchoredPosition;
+        switch (orientation)
+        {
+            case VectorOrientation.Below:
+                pos.y = canvasResolution.y - offset;
+                break;
+
+            case VectorOrientation.Above:
+                pos.y = 0 + offset;
+                break;
+
+            case VectorOrientation.Left:
+                pos.x = canvasResolution.x - offset;
+                break;
+            case VectorOrientation.Right:
+                pos.x = 0 + offset;
+                break;
+        }
+        UITransform.anchoredPosition = pos;
+    }
+    public static void SetUIOrientation(RectTransform UITransform, Vector2 canvasResolution, float offset = 50)
+    {
+        VectorOrientation orientation = UITransform.CheckOrientation();
         Vector2 pos = UITransform.anchoredPosition;
         switch (orientation)
         {

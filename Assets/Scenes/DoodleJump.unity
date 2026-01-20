@@ -4816,13 +4816,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5169dd741e5954468666d750ec2a56a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoodleQuitScript
-  quitSprites:
+  doodlequitSprites:
+  - {fileID: 6218621067798569355, guid: 17ce28b9c6e58dd418e0ee9259dbd966, type: 3}
   - {fileID: -4700537772607076239, guid: 17ce28b9c6e58dd418e0ee9259dbd966, type: 3}
   - {fileID: -9030531314992985337, guid: 17ce28b9c6e58dd418e0ee9259dbd966, type: 3}
   - {fileID: -7050553694437614713, guid: 17ce28b9c6e58dd418e0ee9259dbd966, type: 3}
-  quitMenuScript: {fileID: 1851228490}
-  hitQuitButtonScript: {fileID: 1094432566}
+  doodlequitMenuScript: {fileID: 1851228490}
+  doodlehitQuitButtonScript: {fileID: 1094432566}
   lifeBar: {fileID: 1598386846}
+  invincibleTimer: 2
+  directionAmplifier: 200
 --- !u!61 &1982727021
 BoxCollider2D:
   m_ObjectHideFlags: 0
