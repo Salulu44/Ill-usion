@@ -14,10 +14,9 @@ public class SceneLoaderScript : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.F) && transform.GetChild(0).gameObject.activeSelf && !dialogue.activeSelf) 
         {
-          dialogue.SetActive(true);
+          //dialogue.SetActive(true);
           GetComponent<DialogueScript>().StartDialogue();
         }
-        EndMiniGame();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -38,12 +37,9 @@ public class SceneLoaderScript : MonoBehaviour
         sceneHandler.LoadMinigame(sceneName);
         GetComponent<Collider2D>().enabled = false;
     }
-    void EndMiniGame() 
+    public void EndMiniGame() 
     {
-        if (Input.GetKeyDown(KeyCode.P)) 
-        {
-            sceneHandler.QuitScene(sceneName);
-            GetComponent<Collider2D>().enabled = true;
-        }
+        sceneHandler.QuitScene(sceneName);
+        GetComponent<Collider2D>().enabled = true;
     }
 }

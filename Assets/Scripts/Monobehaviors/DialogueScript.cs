@@ -36,7 +36,6 @@ public class DialogueScript : MonoBehaviour
     {
         BuildDialogueDictionary();
         currentDialogueID = dialogueAsset[dialogueAssetIndex].dialogueLines[0].dialogueID;
-        Debug.Log(currentDialogueID);
         dialogueUI = GetComponent<DialogueUI>();
         if (dialogueUI.dialogueSprite == null)
         {

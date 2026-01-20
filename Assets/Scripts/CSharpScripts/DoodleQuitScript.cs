@@ -7,6 +7,7 @@ public class DoodleQuitScript : MonoBehaviour, IPointerDownHandler
     [SerializeField] Sprite[] doodlequitSprites;
     [SerializeField] DialogueScript doodlequitMenuScript;
     [SerializeField] DialogueScript doodlehitQuitButtonScript;
+    [SerializeField] GameObject doodleRealQuitButton;
     RectTransform quitButtonTr;
     Image doodlequitRenderer;
     int spriteIndex;
@@ -17,6 +18,7 @@ public class DoodleQuitScript : MonoBehaviour, IPointerDownHandler
     bool startInvincibility;
     Vector3[] directions = { Vector2.down, Vector2.up, Vector2.left, Vector2.right };
     [SerializeField] float directionAmplifier;
+    bool pressedEnough;
     void Start()
     {
         canvasResolution = transform.root.GetComponent<RectTransform>().rect.size;
@@ -26,15 +28,22 @@ public class DoodleQuitScript : MonoBehaviour, IPointerDownHandler
         doodlequitRenderer = GetComponent<Image>();
      //   quitMenuScript.OnWhileDialogue += CancelCurrentDialogueEvent;
         doodlehitQuitButtonScript.OnEndDialogue += HitQuitButtonEvent;
-        Debug.Log("HIIIIIIIIIIIIIIIIII");
     }
 
     private void HitQuitButtonEvent()
     {
-        Debug.Log("End of dialogue");
-      //  hitQuitButtonScript.enabled = true;
-        doodlequitMenuScript.enabled = true;
-        doodlequitMenuScript.StartDialogue();
+        //  hitQuitButtonScript.enabled = true;
+        if (!pressedEnough)
+        {
+            doodlequitMenuScript.enabled = true;
+            doodlequitMenuScript.StartDialogue();
+        }
+        else 
+        {
+            doodleRealQuitButton.SetActive(true);
+            doodlequitMenuScript.enabled=false;
+            gameObject.SetActive(false);
+        }
        // hitQuitButtonScript.StartDialogue();
     }
 
@@ -53,30 +62,36 @@ public class DoodleQuitScript : MonoBehaviour, IPointerDownHandler
             doodlehitQuitButtonScript.StartDialogue();
             startInvincibility = true;
             doodlequitMenuScript.enabled = false;
-            Debug.Log("Hi " +eventData);
+        }
+        else 
+        {
+            pressedEnough = true;
+            doodlehitQuitButtonScript.enabled = true;
+            doodlehitQuitButtonScript.StartDialogue();
+            startInvincibility = false;
+            doodlequitMenuScript.enabled = false;
         }
 
     }
     void UIOrientation()
     {
-        //if (startInvincibility) 
-        //{
-        //    UIExtensions.SetUIOrientation(quitButtonTr, canvasResolution);
-        //}
+        if (startInvincibility)
+        {
+            UIExtensions.SetUIOrientation(quitButtonTr, canvasResolution);
+        }
 
     }
     void QuitButtonLogic()
     {
         if (startInvincibility) 
         {
-            invincibleTimer -= Time.deltaTime;
+            invincibleTimer -= Time.unscaledDeltaTime;
             float ratio = invincibleTimer / invincibleTimerTmp;
             Color col = doodlequitRenderer.color;
             col.a = ratio;
             doodlequitRenderer.color = col;
-            if (invincibleTimer < 0) 
+            if (invincibleTimer <= 0) 
             {
-                Debug.Log("YEAH");
                 invincibleTimer = invincibleTimerTmp;
                 Vector2 currentDirection = new Vector2(directions[UnityEngine.Random.Range(0, directions.Length)].x * directionAmplifier, directions[UnityEngine.Random.Range(0, directions.Length)].y * directionAmplifier);
                 Vector2 targetPosition = transform.position + (Vector3)currentDirection;
