@@ -15,14 +15,27 @@ public class SceneHandlerScript : MonoBehaviour
     { 
     
     }
+    //I want to approach it now with normal loading
+
+
+
     public void LoadMinigame(string sceneName)
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        mainSceneOn = !mainSceneOn;
-        operation.completed += OperationCompleted;
-        SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetSceneByName(sceneName));
-        nextScene = sceneName;
+        SceneManager.LoadScene(sceneName);
     }
+
+
+
+
+    //This was the approach with LoadSceneMode.additive
+    //public void LoadMinigame(string sceneName)
+    //{
+    //    AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+    //    mainSceneOn = !mainSceneOn;
+    //    operation.completed += OperationCompleted;
+    //    SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetSceneByName(sceneName));
+    //    nextScene = sceneName;
+    //}
     /*    public async void LoadMinigame(string sceneName)
     {
         try
@@ -45,38 +58,39 @@ public class SceneHandlerScript : MonoBehaviour
             Debug.LogError($"LoadMinigame Error: {excep.Message}");
         }
     }
-*/
-    public void QuitScene(string sceneName) 
-    {
-        Debug.Log(SceneManager.GetActiveScene().name);
-       if(SceneManager.GetActiveScene().name != sceneName) 
-        {
-            Debug.Log("You are not in the MinigameScene");
-            return;
-        }
-        mainSceneOn = !mainSceneOn;
-        nextScene = mainScene.name;
-        AsyncOperation operation =  SceneManager.UnloadSceneAsync(sceneName);
-        SceneManager.MoveGameObjectToScene(gameObject,mainScene);
-        operation.completed += OperationCompleted;
-    }
-    private void OperationCompleted(AsyncOperation obj)
-    {
-        SetActiveForScene(mainScene, mainSceneOn);
-        Debug.Log("This is the next scene " + nextScene);
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(nextScene));
-        obj.completed -= OperationCompleted;
-    }
-    void SetActiveForScene(Scene scene, bool active)
-    {
-        foreach (GameObject gameObject in scene.GetRootGameObjects()) 
-        {
-            if(gameObject.tag == GameManagerScript.Instance.tagSO.rootTag) 
-            {
-                gameObject.SetActive(active);
-    
-                break;
-            }
-        }
-    }
+*/  
+
+    //public void QuitScene(string sceneName) 
+    //{
+    //    Debug.Log(SceneManager.GetActiveScene().name);
+    //   if(SceneManager.GetActiveScene().name != sceneName) 
+    //    {
+    //        Debug.Log("You are not in the MinigameScene");
+    //        return;
+    //    }
+    //    mainSceneOn = !mainSceneOn;
+    //    nextScene = mainScene.name;
+    //    AsyncOperation operation =  SceneManager.UnloadSceneAsync(sceneName);
+    //    SceneManager.MoveGameObjectToScene(gameObject,mainScene);
+    //    operation.completed += OperationCompleted;
+    //}
+    //private void OperationCompleted(AsyncOperation obj)
+    //{
+    //    SetActiveForScene(mainScene, mainSceneOn);
+    //    Debug.Log("This is the next scene " + nextScene);
+    //    SceneManager.SetActiveScene(SceneManager.GetSceneByName(nextScene));
+    //    obj.completed -= OperationCompleted;
+    //}
+    //void SetActiveForScene(Scene scene, bool active)
+    //{
+    //    foreach (GameObject gameObject in scene.GetRootGameObjects()) 
+    //    {
+    //        if(gameObject.tag == GameManagerScript.Instance.tagSO.rootTag) 
+    //        {
+    //            gameObject.SetActive(active);
+
+    //            break;
+    //        }
+    //    }
+    //}
 }

@@ -135,7 +135,7 @@ public class DoodleBulletScript : Enemy
     }
     void UIOrientation() 
     {
-        UIExtensions.UIOrientation(doodleUITr,canvasResolution);
+        UIExtensions.UIOrientation(doodleUITr,canvasResolution, 50f);
         //Vector2 pos = doodleUITr.anchoredPosition;
         //switch (orientation)
         //{
@@ -223,10 +223,10 @@ public static class UIExtensions
         Above, 
         Below
     }
-    public static void UIOrientation(RectTransform UITransform, Vector2 canvasResolution, float offset = 50)
+    public static void UIOrientation(RectTransform UITransform, Vector2 canvasResolution, float offset = 50, float thresholdminimizer = 0)
     {
         //If objects are in a empty Gameobject, for some reason the left border isnt -Resolution/2, its just 0
-        VectorOrientation orientation = UITransform.CheckOrientation();
+        VectorOrientation orientation = UITransform.CheckOrientation(thresholdminimizer);
         Vector2 pos = UITransform.anchoredPosition;
         switch (orientation)
         {
@@ -247,9 +247,9 @@ public static class UIExtensions
         }
         UITransform.anchoredPosition = pos;
     }
-    public static void SetUIOrientation(RectTransform UITransform, Vector2 canvasResolution, out VectorOrientation orientation , float offset = 50) 
+    public static void SetUIOrientation(RectTransform UITransform, Vector2 canvasResolution, out VectorOrientation orientation , float offset = 50, float thresholdMinimizer = 0) 
     {
-        orientation = UITransform.CheckOrientation();
+        orientation = UITransform.CheckOrientation(thresholdMinimizer);
         Vector2 pos = UITransform.anchoredPosition;
         switch (orientation)
         {
@@ -281,14 +281,14 @@ public static class UIExtensions
                 break;
 
             case VectorOrientation.Above:
-                pos.y = 0 + offset;
+                pos.y = offset;
                 break;
 
             case VectorOrientation.Left:
                 pos.x = canvasResolution.x - offset;
                 break;
             case VectorOrientation.Right:
-                pos.x = 0 + offset;
+                pos.x = offset;
                 break;
         }
         UITransform.anchoredPosition = pos;
@@ -325,7 +325,7 @@ public static class UIExtensions
         }
         return true;
     }
-    public static VectorOrientation CheckOrientation(this RectTransform rectTransform)
+    public static VectorOrientation CheckOrientation(this RectTransform rectTransform, float thresholdminimizer = 0f)
     {
         Vector3[] corners = new Vector3[4];
         rectTransform.GetWorldCorners(corners);
@@ -337,19 +337,19 @@ public static class UIExtensions
         foreach (var corner in corners)
         {
             Vector3 screenPoint = RectTransformUtility.WorldToScreenPoint(null, corner);
-            if (screenPoint.y >= Screen.height)
+            if (screenPoint.y >= Screen.height - thresholdminimizer)
             {
                 anyAbove = true;
             }
-            else if(screenPoint.y <= 0)
+            else if(screenPoint.y <= thresholdminimizer)
             {
                 anyBelow = true;
             }
-            else if (screenPoint.x >= Screen.width) 
+            else if (screenPoint.x >= Screen.width - thresholdminimizer) 
             {
                 anyRight = true;
             }
-            else if(screenPoint.x <= 0)
+            else if(screenPoint.x <= thresholdminimizer)
             {
                 anyLeft = true;
             }

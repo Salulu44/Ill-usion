@@ -1194,7 +1194,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &470839569
 Transform:
   m_ObjectHideFlags: 0
@@ -3090,32 +3090,6 @@ MonoBehaviour:
         severity: 0
         nextDialogueID:
           value: 
-  - dialogueLines: []
-    SFXs: []
-    severeLine:
-      dialogueID:
-        value: 
-      nextDialogueID:
-        value: 
-      speaker: 
-      textContent: 
-      sprite: {fileID: 0}
-      audioClip: {fileID: 0}
-      audioVolume: 0
-      hasSpecialEffect: 0
-      choices:
-      - choiceText: 
-        severity: 0
-        nextDialogueID:
-          value: 
-      - choiceText: 
-        severity: 0
-        nextDialogueID:
-          value: 
-      - choiceText: 
-        severity: 0
-        nextDialogueID:
-          value: 
   dialogueObject: {fileID: 1068405292}
   severityLine: 0
   onlyText: 1
@@ -3400,7 +3374,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1320685116
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4274,7 +4248,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1305345252}
         m_TargetAssemblyTypeName: SceneLoaderScript, Assembly-CSharp
-        m_MethodName: EndMiniGame
+        m_MethodName: GoBackToMainGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

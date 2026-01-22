@@ -37,9 +37,19 @@ public class SceneLoaderScript : MonoBehaviour
         sceneHandler.LoadMinigame(sceneName);
         GetComponent<Collider2D>().enabled = false;
     }
-    public void EndMiniGame() 
+    public void GoBackToMainGame() 
     {
-        sceneHandler.QuitScene(sceneName);
+        sceneHandler.LoadMinigame("MainGame");
         GetComponent<Collider2D>().enabled = true;
     }
+    private void OnDestroy()
+    {
+      PlayerData playerData = SaveSystem.LoadPlayerData();
+    
+    }
+    //public void EndMiniGame() 
+    //{
+    //    sceneHandler.QuitScene(sceneName);
+    //    GetComponent<Collider2D>().enabled = true;
+    //}
 }

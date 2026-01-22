@@ -169,7 +169,10 @@ public class DialogueScript : MonoBehaviour
     }
     void Update()
     {
-        DialogueCheck();
+        if (!isDialogueFinished) 
+        {
+            DialogueCheck();
+        }
     }
     void DialogueCheck() 
     {

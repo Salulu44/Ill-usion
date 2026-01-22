@@ -54,6 +54,10 @@ public class GameManagerScript : MonoBehaviour
     {
         SaveSystem.SavePosition(player.transform);
     }
+    private void OnDestroy()
+    {
+        Time.timeScale = 1f;
+    }
     //private void CollectableCheck()
     //{
     //    PlayerDataScript playerData = SaveSystemScriptNew.LoadSystem();
