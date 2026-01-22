@@ -8,6 +8,7 @@ public class PlayerMovementScript : MonoBehaviour
     [Header("Running")]
     [SerializeField] float walkSpeed = 5;
     [SerializeField] float runSpeed = 9;
+    [SerializeField] float maxSpeed;
     private float currentSpeed;
     public bool IsRunning { get; private set; }
     [HideInInspector] public bool canRun = true;
@@ -19,31 +20,42 @@ public class PlayerMovementScript : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody2D>();
     }
-
+     
     void FixedUpdate()
     {
-        playerRb.AddForce(playerInput * currentSpeed);
+        // playerRb.AddForce(playerInput * currentSpeed);
+        currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed, maxSpeed);
+     
+        playerRb.linearVelocity = new Vector2(playerInput.normalized.x * currentSpeed, playerInput.normalized.y * currentSpeed);
     }
     private void Update()
     {
         playerInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             GetComponent<SpriteRenderer>().flipX = false;
+            currentSpeed += Input.GetKeyDown(KeyCode.LeftShift) ? runSpeed * .1f : walkSpeed * .1f;
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             GetComponent<SpriteRenderer>().flipX = true;
+            currentSpeed += Input.GetKeyDown(KeyCode.LeftShift) ? runSpeed * .1f : walkSpeed * .1f;
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
             // Set forward sprite
+            currentSpeed += Input.GetKeyDown(KeyCode.LeftShift) ? runSpeed * .1f : walkSpeed *.1f;
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
         {
             //Set backwards sprite
+            currentSpeed += Input.GetKeyDown(KeyCode.LeftShift) ? runSpeed * .1f : walkSpeed * .1f;
         }
-        currentSpeed = Input.GetKeyDown(KeyCode.LeftShift) ? runSpeed : walkSpeed;
+        if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S)) 
+        {
+            currentSpeed *= .5f;
+        }
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

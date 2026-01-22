@@ -5168,6 +5168,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5302892145642862328, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190742322224771587, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
+      propertyPath: maxSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190742322224771587, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
+      propertyPath: walkSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190742322224771587, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
+      propertyPath: inputLerpSpeed
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
