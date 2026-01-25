@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class DoodleCameraScript : MonoBehaviour
 {
     private Transform player;
-   [SerializeField] private bool shouldPlayerInViweport = true;
+    [SerializeField] private bool shouldPlayerInViweport = true;
+    [SerializeField] float cameraZoomSize;
     [SerializeField] float duration;
     [SerializeField] private float magnitude;
     public event Action OnScreenExit;
@@ -15,6 +16,7 @@ public class DoodleCameraScript : MonoBehaviour
     {
 
     }
+
     private IEnumerator Start()
     {
         yield return new WaitUntil(() => GameObject.FindGameObjectsWithTag(GameManagerScript.Instance.tagSO.playerTag)!= null);
@@ -63,7 +65,6 @@ public class DoodleCameraScript : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
         if (shouldPlayerInViweport) 
         {
             if(player != null)

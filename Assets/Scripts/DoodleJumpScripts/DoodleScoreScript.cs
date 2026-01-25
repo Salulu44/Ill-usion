@@ -75,6 +75,7 @@ public class DoodleScoreScript : MonoBehaviour
             if (winningHorizontally)
             {
                 //Do Stuffy;
+
             }
             else
             {

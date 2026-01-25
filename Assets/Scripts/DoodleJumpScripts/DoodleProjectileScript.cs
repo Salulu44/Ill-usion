@@ -18,6 +18,7 @@ public class DoodleProjectileScript : MonoBehaviour
     private void OnDestroy()
     {
         DoodleWeaponScript.projectiles.Remove(this);
+        DoodleWeaponScript.OnDestoy?.Invoke();
     }
     void Update()
     {
