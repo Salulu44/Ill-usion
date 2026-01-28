@@ -1,19 +1,25 @@
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public class DoodlePlayerScript : MonoBehaviour
+public class DoodlePlayerScript : MonoBehaviour, IRespawnable
 {
     [SerializeField] float movementSpeed;
     [SerializeField] float jumpForce;
     [SerializeField] float doubleJumpTimer;
     [SerializeField] float doubleJumpForce;
     [SerializeField] float playerDamage;
+    public Vector3 respawnPoint;
     HealthScript healthScript;
     Rigidbody2D playerRb;
     float horizontalInputX;
     float verticalInputY;
     float doubleJumpTimerTmp;
     public Color playerColor { get; private set; }
+    public Vector3 RespawnPoint { get; set; }
+    [SerializeField] float squishTime = 1f;
+    [SerializeField] LayerMask crushLayers = -1;
+    float crushTimer;
+    bool topCrushed, bottomCrushed;
     void Start()
     {
         playerRb = GetComponent<Rigidbody2D>();
@@ -54,6 +60,29 @@ public class DoodlePlayerScript : MonoBehaviour
         {
             StatusCheck();
         }
+        CheckCrush();
+    }
+    void CheckCrush()
+    {
+        topCrushed = Physics2D.OverlapPoint(transform.position + Vector3.up * 0.9f * transform.localScale.y / 2, crushLayers);
+        bottomCrushed = Physics2D.OverlapPoint(transform.position - Vector3.up * 0.9f * transform.localScale.y / 2, crushLayers);
+
+        if (topCrushed && bottomCrushed)
+        {
+            crushTimer += Time.deltaTime;
+            if (crushTimer >= squishTime)
+            {
+                DieSquished(); // Respawn, Zerstören, etc.
+            }
+        }
+        else
+        {
+            crushTimer = 0;
+        }
+    }
+    void DieSquished()
+    {
+
     }
     void StatusCheck() 
     {
@@ -80,7 +109,6 @@ public class DoodlePlayerScript : MonoBehaviour
     {
 
     }
-    
     void Movement()
     {
         horizontalInputX = Input.GetAxis("Horizontal");
@@ -104,5 +132,15 @@ public class DoodlePlayerScript : MonoBehaviour
             }
             playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
+    }
+
+    public void SetRespawnPoint(Vector3 respawnPoint)
+    {
+        RespawnPoint = respawnPoint;
+    }
+
+    public void Respawn()
+    {
+        transform.position = RespawnPoint;
     }
 }
