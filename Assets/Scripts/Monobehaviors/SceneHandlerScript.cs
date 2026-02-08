@@ -24,7 +24,10 @@ public class SceneHandlerScript : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
-
+    public static void LoadScene(string sceneName) 
+    {
+        SceneManager.LoadScene(sceneName);
+    }
 
 
     //This was the approach with LoadSceneMode.additive

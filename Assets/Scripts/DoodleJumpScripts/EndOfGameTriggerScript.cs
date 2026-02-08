@@ -19,6 +19,11 @@ public class EndOfGameTriggerScript : MonoBehaviour
         {
             VideoManagerScript.Instance.PlayVideo(videoScript);
             //Maybe freeze the Player, so that he cant do anything funny
+            videoScript.OnVideoStop += EndMinigame;
         }
+    }
+    void EndMinigame()
+    {
+        SceneHandlerScript.LoadScene("MainGame");
     }
 }
