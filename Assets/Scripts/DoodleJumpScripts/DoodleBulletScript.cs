@@ -162,10 +162,17 @@ public class DoodleBulletScript : Enemy
         //AudioManager
     }
 
-    protected override void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        base.OnCollisionEnter2D(collision);
-        if((doodleVariant & DoodleBulletVariants.Bounce ) != 0) 
+        if (collision.transform.CompareTag(GameManagerScript.Instance.tagSO.playerTag))
+        {
+            if (collision.transform.TryGetComponent(out HealthScript healthScript))
+            {
+                healthScript.TakeDamage(enemyDamage, gameObject);
+                Debug.Log("Damaged Player");
+            }
+        }
+        if ((doodleVariant & DoodleBulletVariants.Bounce ) != 0) 
         {
            if(collision.transform.tag == GameManagerScript.Instance.tagSO.doodlePlayTag && !collision.gameObject.GetComponent<DoodlePlayButtonScript>().lostAllLife) 
             {

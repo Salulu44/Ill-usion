@@ -32,9 +32,16 @@ public class LifebarEnemyScript : Enemy
     {
         gameObject.SetActive(enable);
     }
-    protected override void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        base.OnCollisionEnter2D(collision);
+        if (collision.transform.CompareTag(GameManagerScript.Instance.tagSO.playerTag))
+        {
+            if (collision.transform.TryGetComponent(out HealthScript healthScript))
+            {
+                healthScript.TakeDamage(enemyDamage, gameObject);
+                Debug.Log("Damaged Player");
+            }
+        }
     }
 
     protected override void EnemyAIMovement()
