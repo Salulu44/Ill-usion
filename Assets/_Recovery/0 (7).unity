@@ -3086,20 +3086,6 @@ MonoBehaviour:
   invincible: 0
   damageResistance: 0
   invisibleTimer: 0
---- !u!114 &1055918745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 229650807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b87c905f51bc7a40831477c275fa132, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackScript
-  chokeDistance: 2
-  chokeKey: 107
 --- !u!1 &1198920387
 GameObject:
   m_ObjectHideFlags: 0
@@ -5160,13 +5146,12 @@ MonoBehaviour:
   enemySpeed: 5
   attackSpeed: 2
   rotationTimer: 1
-  sightDistance: 5
-  knockbackStrength: 10
-  colorChangeTimer: 2
+  castRadius: 2
   degrees: 90
   targetLayers:
     serializedVersion: 2
     m_Bits: 503
+  playerInRadius: 1
   attackTimer: 2
   followPlayerTimer: 2
 --- !u!50 &1829558868
@@ -5335,7 +5320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692714033876562327, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7973064923278963164, guid: c2b0659308d2a164fbe01b7c6947e156, type: 3}
       propertyPath: m_IsActive
@@ -5426,30 +5411,6 @@ PrefabInstance:
       propertyPath: inputLerpSpeed
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 6190742322224771587, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
-      propertyPath: knockbackTimer
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7298572547683726480, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
-      propertyPath: m_Size.x
-      value: 0.3202083
-      objectReference: {fileID: 0}
-    - target: {fileID: 7298572547683726480, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
-      propertyPath: m_Size.y
-      value: 0.909602
-      objectReference: {fileID: 0}
-    - target: {fileID: 7298572547683726480, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7298572547683726480, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
-      propertyPath: m_Offset.x
-      value: 0.010847688
-      objectReference: {fileID: 0}
-    - target: {fileID: 7298572547683726480, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
-      propertyPath: m_Offset.y
-      value: 0.16613433
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5457,9 +5418,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3737912368375616690, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1055918740}
-    - targetCorrespondingSourceObject: {fileID: 3737912368375616690, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1055918745}
   m_SourcePrefab: {fileID: 100100000, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

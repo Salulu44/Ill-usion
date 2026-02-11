@@ -4,21 +4,32 @@ using UnityEngine;
 public class NurseEnemyScript : Enemy
 {
     [SerializeField] float rotationTimer;
-    [SerializeField] float castRadius;
+    [SerializeField] float sightDistance;
+    [SerializeField] float knockbackStrength;
+    //[SerializeField] float castRadius;
+    [SerializeField] float colorChangeTimer;
+    float colorChangeTimerTmp;
+    bool hasChangedColor;
     [SerializeField] float degrees;
     [SerializeField] LayerMask targetLayers;
-    [SerializeField] float playerInRadius;
+    //[SerializeField] float playerInRadius;
     [SerializeField] float attackTimer;
     float attackRandomTimer;
     [SerializeField] float followPlayerTimer;
     float followPlayerTimerTmp;
     Transform playerTr;
     bool canRotate = true;
+    bool isFollowing;
+    SpriteRenderer nurseRenderer;
+    Color defaultColor;
     protected override void Start()
     {
         base.Start();
         followPlayerTimerTmp = followPlayerTimer;
         attackRandomTimer = UnityEngine.Random.Range(0,attackTimer);
+        nurseRenderer = GetComponent<SpriteRenderer>();
+        defaultColor = nurseRenderer.color;
+        colorChangeTimerTmp = colorChangeTimer;
     }
 
     protected override void Die()
@@ -33,6 +44,7 @@ public class NurseEnemyScript : Enemy
             {
                 Debug.Log("Hit Enemy");
                 healthScript.TakeDamage(enemyDamage, gameObject);
+                collision.transform.gameObject.GetComponent<PlayerMovementScript>().ApplyKnockback(enemyRb.linearVelocity, knockbackStrength);
                 followPlayerTimer = followPlayerTimerTmp;
             }
         }
@@ -48,9 +60,24 @@ public class NurseEnemyScript : Enemy
             attackRandomTimer -= Time.fixedDeltaTime;
             if (attackRandomTimer <= 0)
             {
-                Debug.Log("Attack");
+               // nurseRenderer.color = Color.red;
+                hasChangedColor = true;
                 enemyRb.AddForce((playerTr.transform.position - transform.position).normalized * attackSpeed, ForceMode2D.Impulse);
+                
                 attackRandomTimer = UnityEngine.Random.Range(0, attackTimer);
+            }
+        }
+    }
+    void ChangeColorToDefault()
+    {
+        if (hasChangedColor)
+        {
+            colorChangeTimer -= Time.deltaTime;
+            if(colorChangeTimer <= 0)
+            {
+                colorChangeTimer = colorChangeTimerTmp;
+                nurseRenderer.color = defaultColor;
+                hasChangedColor = false;
             }
         }
     }
@@ -58,12 +85,16 @@ public class NurseEnemyScript : Enemy
     {
         if(playerTr != null)
         {
+            isFollowing = true;
             enemyRb.linearVelocity = (playerTr.position - transform.position).normalized * enemySpeed;
             followPlayerTimer -= Time.deltaTime;
+            enemyRb.constraints = RigidbodyConstraints2D.FreezeRotation;
             if (followPlayerTimer <= 0) 
             {
                 followPlayerTimer = followPlayerTimerTmp;
                 playerTr = null;
+                isFollowing = false;
+                enemyRb.constraints = RigidbodyConstraints2D.None;
             }
         }
     }
@@ -94,20 +125,24 @@ public class NurseEnemyScript : Enemy
         //        Debug.Log($"Hit {hit.transform.gameObject}");
         //    }
         //}
-        ContactFilter2D filter = new ContactFilter2D();
-        filter.useTriggers = false;
-        filter.SetLayerMask(targetLayers);
-        filter.useLayerMask = true;
-        RaycastHit2D[] results = new RaycastHit2D[1];
-        int hitCount = Physics2D.Raycast(transform.position, transform.up,filter,results);
-        if (hitCount > 0) 
+        if (!isFollowing)
         {
-            if (results[0].transform.tag == GameManagerScript.Instance.tagSO.playerTag)
+            ContactFilter2D filter = new ContactFilter2D();
+            filter.useTriggers = false;
+            filter.SetLayerMask(targetLayers);
+            filter.useLayerMask = true;
+            RaycastHit2D[] results = new RaycastHit2D[1];
+            int hitCount = Physics2D.Raycast(transform.position, transform.right, filter, results, sightDistance);
+            if (hitCount > 0)
             {
-                playerTr = results[0].transform;
+                if (results[0].transform.tag == GameManagerScript.Instance.tagSO.playerTag)
+                {
+                    playerTr = results[0].transform;
+                }
+                Debug.Log("Hit " + results[0].transform.gameObject.name);
             }
-            Debug.Log("Hit " + results[0].transform.gameObject.name);
         }
+
     }
     void Rotate()
     {
@@ -132,11 +167,12 @@ public class NurseEnemyScript : Enemy
     protected override void Update()
     {
         EnemyAIMovement();
+      //  ChangeColorToDefault();
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(transform.position, transform.position + transform.up);
+        Gizmos.DrawLine(transform.position, transform.position + transform.right);
     }
 }
 
