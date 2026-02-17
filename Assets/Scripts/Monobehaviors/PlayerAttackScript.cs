@@ -53,7 +53,6 @@ public class PlayerAttackScript : MonoBehaviour
                 {
                     Debug.Log("Du hast den ChokeKey nicht gedrückt " + results[0].transform.gameObject.name);
                 }
-                Debug.Log("Dot Product " + Vector3.Dot(results[0].transform.right, transform.right));
             }
          
         }

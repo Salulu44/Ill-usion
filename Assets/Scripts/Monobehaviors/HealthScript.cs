@@ -49,12 +49,12 @@ public class HealthScript : MonoBehaviour
         currentHealth -= damage * (1f - damageResistance);
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        //float trueDamageAmount = healthBefore - currentHealth;
-        //if (trueDamageAmount > 0)
-        //{
-        //    OnDamaged?.Invoke();
-        //    invincible = true;
-        //}
+        float trueDamageAmount = healthBefore - currentHealth;
+        if (trueDamageAmount > 0)
+        {
+            OnDamaged?.Invoke();
+           // invincible = true;
+        }
 
         HandleDeath();
     }

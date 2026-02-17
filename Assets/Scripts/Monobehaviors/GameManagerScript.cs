@@ -15,6 +15,7 @@ public class GameManagerScript : MonoBehaviour
     #region Prefabs
     public GameObject decisionButtons;
     public GameObject decisionTimer;
+    public GameObject bloodAnimation;
     private bool isHUDOn;
     #endregion
     private int smartPathAmount;

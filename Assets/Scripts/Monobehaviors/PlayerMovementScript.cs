@@ -36,13 +36,26 @@ public class PlayerMovementScript : MonoBehaviour
         currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed, maxSpeed);
         if (!hasKnockback)
         {
+            //Unabhängig von Rotation
             playerRb.linearVelocity = new Vector2(playerInput.normalized.x * currentSpeed, playerInput.normalized.y * currentSpeed);
+            //Abhängig von Rotation
+            //Vector2 moveDir = transform.up * playerInput.y + transform.right * playerInput.x;
+            //playerRb.linearVelocity = moveDir.normalized * currentSpeed;
         }
     }
     private void Update()
     {
         PlayerMovement();
         CheckKnockback();
+        RotateToMouse();
+    }
+    void RotateToMouse()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = transform.position.z;
+        Vector3 direction = mousePos - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
     void PlayerMovement()
     {

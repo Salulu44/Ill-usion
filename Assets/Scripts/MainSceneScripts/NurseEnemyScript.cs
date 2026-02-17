@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UsefulClasses;
 
 public class NurseEnemyScript : Enemy
 {
@@ -22,6 +23,7 @@ public class NurseEnemyScript : Enemy
     bool isFollowing;
     SpriteRenderer nurseRenderer;
     Color defaultColor;
+    [SerializeField] private UnityTimer attackWithdrawTimer;
     protected override void Start()
     {
         base.Start();
@@ -30,6 +32,7 @@ public class NurseEnemyScript : Enemy
         nurseRenderer = GetComponent<SpriteRenderer>();
         defaultColor = nurseRenderer.color;
         colorChangeTimerTmp = colorChangeTimer;
+        attackWithdrawTimer.PrepareStart();
     }
 
     protected override void Die()
@@ -64,6 +67,7 @@ public class NurseEnemyScript : Enemy
                 Debug.Log("ATTTACK");
                // nurseRenderer.color = Color.red;
                 hasChangedColor = true;
+                isAttacking = true;
                 enemyRb.AddForce((playerTr.transform.position - transform.position).normalized * attackSpeed, ForceMode2D.Impulse);
                 
                 attackRandomTimer = UnityEngine.Random.Range(0, attackTimer);
@@ -88,7 +92,7 @@ public class NurseEnemyScript : Enemy
         if(playerTr != null && !isAttacking)
         {
             isFollowing = true;
-            enemyRb.linearVelocity = (playerTr.position - transform.position).normalized * enemySpeed;
+            enemyRb.AddForce((playerTr.position - transform.position).normalized * enemySpeed);
             followPlayerTimer -= Time.deltaTime;
             enemyRb.constraints = RigidbodyConstraints2D.FreezeRotation;
             if (followPlayerTimer <= 0) 
@@ -97,6 +101,18 @@ public class NurseEnemyScript : Enemy
                 playerTr = null;
                 isFollowing = false;
                 enemyRb.constraints = RigidbodyConstraints2D.None;
+            }
+        }
+    }
+    void CheckAttack()
+    {
+        if (isAttacking)
+        {
+            attackWithdrawTimer.Tick();
+            if (attackWithdrawTimer.IsFinished())
+            {
+                isAttacking = false;
+                attackWithdrawTimer.PrepareStart();
             }
         }
     }
@@ -169,6 +185,7 @@ public class NurseEnemyScript : Enemy
     {
         EnemyAIMovement();
         Attack();
+        CheckAttack();
         //  ChangeColorToDefault();
     }
 
