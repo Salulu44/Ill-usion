@@ -57,9 +57,11 @@ public class NurseEnemyScript : Enemy
     {
         if(playerTr != null)
         {
-            attackRandomTimer -= Time.fixedDeltaTime;
+            attackRandomTimer -= Time.deltaTime;
             if (attackRandomTimer <= 0)
             {
+                //Wenn er angrefit maybe kurz nicht foollown damit er die force richig setzt
+                Debug.Log("ATTTACK");
                // nurseRenderer.color = Color.red;
                 hasChangedColor = true;
                 enemyRb.AddForce((playerTr.transform.position - transform.position).normalized * attackSpeed, ForceMode2D.Impulse);
@@ -83,7 +85,7 @@ public class NurseEnemyScript : Enemy
     }
     void MoveToPlayer()
     {
-        if(playerTr != null)
+        if(playerTr != null && !isAttacking)
         {
             isFollowing = true;
             enemyRb.linearVelocity = (playerTr.position - transform.position).normalized * enemySpeed;
@@ -160,19 +162,20 @@ public class NurseEnemyScript : Enemy
     {
         MoveToPlayer();
         CheckPlayer();
-        Attack();
     }
 
     // Update is called once per frame
     protected override void Update()
     {
         EnemyAIMovement();
-      //  ChangeColorToDefault();
+        Attack();
+        //  ChangeColorToDefault();
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(transform.position, transform.position + transform.right);
+        Gizmos.color = Color.yellow;
     }
 }
 

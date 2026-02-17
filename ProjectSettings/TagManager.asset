@@ -11,6 +11,7 @@ TagManager:
   - DialogueUI
   - DoodlePaddle
   - DoodlePlay
+  - Enemy
   layers:
   - Default
   - TransparentFX

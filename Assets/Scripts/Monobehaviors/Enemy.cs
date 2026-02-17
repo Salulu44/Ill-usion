@@ -5,6 +5,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float enemyDamage;
     [SerializeField] protected float enemySpeed;
     [SerializeField] protected float attackSpeed;
+    [SerializeField] protected bool isAttacking;
     protected Rigidbody2D enemyRb;
     protected virtual void Start()
     {  

@@ -36,9 +36,17 @@ public class GameManagerScript : MonoBehaviour
     private void Update()
     {
 
-      //  Time.timeScale = timeScale;
+        //  Time.timeScale = timeScale;
 
         //Debug.Log($"unscaledDeltaTime: {Time.unscaledDeltaTime:F3}, deltaTime: {Time.deltaTime:F3}");
+        ResetScene();
+    }
+    void ResetScene()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
     public bool HasLuck(float chance) 
     {

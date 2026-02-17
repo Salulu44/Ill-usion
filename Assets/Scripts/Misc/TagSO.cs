@@ -11,4 +11,5 @@ public class TagSO : ScriptableObject
     public string dialogueUITag;
     public string doodlePaddleTag;
     public string doodlePlayTag;
+    public string enemyTag;
 }

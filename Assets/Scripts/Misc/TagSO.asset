@@ -20,3 +20,4 @@ MonoBehaviour:
   dialogueUITag: DialogueUI
   doodlePaddleTag: DoodlePaddle
   doodlePlayTag: DoodlePlay
+  enemyTag: Enemy

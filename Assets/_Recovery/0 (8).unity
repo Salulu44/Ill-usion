@@ -3098,11 +3098,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b87c905f51bc7a40831477c275fa132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackScript
-  chokeDistance: 1
+  chokeDistance: 2
   chokeKey: 107
   chokeLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!1 &1198920387
 GameObject:
   m_ObjectHideFlags: 0
@@ -5069,7 +5069,7 @@ GameObject:
   - component: {fileID: 1829558869}
   m_Layer: 9
   m_Name: Nurse
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5161,7 +5161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NurseEnemyScript
   enemyDamage: 2
   enemySpeed: 5
-  attackSpeed: 100
+  attackSpeed: 2
   rotationTimer: 1
   sightDistance: 5
   knockbackStrength: 10
@@ -5443,7 +5443,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7298572547683726480, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7298572547683726480, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
       propertyPath: m_Offset.x
