@@ -3376,9 +3376,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthScript
   maxHealth: 100
   <currentHealth>k__BackingField: 0
-  invincible: 0
+  isInvincible: 0
   damageResistance: 0
-  invisibleTimer: 0
+  invincibleTimer:
+    _duration: 1
+    _hasRandomRange: 0
 --- !u!114 &1055918745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5454,7 +5456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NurseEnemyScript
   enemyDamage: 2
   enemySpeed: 5
-  attackSpeed: 10
+  attackSpeed: 3
   isAttacking: 0
   rotationTimer: 1
   sightDistance: 5
@@ -5719,6 +5721,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5302892145642862328, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
+      propertyPath: m_AngularDamping
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302892145642862328, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
       propertyPath: m_CollisionDetection
       value: 1
       objectReference: {fileID: 0}
@@ -5740,11 +5746,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7298572547683726480, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
       propertyPath: m_Size.x
-      value: 0.3202083
+      value: 0.9062116
       objectReference: {fileID: 0}
     - target: {fileID: 7298572547683726480, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
       propertyPath: m_Size.y
-      value: 0.909602
+      value: 0.8444908
       objectReference: {fileID: 0}
     - target: {fileID: 7298572547683726480, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
       propertyPath: m_Enabled
@@ -5752,11 +5758,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7298572547683726480, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
       propertyPath: m_Offset.x
-      value: 0.010847688
+      value: 0.010848165
       objectReference: {fileID: 0}
     - target: {fileID: 7298572547683726480, guid: a73607a1d1dd3ac4aaa0964883b1d7ea, type: 3}
       propertyPath: m_Offset.y
-      value: 0.16613433
+      value: 0.13357875
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

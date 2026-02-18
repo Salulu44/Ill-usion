@@ -45,6 +45,10 @@ public class NurseEnemyScript : Enemy
         {
             if (collision.transform.TryGetComponent(out HealthScript healthScript))
             {
+                if (healthScript.isInvincible)
+                {
+                    return;
+                }
                 Debug.Log("Hit Enemy");
                 healthScript.TakeDamage(enemyDamage, gameObject);
                 collision.transform.gameObject.GetComponent<PlayerMovementScript>().ApplyKnockback(enemyRb.linearVelocity, knockbackStrength);
@@ -95,6 +99,7 @@ public class NurseEnemyScript : Enemy
             enemyRb.AddForce((playerTr.position - transform.position).normalized * enemySpeed);
             followPlayerTimer -= Time.deltaTime;
             enemyRb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            //Collider2D[] allSurroundingColliders = Physics2D.OverlapBox();
             if (followPlayerTimer <= 0) 
             {
                 followPlayerTimer = followPlayerTimerTmp;

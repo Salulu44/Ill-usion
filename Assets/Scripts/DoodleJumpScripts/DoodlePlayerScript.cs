@@ -56,7 +56,7 @@ public class DoodlePlayerScript : MonoBehaviour, IRespawnable
             GetComponent<SpriteRenderer>().flipX = false;
         }
 
-        if (healthScript.invincible) 
+        if (healthScript.isInvincible) 
         {
             StatusCheck();
         }
@@ -86,8 +86,8 @@ public class DoodlePlayerScript : MonoBehaviour, IRespawnable
     }
     void StatusCheck() 
     {
-        healthScript.invisibleTimer -= Time.deltaTime;
-        if(healthScript.invisibleTimer < 0) 
+        
+        if(healthScript.invincibleTimer.IsFinished()) 
         {
             healthScript.SetInvisibility(false);
             GetComponent<SpriteRenderer>().color = playerColor;

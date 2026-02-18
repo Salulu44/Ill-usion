@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UsefulClasses;
 
 public class HealthScript : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class HealthScript : MonoBehaviour
 
     [field:SerializeField] public float currentHealth { get; private set; }
 
-    public bool invincible = false;
+    public bool isInvincible = false;
 
     public float damageResistance = 0f;
   
@@ -16,12 +17,11 @@ public class HealthScript : MonoBehaviour
     public UnityAction OnDamaged;
     public UnityAction OnHealed;
     public UnityAction OnDeath;
-    public float invisibleTimer;
-    public float invisibleTimerTmp { get; private set; }
+    public UnityTimer invincibleTimer;
     private void Start()
     {
         currentHealth = maxHealth;
-        invisibleTimerTmp = invisibleTimer;
+        invincibleTimer.PrepareStart();
         isDead = false;
     }
     public void Heal(float healAmount, GameObject healSource)
@@ -37,10 +37,21 @@ public class HealthScript : MonoBehaviour
             OnHealed?.Invoke();
         }
     }
-
+    void CheckInvisibility()
+    {
+        if (isInvincible)
+        {
+            invincibleTimer.Tick();
+            if (invincibleTimer.IsFinished())
+            {
+                isInvincible = false;
+                invincibleTimer.PrepareStart();
+            }
+        }
+    }
     public void TakeDamage(float damage, GameObject damageSource)
     {
-        if (invincible)
+        if (isInvincible)
         {
             return;
         }
@@ -53,15 +64,14 @@ public class HealthScript : MonoBehaviour
         if (trueDamageAmount > 0)
         {
             OnDamaged?.Invoke();
-           // invincible = true;
+            isInvincible = true;
         }
 
         HandleDeath();
     }
     public void SetInvisibility(bool invicible) 
     {
-        this.invincible = invicible;
-        invisibleTimer = invisibleTimerTmp;
+        this.isInvincible = invicible;  
     }
     public void Kill()
     {
@@ -87,5 +97,9 @@ public class HealthScript : MonoBehaviour
     {
         currentHealth = maxHealth;
         isDead = false;
+    }
+    private void Update()
+    {
+       CheckInvisibility();
     }
 }
