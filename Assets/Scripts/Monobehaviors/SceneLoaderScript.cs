@@ -6,13 +6,14 @@ public class SceneLoaderScript : MonoBehaviour
     [SerializeField] string sceneName;
     [SerializeField] SceneHandlerScript sceneHandler;
     [SerializeField] GameObject dialogue;
+    [SerializeField] KeyCode dialogueKey;
     void Start()
     {
         GetComponent<DialogueScript>().OnEndDialogue += StartMinigame;
     }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F) && transform.GetChild(0).gameObject.activeSelf && !dialogue.activeSelf) 
+        if(Input.GetKeyDown(dialogueKey) && transform.GetChild(0).gameObject.activeSelf && !dialogue.activeSelf) 
         {
           //dialogue.SetActive(true);
           GetComponent<DialogueScript>().StartDialogue();
