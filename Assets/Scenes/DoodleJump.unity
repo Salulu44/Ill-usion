@@ -1117,6 +1117,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LifebarEnemyScript
   enemyDamage: 1
   enemySpeed: 2
+  attackSpeed: 0
+  isAttacking: 0
   lifebarUI: {fileID: 1598386847}
   canvas: {fileID: 365346316}
   playerTr: {fileID: 889966564}
@@ -1382,10 +1384,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -2997,9 +2999,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthScript
   maxHealth: 10
   <currentHealth>k__BackingField: 0
-  invincible: 0
+  isInvincible: 0
   damageResistance: 0
-  invisibleTimer: 1
+  invincibleTimer:
+    _duration: 0
+    _hasRandomRange: 0
 --- !u!114 &889966567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4270,6 +4274,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DoodleBulletScript
   enemyDamage: 1
   enemySpeed: 3
+  attackSpeed: 0
+  isAttacking: 0
   enemyDetectionRadius: 4
   doodleVariant: 6
   bounceForce: 400
@@ -4287,9 +4293,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthScript
   maxHealth: 10
   <currentHealth>k__BackingField: 0
-  invincible: 0
+  isInvincible: 0
   damageResistance: 0
-  invisibleTimer: 0
+  invincibleTimer:
+    _duration: 0
+    _hasRandomRange: 0
 --- !u!50 &1204830450
 Rigidbody2D:
   serializedVersion: 5
