@@ -55,7 +55,7 @@ public class HealthScript : MonoBehaviour
         {
             return;
         }
-
+      
         float healthBefore = currentHealth;
         currentHealth -= damage * (1f - damageResistance);
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
